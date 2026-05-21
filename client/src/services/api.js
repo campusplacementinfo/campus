@@ -5,7 +5,7 @@ const HEALTH_CHECK_INTERVAL = 30000; // 30 seconds
 
 class APIConfig {
   constructor() {
-    this.apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+    this.apiUrl = import.meta.env.VITE_API_URL || "/api";
     this.backendAvailable = false;
     this.lastHealthCheck = null;
     this.healthCheckTimer = null;
