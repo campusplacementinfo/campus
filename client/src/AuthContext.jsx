@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getApiUrl } from './services/api';
 
 // Create the Auth Context
 const AuthContext = createContext();
@@ -29,7 +30,7 @@ export const AuthProvider = ({ children }) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
 
         try {
-          const API_URL = import.meta.env.VITE_API_URL || '/api';
+          const API_URL = getApiUrl();
           const response = await axios.get(`${API_URL}/auth/verify`);
           if (response.data?.valid) {
             setToken(storedToken);
@@ -86,7 +87,7 @@ export const AuthProvider = ({ children }) => {
   // Login function
   const login = async (credentials) => {
     try {
-      const API_URL = import.meta.env.VITE_API_URL || '/api';
+      const API_URL = getApiUrl();
       const response = await axios.post(`${API_URL}/auth/login`, credentials);
 
       const { token: newToken, role: newRole, name, email, userId, profileCompletion } = response.data;

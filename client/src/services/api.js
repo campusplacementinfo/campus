@@ -2,10 +2,29 @@ import axios from 'axios';
 
 const API_CONFIG_KEY = "campus_api_config";
 const HEALTH_CHECK_INTERVAL = 30000; // 30 seconds
+const API_PATH = "/api";
+
+const normalizeApiUrl = (url) => {
+  if (!url) {
+    return API_PATH;
+  }
+
+  const trimmed = url.trim().replace(/\/+$/g, "");
+
+  if (trimmed === "") {
+    return API_PATH;
+  }
+
+  if (trimmed.endsWith(API_PATH)) {
+    return trimmed;
+  }
+
+  return `${trimmed}${API_PATH}`;
+};
 
 class APIConfig {
   constructor() {
-    this.apiUrl = import.meta.env.VITE_API_URL || "/api";
+    this.apiUrl = normalizeApiUrl(import.meta.env.VITE_API_URL || API_PATH);
     this.backendAvailable = false;
     this.lastHealthCheck = null;
     this.healthCheckTimer = null;
@@ -19,7 +38,7 @@ class APIConfig {
       if (stored) {
         const config = JSON.parse(stored);
         if (config.apiUrl) {
-          this.apiUrl = config.apiUrl;
+          this.apiUrl = normalizeApiUrl(config.apiUrl);
         }
       }
     } catch (error) {
@@ -39,13 +58,13 @@ class APIConfig {
   }
 
   setApiUrl(url) {
-    this.apiUrl = url;
+    this.apiUrl = normalizeApiUrl(url);
     this.saveToStorage();
   }
 
   async checkHealth() {
     try {
-      const response = await axios.get(`${this.apiUrl.replace('/api', '')}/api/health`, {
+      const response = await axios.get(`${this.apiUrl}/health`, {
         timeout: 5000
       });
       this.backendAvailable = response.status === 200;
@@ -89,7 +108,7 @@ class APIConfig {
     while (attempt < maxRetries) {
       try {
         const response = await axios.get(
-          `${this.apiUrl.replace('/api', '')}/api/health`,
+          `${this.apiUrl}/health`,
           { timeout: 5000 }
         );
 
@@ -159,6 +178,7 @@ export const checkBackendHealth = () => apiConfig.checkHealth();
 export const stopAPIHealthChecks = () => apiConfig.stopHealthCheck();
 export const waitForBackend = (maxRetries = 60, delayMs = 1000) =>
   apiConfig.waitForBackend(maxRetries, delayMs);
+export const getApiUrl = () => apiConfig.apiUrl;
 
 export const registerUser = async (data) => {
   return request("/auth/register", {
