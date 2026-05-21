@@ -62,7 +62,10 @@ function Login() {
         return;
       }
 
-      const result = await login(form);
+      const result = await login({
+        email: form.email.trim().toLowerCase(),
+        password: form.password
+      });
 
       if (!result.success) {
         setError(result.message || "Invalid email or password");

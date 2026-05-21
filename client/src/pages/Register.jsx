@@ -74,8 +74,16 @@ function Register() {
       return;
     }
 
-    console.log("[REGISTER] Submitting with role:", form.role);
-    const res = await registerUser(form);
+    const registerPayload = {
+      ...form,
+      name: form.name.trim(),
+      email: form.email.trim().toLowerCase(),
+      enrollmentNumber: form.enrollmentNumber ? form.enrollmentNumber.trim() : "",
+      adminToken: form.adminToken ? form.adminToken.trim() : ""
+    };
+
+    console.log("[REGISTER] Submitting with role:", registerPayload.role);
+    const res = await registerUser(registerPayload);
     console.log("[REGISTER RESPONSE]:", res);
 
     if (res.message === "User registered successfully") {
