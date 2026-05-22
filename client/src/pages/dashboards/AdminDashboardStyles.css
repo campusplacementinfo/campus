@@ -113,17 +113,19 @@
   gap: 8px;
   padding: 12px 24px;
   border: 2px solid transparent;
-  background: white;
+  background: #87ceeb;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-  color: #2c3e50;
+  color: #1f2937;
   font-size: 14px;
 }
 
 .menu-btn:hover {
   transform: translateY(-2px);
+  background: #3b82f6;
+  color: white;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -1239,6 +1241,17 @@ body {
   color: var(--premium-primary) !important;
   transform: translateY(-3px);
   box-shadow: 0 14px 30px rgba(99,102,241,0.18);
+}
+
+.dashboard-topbar .menu-btn {
+  background: #1f2937 !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+.dashboard-topbar .menu-btn:hover {
+  background: #111827 !important;
+  color: #ffffff !important;
 }
 
 .menu-btn.active,

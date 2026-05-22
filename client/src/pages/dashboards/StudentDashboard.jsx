@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
-import { request } from "../../services/api"; // Re-exported from api.js
+import { request, getUserProfile } from "../../services/api"; // Re-exported from api.js
 import "./DashboardStyles.css";
 
 function StudentDashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const [jobs, setJobs] = useState([]);
@@ -28,6 +29,7 @@ function StudentDashboard() {
     projects: "Placement Portal Web App, Campus Event Tracker",
     skills: "JavaScript, React, Node.js, MongoDB, Communication"
   });
+  const [profile, setProfile] = useState(null);
   const [resumeSaved, setResumeSaved] = useState(false);
   const [backendError, setBackendError] = useState("");
   const [loadingData, setLoadingData] = useState(true);
@@ -279,6 +281,17 @@ function StudentDashboard() {
     setApplications(Array.isArray(res.data) ? res.data : []);
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const res = await getUserProfile();
+      if (res.user) {
+        setProfile(res.user);
+      }
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
+  };
+
   const loadSavedResume = () => {
     const saved = localStorage.getItem("resumeData");
     if (saved) {
@@ -291,7 +304,7 @@ function StudentDashboard() {
     const loadDashboardData = async () => {
       setLoadingData(true);
       setBackendError("");
-      await Promise.all([fetchJobs(), fetchApplications()]);
+      await Promise.all([fetchJobs(), fetchApplications(), fetchUserProfile()]);
       loadSavedResume();
       setLoadingData(false);
     };
@@ -611,6 +624,31 @@ function StudentDashboard() {
         <div className="dashboard-header">
           <h1>Student Dashboard</h1>
           <p>Welcome back, {userName} — ready to prepare for your next placement?</p>
+        </div>
+
+        <div className="info-grid">
+          <div className="info-box">
+            <h3>🧑‍🎓 Name</h3>
+            <p>{profile?.profile?.basicInfo?.fullName || userName}</p>
+          </div>
+          <div className="info-box">
+            <h3>📧 Email</h3>
+            <p>{profile?.email || user?.email || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>🆔 Enrollment</h3>
+            <p>{profile?.enrollmentNumber || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>📍 Role</h3>
+            <p>{profile?.role ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1) : "Student"}</p>
+          </div>
+        </div>
+
+        <div className="action-card">
+          <h3>Update Profile</h3>
+          <p>Go to your profile page to edit contact, basic, and academic information.</p>
+          <button className="action-btn" onClick={() => navigate("/profile")}>Open Profile</button>
         </div>
 
         {backendError && (

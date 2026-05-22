@@ -42,7 +42,6 @@ function DashboardButton() {
       onClick={handleClick}
       style={{ "--button-color": config.color }}
     >
-      <span className="button-icon">{config.icon}</span>
       <span className="button-text">{config.label}</span>
       <span className="button-arrow">→</span>
     </button>

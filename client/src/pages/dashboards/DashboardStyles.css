@@ -336,9 +336,9 @@
 }
 
 .menu-btn.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   color: white;
-  border-color: #667eea;
+  border-color: #2563eb;
 }
 
 .menu-btn .icon {
@@ -3098,20 +3098,20 @@ tr:hover {
   min-width: 52px;
   border: none;
   border-radius: 16px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   display: flex !important;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 12px 28px rgba(102,126,234,0.24);
+  box-shadow: 0 12px 28px rgba(37,99,235,0.24);
   flex-shrink: 0;
   z-index: 100;
 }
 
 .menu-btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 20px 40px rgba(102,126,234,0.34);
+  box-shadow: 0 20px 40px rgba(37,99,235,0.34);
 }
 
 .menu-btn span {
@@ -3673,9 +3673,9 @@ body {
 .category-btn,
 .option-btn {
   border-radius: 16px !important;
-  border: 1px solid rgba(226,232,240,0.95) !important;
-  background: rgba(255,255,255,0.88) !important;
-  color: var(--premium-text) !important;
+  border: 1px solid #2563eb !important;
+  background: #2563eb !important;
+  color: white !important;
   font-weight: 800 !important;
   transition: var(--premium-transition);
 }
@@ -3685,9 +3685,10 @@ body {
 .nav-item:hover,
 .category-btn:hover,
 .option-btn:hover {
-  color: var(--premium-primary) !important;
+  color: white !important;
+  background: #1d4ed8 !important;
   transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(99,102,241,0.18);
+  box-shadow: 0 14px 30px rgba(37,99,235,0.35);
 }
 
 .menu-btn.active,

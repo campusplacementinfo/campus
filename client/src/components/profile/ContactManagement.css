@@ -1,10 +1,18 @@
 /* Contact Management Styles */
 
 .contact-info-display {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  width: min(100%, 420px);
+  margin: 0 auto 20px;
+  padding: 0 12px;
+}
+
+.contact-info-display > * {
+  width: 100%;
+  max-width: 420px;
 }
 
 .info-card {
@@ -48,6 +56,25 @@
   transition: all 0.3s ease;
   grid-column: 1 / -1;
   font-size: 14px;
+}
+
+.back-button {
+  padding: 12px 24px;
+  background: white;
+  color: #667eea;
+  border: 2px solid rgba(102, 126, 234, 0.4);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  grid-column: 1 / -1;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  background: #eef2ff;
 }
 
 .edit-button:hover {

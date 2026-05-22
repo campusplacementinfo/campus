@@ -7,14 +7,22 @@ const rootEnvPath = path.join(__dirname, '../../.env');
 dotenv.config({ path: rootEnvPath });
 dotenv.config({ path: serverEnvPath, override: true });
 
-const EMAIL_USER = process.env.EMAIL_USER;
-const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_FROM = process.env.EMAIL_FROM || EMAIL_USER;
+const EMAIL_USER = process.env.EMAIL_USER?.trim();
+let EMAIL_PASS = process.env.EMAIL_PASS;
+const EMAIL_FROM = process.env.EMAIL_FROM?.trim() || EMAIL_USER;
 const EMAIL_SERVICE = process.env.EMAIL_SERVICE;
 const EMAIL_HOST = process.env.EMAIL_HOST;
 const EMAIL_PORT = process.env.EMAIL_PORT ? Number(process.env.EMAIL_PORT) : undefined;
 const EMAIL_SECURE = process.env.EMAIL_SECURE === 'true';
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+
+if (EMAIL_PASS && EMAIL_PASS.includes(' ')) {
+  const parts = EMAIL_PASS.split(/\s+/);
+  if (parts.length === 4 && parts.every((part) => part.length === 4)) {
+    EMAIL_PASS = parts.join('');
+    console.log('Normalized EMAIL_PASS by removing app-password spaces');
+  }
+}
 
 if (!EMAIL_USER || !EMAIL_PASS) {
   console.error('Mailer not fully configured. Set EMAIL_USER and EMAIL_PASS in .env');

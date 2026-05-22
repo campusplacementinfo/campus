@@ -1,6 +1,6 @@
 import "./ProfileProgressBar.css";
 
-function ProfileProgressBar({ completionPercentage = 0 }) {
+function ProfileProgressBar({ completionPercentage = 0, role = "student" }) {
   const getProgressColor = (percentage) => {
     if (percentage <= 33) return "#e74c3c"; // Red
     if (percentage <= 66) return "#f39c12"; // Orange
@@ -16,13 +16,20 @@ function ProfileProgressBar({ completionPercentage = 0 }) {
     return "Complete ✓";
   };
 
-  const sections = [
+  let sections = [
     { name: "Contact Info", completed: completionPercentage >= 10 },
-    { name: "Basic Details", completed: completionPercentage >= 30 },
-    { name: "Academic Info", completed: completionPercentage >= 60 },
-    { name: "Skills", completed: completionPercentage >= 80 },
-    { name: "Documents", completed: completionPercentage >= 100 }
+    { name: "Basic Details", completed: completionPercentage >= 30 }
   ];
+
+  // Add student-only sections
+  if (role === "student") {
+    sections = [
+      ...sections,
+      { name: "Academic Info", completed: completionPercentage >= 60 },
+      { name: "Skills", completed: completionPercentage >= 80 },
+      { name: "Documents", completed: completionPercentage >= 100 }
+    ];
+  }
 
   return (
     <div className="progress-container">

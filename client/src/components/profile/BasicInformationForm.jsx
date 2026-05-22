@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { updateBasicInfo } from "../../services/api";
 import "./BasicInformationForm.css";
 
-function BasicInformationForm({ initialData, onSave }) {
+function BasicInformationForm({ initialData, onSave, onBack }) {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -107,6 +109,12 @@ function BasicInformationForm({ initialData, onSave }) {
           onClick={() => setIsEditing(true)}
         >
           ✏️ Edit Basic Information
+        </button>
+        <button
+          className="back-button"
+          onClick={() => (onBack ? onBack() : navigate(-1))}
+        >
+          ← Back
         </button>
       </div>
     );

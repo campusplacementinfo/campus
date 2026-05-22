@@ -10,6 +10,7 @@ import ResetPassword from "./pages/ResetPassword";
 import StudentDashboard from "./pages/dashboards/StudentDashboard";
 import AdminDashboard from "./pages/dashboards/AdminDashboard";
 import CompanyDashboard from "./pages/dashboards/CompanyDashboard";
+import AuthenticatedHome from "./pages/AuthenticatedHome";
 
 import ConnectionStatus from "./components/ConnectionStatus";
 
@@ -65,6 +66,15 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={['company']}>
             <CompanyDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute allowedRoles={['student', 'admin', 'company']}>
+            <AuthenticatedHome />
           </ProtectedRoute>
         }
       />

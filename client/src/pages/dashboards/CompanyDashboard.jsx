@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
-import { request } from "../../services/api"; // Re-exported from api.js
+import { request, getUserProfile } from "../../services/api"; // Re-exported from api.js
 import "./DashboardStyles.css";
 import "./CompanyDashboardStyles.css";
 
 function CompanyDashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const [job, setJob] = useState({
@@ -22,7 +25,8 @@ function CompanyDashboard() {
 
   const [applications, setApplications] = useState([]);
   const [activeTab, setActiveTab] = useState("dashboard");
-   const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
+  const [profile, setProfile] = useState(null);
   const [backendError, setBackendError] = useState("");
   const [loadingData, setLoadingData] = useState(true);
   const [advancedFilters, setAdvancedFilters] = useState({
@@ -178,11 +182,22 @@ function CompanyDashboard() {
     setApplications(Array.isArray(res.data) ? res.data : []);
   };
 
+  const fetchUserProfile = async () => {
+    try {
+      const res = await getUserProfile();
+      if (res.user) {
+        setProfile(res.user);
+      }
+    } catch (err) {
+      console.error("Error fetching profile:", err);
+    }
+  };
+
   useEffect(() => {
     const loadDashboardData = async () => {
       setLoadingData(true);
       setBackendError("");
-      await Promise.all([fetchApplicants(), fetchJobs()]);
+      await Promise.all([fetchApplicants(), fetchJobs(), fetchUserProfile()]);
       generateAnalytics();
       setLoadingData(false);
     };
@@ -311,6 +326,27 @@ function CompanyDashboard() {
         <div className="dashboard-header">
           <h1>Company Dashboard</h1>
           <p>Manage recruitment activities and track applications</p>
+        </div>
+
+        <div className="info-grid">
+          <div className="info-box">
+            <h3>👔 Company</h3>
+            <p>{profile?.profile?.basicInfo?.fullName || user?.name || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>📧 Email</h3>
+            <p>{profile?.email || user?.email || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>📝 Role</h3>
+            <p>{profile?.role ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1) : "Company"}</p>
+          </div>
+        </div>
+
+        <div className="action-card">
+          <h3>Update Profile</h3>
+          <p>Keep your company profile and contact details up to date.</p>
+          <button className="action-btn" onClick={() => navigate("/profile")}>Open Profile</button>
         </div>
 
         {backendError && (

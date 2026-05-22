@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../../AuthContext";
+import { getUserProfile } from "../../services/api";
 import Sidebar from "../../components/Sidebar";
 import "./DashboardStyles.css";
 import "./AdminDashboardStyles.css";
@@ -22,8 +24,10 @@ import {
 } from "../../services/api";
 
 function AdminDashboard() {
+  const { user } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("overview");
+  const [profile, setProfile] = useState(null);
   const [students, setStudents] = useState([]);
   const [companies, setCompanies] = useState([]);
   const [placements, setPlacements] = useState([]);
@@ -81,8 +85,24 @@ const sidebarLinks = menuItems.map((item) => ({
   icon: item.icon,
   action: () => setActiveSection(item.id)
 }));
+
+  const fetchUserProfile = async () => {
+    try {
+      const res = await getUserProfile();
+      if (res.user) {
+        setProfile(res.user);
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+    }
+  };
+
   useEffect(() => {
-    fetchAllData();
+    const loadAdminData = async () => {
+      await Promise.all([fetchAllData(), fetchUserProfile()]);
+    };
+
+    loadAdminData();
   }, []);
 
   const fetchAllData = async () => {
@@ -364,6 +384,27 @@ const sidebarLinks = menuItems.map((item) => ({
         <div className="dashboard-header">
           <h1>Admin / TPO Dashboard</h1>
           <p>Manage campus placement activities</p>
+        </div>
+
+        <div className="info-grid">
+          <div className="info-box">
+            <h3>👤 Name</h3>
+            <p>{profile?.profile?.basicInfo?.fullName || user?.name || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>📧 Email</h3>
+            <p>{profile?.email || user?.email || "Not provided"}</p>
+          </div>
+          <div className="info-box">
+            <h3>📝 Role</h3>
+            <p>{profile?.role ? profile.role.charAt(0).toUpperCase() + profile.role.slice(1) : "Admin"}</p>
+          </div>
+        </div>
+
+        <div className="action-card">
+          <h3>Update Profile</h3>
+          <p>Review and edit your account profile information anytime.</p>
+          <button className="action-btn" onClick={() => window.location.href = "/#/profile"}>Open Profile</button>
         </div>
 
         {/* Stats Cards */}
