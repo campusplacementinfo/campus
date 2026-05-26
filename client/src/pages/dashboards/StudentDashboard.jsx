@@ -4,6 +4,7 @@ import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
 import { request, getUserProfile } from "../../services/api"; // Re-exported from api.js
 import "./DashboardStyles.css";
+import "./StudentDashboardDarkTheme.css";
 
 function StudentDashboard() {
   const { user } = useAuth();

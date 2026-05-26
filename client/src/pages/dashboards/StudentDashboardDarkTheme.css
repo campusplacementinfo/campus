@@ -1,0 +1,213 @@
+/* Student Dashboard Dark Theme - Text Colors & Visibility */
+
+/* Force text colors for all student dashboard elements */
+.dashboard-container.student-dashboard,
+.dashboard-container.student-dashboard * {
+  color: var(--text) !important;
+}
+
+/* Heading colors */
+.dashboard-container.student-dashboard h1,
+.dashboard-container.student-dashboard h2,
+.dashboard-container.student-dashboard h3,
+.dashboard-container.student-dashboard h4,
+.dashboard-container.student-dashboard h5,
+.dashboard-container.student-dashboard h6 {
+  color: var(--heading) !important;
+}
+
+/* Override white backgrounds and header specifically */
+.dashboard-container.student-dashboard .dashboard-header {
+  color: white !important;
+}
+
+.dashboard-container.student-dashboard .dashboard-header h1,
+.dashboard-container.student-dashboard .dashboard-header p {
+  color: white !important;
+}
+
+/* Text elements */
+.dashboard-container.student-dashboard p {
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard span {
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard label {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard li {
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard td {
+  color: var(--text) !important;
+}
+
+/* Links */
+.dashboard-container.student-dashboard a {
+  color: var(--accent) !important;
+}
+
+.dashboard-container.student-dashboard a:hover {
+  color: var(--accent-strong) !important;
+}
+
+/* Form elements */
+.dashboard-container.student-dashboard input,
+.dashboard-container.student-dashboard textarea,
+.dashboard-container.student-dashboard select {
+  background: var(--surface-strong) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.dashboard-container.student-dashboard input::placeholder,
+.dashboard-container.student-dashboard textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.7;
+}
+
+/* Cards and containers */
+.dashboard-container.student-dashboard .stat-value {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .stat-label {
+  color: var(--text-muted) !important;
+}
+
+.dashboard-container.student-dashboard .info-box h3 {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .info-box p {
+  color: var(--text) !important;
+}
+
+/* Job cards stay white text on gradient */
+.dashboard-container.student-dashboard .job-card,
+.dashboard-container.student-dashboard .job-card * {
+  color: white !important;
+}
+
+/* Application cards */
+.dashboard-container.student-dashboard .application-title {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .application-meta {
+  color: var(--text-muted) !important;
+}
+
+.dashboard-container.student-dashboard .application-card {
+  background: var(--surface) !important;
+  border-left-color: var(--accent) !important;
+}
+
+/* Test cards */
+.dashboard-container.student-dashboard .test-card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.dashboard-container.student-dashboard .test-title {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .test-meta,
+.dashboard-container.student-dashboard .test-description {
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard .test-icon {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
+}
+
+/* Forms */
+.dashboard-container.student-dashboard .form-group label {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .form-section {
+  background: var(--surface-soft) !important;
+  border-left-color: var(--accent) !important;
+}
+
+.dashboard-container.student-dashboard .form-section h3 {
+  color: var(--heading) !important;
+}
+
+/* Tables */
+.dashboard-container.student-dashboard .data-table {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.dashboard-container.student-dashboard .data-table th {
+  background: var(--surface-soft) !important;
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard .data-table td {
+  color: var(--text) !important;
+  border-bottom-color: var(--border-soft) !important;
+}
+
+/* Resume preview */
+.dashboard-container.student-dashboard .resume-preview {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.dashboard-container.student-dashboard .resume-preview-name {
+  color: var(--heading) !important;
+}
+
+/* Section headers */
+.dashboard-container.student-dashboard .section-header h2 {
+  color: var(--heading) !important;
+}
+
+/* Drive cards */
+.dashboard-container.student-dashboard .drive-card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+/* Status badges */
+.dashboard-container.student-dashboard .status-badge {
+  color: inherit !important;
+}
+
+/* Override any remaining light text */
+.dashboard-container.student-dashboard .menu-btn {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.dashboard-container.student-dashboard .menu-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
+  color: white !important;
+  border-color: var(--accent) !important;
+}
+
+/* Sidebar specific overrides */
+.dashboard-container.student-dashboard .sidebar a,
+.dashboard-container.student-dashboard .sidebar button,
+.dashboard-container.student-dashboard .sidebar h2 {
+  color: var(--text) !important;
+}
+
+.dashboard-container.student-dashboard .sidebar h2 {
+  color: var(--heading) !important;
+}
+
+.dashboard-container.student-dashboard .sidebar a:hover,
+.dashboard-container.student-dashboard .sidebar button:hover {
+  color: var(--accent) !important;
+}
