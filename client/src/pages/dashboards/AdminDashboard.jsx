@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import { getUserProfile } from "../../services/api";
@@ -80,7 +80,7 @@ function AdminDashboard() {
     { label: "Total Students", value: students.length || "0", color: "#3498db" },
     { label: "Total Companies", value: companies.length || "0", color: "#e74c3c" },
     { label: "Active Placements", value: placements.length || "0", color: "#27ae60" },
-    { label: "Pending Applications", value: "34", color: "#f39c12" }
+    { label: "Pending Applications", value: pendingUsers.length || "0", color: "#f39c12" }
   ];
 
   const menuItems = [

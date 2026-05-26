@@ -101,7 +101,7 @@ function Login() {
             <div className="form-group">
               <label>Email Address</label>
               <div className="input-wrapper">
-                {/* <span className="input-icon">📧</span> */}
+                <span className="input-icon">📧</span>
                 <input
                   type="email"
                   name="email"
@@ -115,7 +115,7 @@ function Login() {
             <div className="form-group">
               <label>Password</label>
               <div className="input-wrapper">
-                {/* <span className="input-icon">🔒</span> */}
+                <span className="input-icon">🔒</span>
                 <input
                   type="password"
                   name="password"

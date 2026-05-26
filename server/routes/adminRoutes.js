@@ -72,12 +72,18 @@ router.get("/reports", authMiddleware, adminMiddleware, async (req, res) => {
     const totalCompanies = await User.countDocuments({ role: "company" });
     const totalJobs = await Job.countDocuments();
     const totalApplications = await Application.countDocuments();
+    const pendingApprovals = await User.countDocuments({ approvalStatus: "pending" });
+    const pendingJobPosts = await Job.countDocuments({ jobStatus: "pending" });
+    const pendingApplications = await Application.countDocuments({ status: "pending" });
 
     const reports = {
       totalStudents,
       totalCompanies,
       totalJobs,
       totalApplications,
+      pendingApprovals,
+      pendingJobPosts,
+      pendingApplications,
       placementRate: Math.floor((totalApplications / totalStudents) * 100) || 0,
       averagePackage: "₹6.5 LPA"
     };
@@ -145,6 +151,7 @@ router.put("/students/:id/verify", authMiddleware, adminMiddleware, async (req, 
     if (student) {
       clearCache(CACHE_KEYS.students);
       clearCache(CACHE_KEYS.pendingUsers);
+      clearCache(CACHE_KEYS.reports);
       try {
         const html = wrapHtmlEmail('Account Approved', `
           <p>Hi ${student.name},</p>
@@ -187,8 +194,11 @@ router.put("/companies/:id/approve", authMiddleware, adminMiddleware, async (req
       { new: true }
     );
 
-    if (company) {      clearCache(CACHE_KEYS.companies);
-      clearCache(CACHE_KEYS.pendingUsers);      try {
+    if (company) {
+      clearCache(CACHE_KEYS.companies);
+      clearCache(CACHE_KEYS.pendingUsers);
+      clearCache(CACHE_KEYS.reports);
+      try {
         const html = wrapHtmlEmail('Company Account Approved', `
           <p>Hi ${company.name || 'Company'},</p>
           <p>Your company account has been approved by the admin. You can now post jobs and manage applications.</p>
@@ -227,6 +237,7 @@ router.delete("/students/:id", authMiddleware, adminMiddleware, async (req, res)
     await User.findByIdAndDelete(req.params.id);
     clearCache(CACHE_KEYS.students);
     clearCache(CACHE_KEYS.pendingUsers);
+    clearCache(CACHE_KEYS.reports);
     res.json({ success: true, message: "Student deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting student", error: error.message });
@@ -239,6 +250,7 @@ router.delete("/companies/:id", authMiddleware, adminMiddleware, async (req, res
     await User.findByIdAndDelete(req.params.id);
     clearCache(CACHE_KEYS.companies);
     clearCache(CACHE_KEYS.pendingUsers);
+    clearCache(CACHE_KEYS.reports);
     res.json({ success: true, message: "Company deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting company", error: error.message });
@@ -280,6 +292,7 @@ router.put("/users/:id/approve", authMiddleware, adminMiddleware, async (req, re
 
     clearCache(CACHE_KEYS.pendingUsers);
     clearCache(user.role === 'student' ? CACHE_KEYS.students : CACHE_KEYS.companies);
+    clearCache(CACHE_KEYS.reports);
 
     const html = wrapHtmlEmail('Account Approved', `
       <p>Hi ${user.name},</p>
@@ -320,6 +333,7 @@ router.put("/users/:id/reject", authMiddleware, adminMiddleware, async (req, res
 
     clearCache(CACHE_KEYS.pendingUsers);
     clearCache(user.role === 'student' ? CACHE_KEYS.students : CACHE_KEYS.companies);
+    clearCache(CACHE_KEYS.reports);
 
     const html = wrapHtmlEmail('Account Rejected', `
       <p>Hi ${user.name},</p>
@@ -374,6 +388,7 @@ router.put("/jobs/:id/approve", authMiddleware, adminMiddleware, async (req, res
       { new: true }
     ).populate("createdBy", "name email");
     clearCache(CACHE_KEYS.pendingJobs);
+    clearCache(CACHE_KEYS.reports);
 
     if (!job) {
       return res.status(404).json({ message: "Job not found" });
@@ -410,6 +425,7 @@ router.put("/jobs/:id/reject", authMiddleware, adminMiddleware, async (req, res)
       { new: true }
     ).populate("createdBy", "name email");
     clearCache(CACHE_KEYS.pendingJobs);
+    clearCache(CACHE_KEYS.reports);
 
     if (!job) {
       return res.status(404).json({ message: "Job not found" });

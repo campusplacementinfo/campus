@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import "./DashboardStyles.css";
 
 function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const mainContentRef = useRef(null);
+  const location = useLocation();
+
+  // Scroll to top when location changes
+  useEffect(() => {
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  }, [location.pathname]);
 
   return (
     <div className="dashboard-container">
@@ -13,10 +26,10 @@ function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
       />
 
       <div className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-        <Sidebar links={sidebarLinks} />
+        <Sidebar links={sidebarLinks} closeSidebar={() => setSidebarOpen(false)} />
       </div>
 
-      <main className="dashboard-main">
+      <main className="dashboard-main" ref={mainContentRef}>
         <div className="dashboard-topbar">
           <button
             type="button"

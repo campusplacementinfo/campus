@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
@@ -9,6 +9,7 @@ import "./CompanyDashboardStyles.css";
 function CompanyDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const mainContentRef = useRef(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const [job, setJob] = useState({
@@ -73,15 +74,15 @@ function CompanyDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
 
   const sidebarLinks = [
-  { label: "Dashboard", icon: "📊", action: () => setActiveTab("dashboard") },
-  { label: "Post New Job", icon: "➕", action: () => setActiveTab("post") },
-  { label: "Posted Jobs", icon: "📋", action: () => setActiveTab("jobs") },
-  { label: "Applications", icon: "👥", action: () => setActiveTab("applicants") },
-  { label: "Shortlisted Students", icon: "⭐", action: () => setActiveTab("shortlisted") },
-  { label: "Analytics", icon: "📊", action: () => setActiveTab("analytics") },
-  { label: "Hiring Pipeline", icon: "🎯", action: () => setActiveTab("hiring") },
-  { label: "Profile", icon: "👤", action: () => setActiveTab("profile") }
-];
+    { id: "dashboard", label: "Dashboard", icon: "📊", action: () => handleTabChange("dashboard") },
+    { id: "post", label: "Post New Job", icon: "➕", action: () => handleTabChange("post") },
+    { id: "jobs", label: "Posted Jobs", icon: "📋", action: () => handleTabChange("jobs") },
+    { id: "applicants", label: "Applications", icon: "👥", action: () => handleTabChange("applicants") },
+    { id: "shortlisted", label: "Shortlisted Students", icon: "⭐", action: () => handleTabChange("shortlisted") },
+    { id: "analytics", label: "Analytics", icon: "📊", action: () => handleTabChange("analytics") },
+    { id: "hiring", label: "Hiring Pipeline", icon: "🎯", action: () => handleTabChange("hiring") },
+    { id: "profile", label: "Profile", icon: "👤", action: () => handleTabChange("profile") }
+  ];
 
   const dashboardMenuItems = [
     { id: "post", label: "Post New Job", icon: "➕" },
@@ -212,6 +213,19 @@ function CompanyDashboard() {
     loadDashboardData();
   }, [location]);
 
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    navigate(`${location.pathname}?tab=${tab}`, { replace: true });
+    
+    // Scroll to top smoothly
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+  };
+
   const updateStatus = async (applicationId, status) => {
     const res = await request(
       `/applications/status/${applicationId}`,
@@ -308,10 +322,10 @@ function CompanyDashboard() {
   ></div>
 
   <div className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-    <Sidebar links={sidebarLinks} />
+    <Sidebar links={sidebarLinks} activeItem={activeTab} closeSidebar={() => setSidebarOpen(false)} />
   </div>
 </>
-      <main className="dashboard-main">
+      <main className="dashboard-main" ref={mainContentRef}>
         <div className="dashboard-topbar">
   <button
     className={`menu-btn ${sidebarOpen ? "active" : ""}`}

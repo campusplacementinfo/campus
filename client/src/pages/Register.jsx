@@ -241,6 +241,7 @@ function Register() {
             <div className="form-group">
               <label htmlFor="name">Full Name</label>
               <div className="input-wrapper">
+                <span className="input-icon">👤</span>
                 <input
                   id="name"
                   type="text"
@@ -257,6 +258,7 @@ function Register() {
             <div className="form-group">
               <label htmlFor="email">Email Address</label>
               <div className="input-wrapper">
+                <span className="input-icon">📧</span>
                 <input
                   id="email"
                   type="email"
@@ -273,6 +275,7 @@ function Register() {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
+                <span className="input-icon">🔒</span>
                 <input
                   id="password"
                   type={showPassword ? "text" : "password"}
@@ -295,6 +298,7 @@ function Register() {
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <div className="input-wrapper">
+                  <span className="input-icon">🔒</span>
                   <input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
@@ -394,6 +398,7 @@ function Register() {
               <div className="form-group">
                 <label htmlFor="enrollmentNumber">Enrollment Number *</label>
                 <div className="input-wrapper">
+                  <span className="input-icon">🧾</span>
                   <input
                     id="enrollmentNumber"
                     type="text"
@@ -419,6 +424,7 @@ function Register() {
               <div className="form-group">
                 <label htmlFor="adminToken">Admin Creation Token *</label>
                 <div className="input-wrapper">
+                  <span className="input-icon">🔐</span>
                   <input
                     id="adminToken"
                     type="password"

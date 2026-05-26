@@ -263,24 +263,32 @@ export const getAllCompanies = async () => {
 };
 
 export const verifyStudent = async (studentId) => {
+  clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/students/${studentId}/verify`, {
-    method: "PUT"
+    method: 'PUT'
   });
 };
 
 export const deleteStudent = async (studentId) => {
+  clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/students/${studentId}`, {
     method: "DELETE"
   });
 };
 
 export const approveCompany = async (companyId) => {
+  clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/companies/${companyId}/approve`, {
-    method: "PUT"
+    method: 'PUT'
   });
 };
 
 export const deleteCompany = async (companyId) => {
+  clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/companies/${companyId}`, {
     method: "DELETE"
   });
@@ -295,12 +303,15 @@ export const getPendingUsers = async () => {
 
 export const approveUser = async (userId) => {
   clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/users/${userId}/approve`, {
     method: "PUT"
   });
 };
 
 export const rejectUser = async (userId) => {
+  clearClientCache("/admin/pending-users");
+  clearClientCache("/admin/reports");
   return request(`/admin/users/${userId}/reject`, {
     method: "PUT"
   });
@@ -315,12 +326,15 @@ export const getPendingJobs = async () => {
 
 export const approveJob = async (jobId) => {
   clearClientCache("/admin/pending-jobs");
+  clearClientCache("/admin/reports");
   return request(`/admin/jobs/${jobId}/approve`, {
     method: "PUT"
   });
 };
 
 export const rejectJob = async (jobId) => {
+  clearClientCache("/admin/pending-jobs");
+  clearClientCache("/admin/reports");
   return request(`/admin/jobs/${jobId}/reject`, {
     method: "PUT"
   });

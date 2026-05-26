@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
@@ -8,6 +8,7 @@ import "./DashboardStyles.css";
 function StudentDashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const mainContentRef = useRef(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const [jobs, setJobs] = useState([]);
@@ -493,6 +494,15 @@ function StudentDashboard() {
 
   const handleSectionChange = (section) => {
     setActiveSection(section);
+    navigate(`${location.pathname}?section=${section}`, { replace: true });
+    
+    // Scroll to top smoothly
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
   };
 
   const handleResumeChange = (field, value) => {
@@ -578,15 +588,15 @@ function StudentDashboard() {
   };
 
   const sidebarLinks = [
-  { label: "Dashboard", icon: "📊", action: () => handleSectionChange("dashboard") },
-  { label: "Available Jobs", icon: "🔍", action: () => handleSectionChange("jobs") },
-  { label: "My Applications", icon: "📋", action: () => handleSectionChange("applications") },
-  { label: "Mock Tests", icon: "📝", action: () => handleSectionChange("mock") },
-  { label: "Resume Builder", icon: "📄", action: () => handleSectionChange("resume") },
-  { label: "Interview Prep", icon: "🎯", action: () => handleSectionChange("interview") },
-  { label: "Career Guidance", icon: "🚀", action: () => handleSectionChange("career") },
-  { label: "Profile", icon: "👤", action: () => handleSectionChange("profile") }
-];
+    { id: "dashboard", label: "Dashboard", icon: "📊", action: () => handleSectionChange("dashboard") },
+    { id: "jobs", label: "Available Jobs", icon: "🔍", action: () => handleSectionChange("jobs") },
+    { id: "applications", label: "My Applications", icon: "📋", action: () => handleSectionChange("applications") },
+    { id: "mock", label: "Mock Tests", icon: "📝", action: () => handleSectionChange("mock") },
+    { id: "resume", label: "Resume Builder", icon: "📄", action: () => handleSectionChange("resume") },
+    { id: "interview", label: "Interview Prep", icon: "🎯", action: () => handleSectionChange("interview") },
+    { id: "career", label: "Career Guidance", icon: "🚀", action: () => handleSectionChange("career") },
+    { id: "profile", label: "Profile", icon: "👤", action: () => handleSectionChange("profile") }
+  ];
 
   const dashboardMenuItems = [
     { id: "jobs", label: "Available Jobs", icon: "🔍" },
@@ -606,10 +616,10 @@ function StudentDashboard() {
   ></div>
 
   <div className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}>
-    <Sidebar links={sidebarLinks} />
+    <Sidebar links={sidebarLinks} activeItem={activeSection} closeSidebar={() => setSidebarOpen(false)} />
   </div>
 </>
-      <main className="dashboard-main">
+      <main className="dashboard-main" ref={mainContentRef}>
         <div className="dashboard-topbar">
   <button
     className={`menu-btn ${sidebarOpen ? "active" : ""}`}

@@ -1,14 +1,13 @@
-import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
-function Sidebar({ links = [] }) {
+function Sidebar({ links = [], closeSidebar, activeItem }) {
   const navigate = useNavigate();
   const { role, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
+    if (closeSidebar) closeSidebar();
   };
 
   const defaultLinks = [
@@ -61,43 +60,47 @@ function Sidebar({ links = [] }) {
 
   const menuLinks = links.length > 0 ? links : defaultLinks;
 
-  return (
-    <div className={`sidebar-panel ${isOpen ? "open" : ""}`}>
-      <button
-        className="sidebar-toggle-btn"
-        onClick={() => setIsOpen((prev) => !prev)}
-        type="button"
-      >
-        {isOpen ? "Close Menu" : "Open Menu"}
-      </button>
+  const getButtonClassName = (link, isActive) => {
+    if (link.path) {
+      return "sidebar-link";
+    }
+    return `sidebar-link${isActive ? " active" : ""}`;
+  };
 
+  return (
+    <div className="sidebar-panel">
       <h2>Placement Portal</h2>
 
       <ul className="sidebar-menu">
-        {menuLinks.map((link) => (
-          <li key={link.label}>
-            {link.path ? (
-              <NavLink
-                to={link.path}
-                className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </NavLink>
-            ) : (
-              <button
-                type="button"
-                className="sidebar-link"
-                onClick={() => {
-                  if (link.action) link.action();
-                  setIsOpen(false);
-                }}
-              >
-                {link.label}
-              </button>
-            )}
-          </li>
-        ))}
+        {menuLinks.map((link) => {
+          const isActive = link.id ? activeItem === link.id : false;
+          return (
+            <li key={link.label}>
+              {link.path ? (
+                <NavLink
+                  to={link.path}
+                  className={({ isActive: navIsActive }) => `sidebar-link${navIsActive ? " active" : ""}`}
+                  onClick={() => {
+                    if (closeSidebar) closeSidebar();
+                  }}
+                >
+                  {link.label}
+                </NavLink>
+              ) : (
+                <button
+                  type="button"
+                  className={getButtonClassName(link, isActive)}
+                  onClick={() => {
+                    if (link.action) link.action();
+                    if (closeSidebar) closeSidebar();
+                  }}
+                >
+                  {link.label}
+                </button>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       <button onClick={handleLogout} className="sidebar-logout-btn">
