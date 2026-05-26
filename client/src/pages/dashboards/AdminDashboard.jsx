@@ -18,6 +18,7 @@ import {
 } from "./admin/AdminDashboardViews";
 import "./DashboardStyles.css";
 import "./AdminDashboardStyles.css";
+import "./DarkTheme.css";
 import {
   getAllStudents,
   getAllCompanies,

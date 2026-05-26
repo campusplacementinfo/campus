@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import "./DashboardStyles.css";
+import "./DarkTheme.css";
 
 function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
