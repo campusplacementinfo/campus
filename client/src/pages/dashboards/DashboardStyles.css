@@ -5,7 +5,33 @@
   background: var(--bg-gradient);
 }
 
-.sidebar {
+.dashboard-container.student-dashboard {
+  --bg: #0f172a;
+  --surface: #111827;
+  --surface-soft: #161b2f;
+  --surface-strong: #1f2937;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --heading: #f8fafc;
+  --border: #273449;
+  --border-soft: rgba(148, 163, 184, 0.18);
+  --accent: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.15);
+  --accent-strong: #7c3aed;
+  --danger: #f87171;
+  --success: #4ade80;
+  --bg-gradient: linear-gradient(135deg, #111827, #1e293b);
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  --scrollbar-track: #0f172a;
+  --scrollbar-thumb: #4b5563;
+  background: var(--bg-gradient);
+}
+
+.dashboard-container.student-dashboard .dashboard-main {
+  background: var(--bg);
+}
+
+.dashboard-container.student-dashboard .sidebar {
   width: 250px;
   height: 100vh;
   position: fixed;
@@ -18,19 +44,155 @@
   overflow-y: auto;
 }
 
-.sidebar h2 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
+.dashboard-container.student-dashboard .sidebar-menu li:hover,
+.dashboard-container.student-dashboard .sidebar-link:hover {
+  color: var(--accent);
 }
 
-.sidebar-menu {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  line-height: 2.2;
-  transition: max-height 0.35s ease, opacity 0.35s ease;
+.dashboard-container.student-dashboard .dashboard-topbar,
+.dashboard-container.student-dashboard .content-section,
+.dashboard-container.student-dashboard .stat-card,
+.dashboard-container.student-dashboard .application-card,
+.dashboard-container.student-dashboard .form-section,
+.dashboard-container.student-dashboard .resume-preview,
+.dashboard-container.student-dashboard .data-table {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
 }
+
+.dashboard-container.student-dashboard .info-box {
+  background: var(--surface-soft);
+  border-left: 4px solid var(--accent);
+}
+
+.dashboard-container.student-dashboard .dashboard-header {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
+}
+
+.dashboard-container.student-dashboard .job-card {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.9), rgba(79, 70, 229, 0.85));
+}
+
+.dashboard-container.student-dashboard .test-card,
+.dashboard-container.student-dashboard .drive-card,
+.dashboard-container.student-dashboard .stat-mini {
+  background: var(--surface);
+}
+
+.dashboard-container.student-dashboard .menu-btn {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.dashboard-container.student-dashboard .menu-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white;
+}
+
+.sidebar-toggle-btn,
+.menu-toggle-btn {
+  background: var(--accent) !important;
+}
+
+.dashboard-container.student-dashboard .sidebar-overlay.show {
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.sidebar-logout-btn {
+  background: var(--accent);
+}
+
+.sidebar-logout-btn:hover {
+  background: var(--accent-strong);
+}
+
+.dashboard-container.student-dashboard .search-input,
+.dashboard-container.student-dashboard .tab-btn,
+.dashboard-container.student-dashboard .nav-item {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.dashboard-container.student-dashboard .data-table th,
+.dashboard-container.student-dashboard .data-table td {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.dashboard-container.student-dashboard .data-table th {
+  background: var(--surface-soft);
+}
+
+.sidebar a,
+.sidebar button,
+.sidebar h2,
+.dashboard-topbar h3,
+.dashboard-header p,
+.info-box h3,
+.info-box p,
+.section-header h2,
+.stat-label,
+.job-card h3,
+.application-title,
+.test-title,
+.test-meta,
+.test-description,
+.resume-preview-name {
+  color: var(--text);
+}
+
+.sidebar a:hover,
+.sidebar button:hover {
+  color: var(--accent);
+}
+
+.sidebar h2 {
+  color: var(--heading);
+}
+
+.sidebar-link,
+.sidebar-menu li,
+.sidebar-logout-btn {
+  color: var(--text);
+}
+
+.sidebar-logout-btn {
+  border-color: transparent;
+}
+
+.sidebar-menu li.active .sidebar-link,
+.sidebar-link.active {
+  color: white;
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+}
+
+.sidebar-link.active:hover {
+  color: white;
+}
+
+.sidebar .sidebar-logout-btn {
+  background: var(--accent);
+}
+
+.sidebar .sidebar-logout-btn:hover {
+  background: var(--accent-strong);
+}
+
+.sidebar-logout-btn,
+.menu-btn {
+  transition: var(--transition);
+}
+
+.sidebar-logout-btn:hover,
+.menu-btn:hover {
+  transform: translateY(-1px);
+}
+
 
 .sidebar-menu li {
   cursor: pointer;
