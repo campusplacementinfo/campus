@@ -2,19 +2,22 @@
 
 .authenticated-home {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-gradient);
   display: flex;
   flex-direction: column;
+  color: var(--text);
+  transition: background 0.35s ease, color 0.35s ease;
 }
 
 /* Header */
 .auth-home-header {
-  background: white;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
   padding: 20px 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid var(--border);
 }
 
 .header-content {
@@ -29,20 +32,25 @@
 .header-left h1 {
   margin: 0;
   font-size: 24px;
-  color: #2c3e50;
+  color: var(--heading);
   font-weight: 700;
 }
 
 .header-left p {
   margin: 4px 0 0 0;
   font-size: 14px;
-  color: #7f8c8d;
+  color: var(--text-muted);
 }
 
 .header-right {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.auth-header-actions {
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .user-role {
@@ -123,11 +131,12 @@
 
 /* Sidebar */
 .sidebar {
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   padding: 20px;
   height: fit-content;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
   top: 120px;
   position: sticky;
 }
@@ -140,10 +149,11 @@
 
 /* Main Content */
 .main-content {
-  background: white;
+  background: var(--surface);
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border);
   margin: 0 auto;
   max-width: 980px;
   width: 100%;
@@ -188,7 +198,7 @@
 .main-content h2 {
   margin: 0 0 20px 0;
   font-size: 24px;
-  color: #2c3e50;
+  color: var(--heading);
   font-weight: 700;
 }
 
@@ -224,12 +234,12 @@
 
 /* Error Banner */
 .error-banner {
-  background: #f8d7da;
-  color: #721c24;
+  background: rgba(248, 113, 113, 0.12);
+  color: var(--danger);
   padding: 16px;
   border-radius: 8px;
   margin-bottom: 20px;
-  border-left: 4px solid #f5c6cb;
+  border-left: 4px solid rgba(248, 113, 113, 0.35);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -242,16 +252,16 @@
 
 /* Dashboard Section */
 .dashboard-section {
-  background: #f0f7ff;
+  background: var(--surface-soft);
   padding: 24px 22px;
   border-radius: 16px;
   margin-bottom: 30px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid var(--accent);
 }
 
 .dashboard-section h3 {
   margin: 0 0 12px 0;
-  color: #2c3e50;
+  color: var(--heading);
 }
 
 .dashboard-actions {
@@ -263,9 +273,9 @@
 }
 
 .back-button {
-  background: white;
-  color: #4f46e5;
-  border: 1px solid rgba(79, 70, 229, 0.24);
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid rgba(79, 70, 229, 0.18);
   padding: 12px 20px;
   border-radius: 999px;
   font-weight: 700;
@@ -288,7 +298,7 @@
 
 .dashboard-section p {
   margin: 0 0 15px 0;
-  color: #555;
+  color: var(--text-muted);
   font-size: 14px;
 }
 
@@ -299,11 +309,11 @@
 
 .profile-summary h3 {
   margin: 0 0 16px 0;
-  color: #2c3e50;
+  color: var(--heading);
   font-size: 18px;
 }
 
-..summary-grid {
+.summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
@@ -313,10 +323,10 @@
 }
 
 .summary-card {
-  background: #f8f9fa;
+  background: var(--surface-soft);
   padding: 16px;
   border-radius: 8px;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid var(--accent);
 }
 
 .summary-card label {
@@ -331,7 +341,7 @@
 .summary-card p {
   margin: 0;
   font-size: 16px;
-  color: #2c3e50;
+  color: var(--text);
   font-weight: 600;
 }
 
@@ -429,7 +439,7 @@
 }
 
 .edit-button {
-  background: linear-gradient(135deg, #6d5df6, #8e44ff);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: #fff;
   border: none;
   padding: 12px 26px;
@@ -447,8 +457,8 @@
 
 .dashboard-link {
   background: transparent;
-  border: 2px solid #4f46e5;
-  color: #4f46e5;
+  border: 2px solid var(--accent);
+  color: var(--accent);
   padding: 8px 16px;
   border-radius: 999px;
   font-weight: 700;

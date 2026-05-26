@@ -1,7 +1,9 @@
 const Job = require("../models/job");
 const User = require("../models/User");
-const { sendMail } = require("../utils/mailer");
+const { sendMail, wrapHtmlEmail } = require("../utils/mailer");
+const { getCache, setCache, clearCache } = require("../utils/cache");
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const JOBS_CACHE_KEY = 'jobs:approved';
 
 // ✅ Create Job (Company)
 exports.createJob = async (req, res) => {
@@ -38,18 +40,33 @@ exports.createJob = async (req, res) => {
       jobStatus: "pending"
     });
 
+    clearCache(JOBS_CACHE_KEY);
+
+    try {
+      const companyEmailHtml = wrapHtmlEmail('Job Posted Successfully', `
+        <p>Hi ${companyUser.name || 'Recruiter'},</p>
+        <p>Your job post <strong>${job.title}</strong> has been created successfully and is pending admin approval.</p>
+        <p>Once approved, it will be visible to students on the portal.</p>
+      `);
+      await sendMail({ to: companyUser.email, subject: 'Job Posted and Pending Approval', html: companyEmailHtml });
+    } catch (err) {
+      console.warn('Failed to send job creation confirmation to company', err.message);
+    }
+
     if (ADMIN_EMAIL) {
       try {
-        const html = `<p>A new job has been posted and requires admin approval:</p>
+        const html = wrapHtmlEmail('Pending Job Approval', `
+          <p>A new job has been posted and requires admin approval:</p>
           <ul>
-            <li>Title: ${job.title}</li>
-            <li>Company: ${job.company}</li>
-            <li>Location: ${job.location}</li>
-            <li>Salary: ${job.salary || "Not specified"}</li>
-            <li>Eligibility: ${job.eligibility || "Not specified"}</li>
-            <li>Description: ${job.description}</li>
-            <li>Posted At: ${new Date(job.createdAt).toLocaleString()}</li>
-          </ul>`;
+            <li><strong>Title:</strong> ${job.title}</li>
+            <li><strong>Company:</strong> ${job.company}</li>
+            <li><strong>Location:</strong> ${job.location}</li>
+            <li><strong>Salary:</strong> ${job.salary || "Not specified"}</li>
+            <li><strong>Eligibility:</strong> ${job.eligibility || "Not specified"}</li>
+            <li><strong>Description:</strong> ${job.description}</li>
+            <li><strong>Posted At:</strong> ${new Date(job.createdAt).toLocaleString()}</li>
+          </ul>
+        `);
         await sendMail({ to: ADMIN_EMAIL, subject: 'Pending Job Approval', html });
       } catch (err) {
         console.warn('Failed to send job approval notification to admin', err.message);
@@ -71,9 +88,23 @@ exports.createJob = async (req, res) => {
 exports.getJobs = async (req, res) => {
   try {
     const query = req.user?.role === "student" ? { jobStatus: "approved" } : {};
+    const cacheKey = req.user?.role === "student" ? JOBS_CACHE_KEY : null;
+
+    if (cacheKey) {
+      const cachedJobs = getCache(cacheKey);
+      if (cachedJobs) {
+        return res.status(200).json(cachedJobs);
+      }
+    }
+
     const jobs = await Job.find(query)
+      .select("title company location salary positions eligibility experience skills createdAt createdBy")
       .populate("createdBy", "name email approvalStatus")
       .sort({ createdAt: -1 });
+
+    if (cacheKey) {
+      setCache(cacheKey, jobs, 30000);
+    }
 
     res.status(200).json(jobs);
 

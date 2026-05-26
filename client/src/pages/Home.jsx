@@ -284,13 +284,15 @@ function Home() {
             <span className="logo-icon">🎓</span>
             <span className="logo-text">Dr. C.V. Raman University Vaishali</span>
           </div>
-          <button
-            className="nav-toggle"
-            type="button"
-            onClick={() => setNavOpen((prev) => !prev)}
-          >
-            {navOpen ? "Close" : "Menu"}
-          </button>
+          <div className="nav-actions">
+            <button
+              className="nav-toggle"
+              type="button"
+              onClick={() => setNavOpen((prev) => !prev)}
+            >
+              {navOpen ? "Close" : "Menu"}
+            </button>
+          </div>
           <div className={`nav-group ${navOpen ? "open" : ""}`}>
             <div className="nav-menu">
               <a href="#home" className="nav-link" onClick={() => setNavOpen(false)}>

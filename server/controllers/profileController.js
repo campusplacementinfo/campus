@@ -13,6 +13,7 @@
 
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const { sendMail, wrapHtmlEmail } = require('../utils/mailer');
 
 // ===== HELPER FUNCTIONS =====
 
@@ -506,8 +507,14 @@ exports.verifyEmail = async (req, res) => {
       return res.status(400).json({ message: "Invalid email address" });
     }
 
-    // Placeholder: In real implementation, send verification link using nodemailer, AWS SES, etc.
-    console.log(`Verification email sent to ${alternateEmail}`);
+    const html = wrapHtmlEmail('Verify Your Alternate Email', `
+      <p>Hi,</p>
+      <p>Please verify your alternate email address by clicking the link below:</p>
+      <p><a href="${process.env.CLIENT_URL || 'http://localhost:5173'}/verify-alternate-email?email=${encodeURIComponent(alternateEmail)}" style="display:inline-block;padding:12px 20px;background:#1d4ed8;color:#ffffff;border-radius:8px;text-decoration:none;">Verify Email</a></p>
+      <p>If you did not request this, please ignore this email.</p>
+    `);
+
+    await sendMail({ to: alternateEmail, subject: 'Verify Your Alternate Email', html });
 
     res.status(200).json({
       message: "Verification email sent",

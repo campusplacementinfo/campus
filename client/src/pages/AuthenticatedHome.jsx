@@ -82,7 +82,7 @@ function AuthenticatedHome() {
             <h1>🎓 Campus Placement Portal</h1>
             <p>Welcome back, {userName}!</p>
           </div>
-          <div className="header-right">
+          <div className="header-right auth-header-actions">
             <button
               className="dashboard-link"
               onClick={() => navigate(getDashboardPath(role || userRole))}

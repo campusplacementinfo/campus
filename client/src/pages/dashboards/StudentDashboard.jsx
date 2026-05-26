@@ -599,8 +599,7 @@ function StudentDashboard() {
   ];
 
   return (
-    <div className="dashboard-container">
- <>
+<div className="dashboard-container student-dashboard"> <>
   <div
     className={`sidebar-overlay ${sidebarOpen ? "show" : ""}`}
     onClick={() => setSidebarOpen(false)}

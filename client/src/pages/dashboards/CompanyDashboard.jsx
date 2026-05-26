@@ -301,8 +301,7 @@ function CompanyDashboard() {
   ];
 
   return (
-    <div className="dashboard-container">
- <>
+<div className="dashboard-container company-dashboard"> <>
   <div
     className={`sidebar-overlay ${sidebarOpen ? "show" : ""}`}
     onClick={() => setSidebarOpen(false)}

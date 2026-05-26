@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 
 function Sidebar({ links = [] }) {
@@ -26,10 +26,17 @@ function Sidebar({ links = [] }) {
       : []),
     ...(role === "admin"
       ? [
-          { label: "Manage Students", action: () => navigate(`/${role}/dashboard?section=students`) },
-          { label: "Manage Companies", action: () => navigate(`/${role}/dashboard?section=companies`) },
-          { label: "Placement Drives", action: () => navigate(`/${role}/dashboard?section=drives`) },
-          { label: "Reports", action: () => navigate(`/${role}/dashboard?section=reports`) }
+          { label: "Dashboard", path: "/admin/dashboard/overview" },
+          { label: "Pending Approvals", path: "/admin/dashboard/pending-users" },
+          { label: "Pending Job Posts", path: "/admin/dashboard/pending-jobs" },
+          { label: "Manage Students", path: "/admin/dashboard/students" },
+          { label: "Manage Companies", path: "/admin/dashboard/companies" },
+          { label: "Placement Drives", path: "/admin/dashboard/drives" },
+          { label: "Placement Reports", path: "/admin/dashboard/reports" },
+          { label: "Send Emails", path: "/admin/dashboard/email" },
+          { label: "Announcements", path: "/admin/dashboard/announcements" },
+          { label: "Advanced Analytics", path: "/admin/dashboard/analytics" },
+          { label: "Activity Logs", path: "/admin/dashboard/activity" }
         ]
       : []),
     ...(role === "company"
@@ -69,16 +76,26 @@ function Sidebar({ links = [] }) {
       <ul className="sidebar-menu">
         {menuLinks.map((link) => (
           <li key={link.label}>
-            <button
-              type="button"
-              className="sidebar-link"
-              onClick={() => {
-                if (link.action) link.action();
-                setIsOpen(false);
-              }}
-            >
-              {link.label}
-            </button>
+            {link.path ? (
+              <NavLink
+                to={link.path}
+                className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </NavLink>
+            ) : (
+              <button
+                type="button"
+                className="sidebar-link"
+                onClick={() => {
+                  if (link.action) link.action();
+                  setIsOpen(false);
+                }}
+              >
+                {link.label}
+              </button>
+            )}
           </li>
         ))}
       </ul>

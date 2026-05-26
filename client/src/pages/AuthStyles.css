@@ -22,25 +22,25 @@
 .blob {
   position: absolute;
   border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  opacity: 0.3;
+  opacity: 0.28;
   animation: blobMove 8s infinite;
 }
 
 .blob-1 {
-  width: 400px;
-  height: 400px;
-  background: rgba(255, 255, 255, 0.1);
-  top: -100px;
-  left: -100px;
+  width: 420px;
+  height: 420px;
+  background: rgba(255, 255, 255, 0.12);
+  top: -110px;
+  left: -110px;
   animation-delay: 0s;
 }
 
 .blob-2 {
-  width: 300px;
-  height: 300px;
-  background: rgba(255, 255, 255, 0.05);
-  bottom: -50px;
-  right: -50px;
+  width: 320px;
+  height: 320px;
+  background: rgba(255, 255, 255, 0.06);
+  bottom: -55px;
+  right: -55px;
   animation-delay: 2s;
 }
 
@@ -88,6 +88,21 @@
 .auth-header {
   text-align: center;
   margin-bottom: 40px;
+}
+
+.auth-header-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.auth-header-topbar > div {
+  flex: 1;
+}
+
+.auth-header-topbar .theme-toggle-btn {
+  flex-shrink: 0;
 }
 
 .logo-circle {
@@ -241,6 +256,12 @@
   color: #999;
   font-size: 0.85rem;
   margin-top: 5px;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 6px;
 }
 
 /* Remember & Forgot */

@@ -1,16 +1,16 @@
  import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Suspense, lazy } from "react";
 import { AuthProvider, useAuth } from "./AuthContext";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-
-import StudentDashboard from "./pages/dashboards/StudentDashboard";
-import AdminDashboard from "./pages/dashboards/AdminDashboard";
-import CompanyDashboard from "./pages/dashboards/CompanyDashboard";
-import AuthenticatedHome from "./pages/AuthenticatedHome";
+const Home = lazy(() => import("./pages/Home"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const StudentDashboard = lazy(() => import("./pages/dashboards/StudentDashboard"));
+const AdminDashboard = lazy(() => import("./pages/dashboards/AdminDashboard"));
+const CompanyDashboard = lazy(() => import("./pages/dashboards/CompanyDashboard"));
+const AuthenticatedHome = lazy(() => import("./pages/AuthenticatedHome"));
 
 import ConnectionStatus from "./components/ConnectionStatus";
 
@@ -53,7 +53,7 @@ const AppRoutes = () => {
       />
 
       <Route
-        path="/admin/dashboard"
+        path="/admin/dashboard/*"
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminDashboard />
@@ -94,7 +94,9 @@ function App() {
     <HashRouter>
       <AuthProvider>
         <ConnectionStatus />
-        <AppRoutes />
+        <Suspense fallback={<div className="loading-spinner">Loading…</div>}>
+          <AppRoutes />
+        </Suspense>
       </AuthProvider>
     </HashRouter>
   );

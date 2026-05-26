@@ -88,12 +88,13 @@ function Login() {
 
       <div className="auth-content">
         <div className="auth-card login-card">
-          <div className="auth-header">
-            <div className="logo-circle">🎓</div>
-            <h1>Campus Placement Portal</h1>
-            <p>Sign in to your account</p>
-          </div>
-
+            <div className="auth-header auth-header-topbar">
+              <div>
+                <div className="logo-circle">🎓</div>
+                <h1>Campus Placement Portal</h1>
+                <p>Sign in to your account</p>
+              </div>
+            </div>
           {error && <div className="error-message">❌ {error}</div>}
 
           <form onSubmit={handleSubmit} className="auth-form">

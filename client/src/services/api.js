@@ -4,6 +4,28 @@ const API_CONFIG_KEY = "campus_api_config";
 const HEALTH_CHECK_INTERVAL = 30000; // 30 seconds
 const API_PATH = "/api";
 
+const clientCache = new Map();
+const getClientCacheKey = (endpoint, params = '') => `${endpoint}:${params}`;
+const getCachedResponse = (endpoint, params = '') => {
+  const key = getClientCacheKey(endpoint, params);
+  const cached = clientCache.get(key);
+  if (!cached) return null;
+  if (cached.expires < Date.now()) {
+    clientCache.delete(key);
+    return null;
+  }
+  return cached.data;
+};
+
+const setCachedResponse = (endpoint, data, ttl = 15000, params = '') => {
+  const key = getClientCacheKey(endpoint, params);
+  clientCache.set(key, { data, expires: Date.now() + ttl });
+};
+
+const clearClientCache = (endpoint, params = '') => {
+  clientCache.delete(getClientCacheKey(endpoint, params));
+};
+
 const normalizeApiUrl = (url) => {
   if (!url) {
     return API_PATH;
@@ -141,15 +163,33 @@ const apiConfig = new APIConfig();
 // Axios-based request function (headers are handled by AuthContext interceptor)
 export const request = async (endpoint, options = {}) => {
   try {
+    const method = (options.method || 'GET').toUpperCase();
+    const cacheTTL = options.cacheTTL || 0;
+    const cacheParams = options.cacheParams || '';
+
+    if (method === 'GET' && cacheTTL > 0) {
+      const cached = getCachedResponse(endpoint, cacheParams);
+      if (cached) {
+        return {
+          success: true,
+          data: cached
+        };
+      }
+    }
+
     const response = await axios({
       url: `${apiConfig.apiUrl}${endpoint}`,
-      method: options.method || 'GET',
+      method,
       data: options.body || options.data,
       timeout: 10000,
       ...options
     });
 
     const responseData = response.data;
+    if (method === 'GET' && cacheTTL > 0) {
+      setCachedResponse(endpoint, responseData, cacheTTL, cacheParams);
+    }
+
     if (Array.isArray(responseData)) {
       return {
         success: true,
@@ -210,13 +250,15 @@ export const resetPassword = async ({ email, token, newPassword }) => {
 
 export const getAllStudents = async () => {
   return request("/admin/students", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 20000
   });
 };
 
 export const getAllCompanies = async () => {
   return request("/admin/companies", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 20000
   });
 };
 
@@ -246,11 +288,13 @@ export const deleteCompany = async (companyId) => {
 
 export const getPendingUsers = async () => {
   return request("/admin/pending-users", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };
 
 export const approveUser = async (userId) => {
+  clearClientCache("/admin/pending-users");
   return request(`/admin/users/${userId}/approve`, {
     method: "PUT"
   });
@@ -264,11 +308,13 @@ export const rejectUser = async (userId) => {
 
 export const getPendingJobs = async () => {
   return request("/admin/pending-jobs", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };
 
 export const approveJob = async (jobId) => {
+  clearClientCache("/admin/pending-jobs");
   return request(`/admin/jobs/${jobId}/approve`, {
     method: "PUT"
   });
@@ -281,7 +327,8 @@ export const rejectJob = async (jobId) => {
 };
 export const getPlacementReports = async () => {
   return request("/admin/reports", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 25000
   });
 };
 
@@ -294,11 +341,13 @@ export const sendEmailToUsers = async (data) => {
 
 export const getAllDrives = async () => {
   return request("/admin/drives", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 25000
   });
 };
 
 export const createDrive = async (data) => {
+  clearClientCache("/admin/drives");
   return request("/admin/drives", {
     method: "POST",
     data
@@ -312,11 +361,13 @@ export const checkBackend = async () => {
 
 export const getAllJobs = async () => {
   return request("/jobs", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 20000
   });
 };
 
 export const createJob = async (data) => {
+  clearClientCache("/jobs");
   return request("/jobs", {
     method: "POST",
     data
@@ -332,13 +383,15 @@ export const applyJob = async (jobId) => {
 
 export const getMyApplications = async () => {
   return request("/applications/my-applications", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };
 
 export const getCompanyApplications = async () => {
   return request("/applications/company-applications", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };
 
@@ -351,11 +404,13 @@ export const updateApplicationStatus = async (applicationId, status) => {
 
 export const getUserProfile = async () => {
   return request("/profile/me", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };
 
 export const updateContactInfo = async (data) => {
+  clearClientCache("/profile/me");
   return request("/profile/contact", {
     method: "PATCH",
     data
@@ -363,6 +418,8 @@ export const updateContactInfo = async (data) => {
 };
 
 export const updateBasicInfo = async (data) => {
+  clearClientCache("/profile/me");
+  clearClientCache("/profile/completion");
   return request("/profile/basic-info", {
     method: "PATCH",
     data
@@ -370,6 +427,8 @@ export const updateBasicInfo = async (data) => {
 };
 
 export const updateAcademicInfo = async (data) => {
+  clearClientCache("/profile/me");
+  clearClientCache("/profile/completion");
   return request("/profile/academic-info", {
     method: "PATCH",
     data
@@ -378,6 +437,7 @@ export const updateAcademicInfo = async (data) => {
 
 export const getProfileCompletion = async () => {
   return request("/profile/completion", {
-    method: "GET"
+    method: "GET",
+    cacheTTL: 15000
   });
 };

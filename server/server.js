@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+const compression = require("compression");
 
 const serverEnvPath = path.join(__dirname, ".env");
 const rootEnvPath = path.join(__dirname, "../.env");
@@ -18,20 +19,28 @@ const app = express();
 console.log('Admin creation token configured:', !!process.env.ADMIN_CREATION_TOKEN);
 
 // Middlewares
-app.use(cors());
-app.use(express.json());
+app.set('trust proxy', true);
+app.use(cors({ origin: true, credentials: true }));
+app.use(compression({ level: 6 }));
+app.use(express.json({ limit: '150kb' }));
 
-// Serve static files from the React app build directory
-app.use(express.static(path.join(__dirname, '../client/dist')));
+// Serve static files from the React app build directory with cache hints
+app.use(express.static(path.join(__dirname, '../client/dist'), {
+  maxAge: '1d',
+  immutable: true,
+  etag: true
+}));
 
 // MongoDB connection with retry logic
 const mongoOptions = {
   serverSelectionTimeoutMS: 30000,
   connectTimeoutMS: 30000,
   socketTimeoutMS: 45000,
+  minPoolSize: 5,
   maxPoolSize: 10,
+  maxIdleTimeMS: 600000,
   retryWrites: true,
-  w: 'majority',
+  w: 'majority'
 };
 
 let reconnectAttempts = 0;

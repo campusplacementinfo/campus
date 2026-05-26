@@ -39,7 +39,16 @@ const userSchema = new mongoose.Schema(
       trim: true,
       uppercase: true,
       unique: true,
-      sparse: true
+      sparse: true,
+      validate: {
+        validator: function(v) {
+          // Allow null/undefined for non-student roles
+          if (!v) return true;
+          // Must be exactly 10 uppercase alphanumeric characters
+          return /^(?=.*[A-Z])(?=.*\d)[A-Z0-9]{10}$/.test(v);
+        },
+        message: "Enrollment number must be exactly 10 uppercase alphanumeric characters, e.g. CVB2100001"
+      }
     },
     approvalStatus: {
       type: String,
@@ -310,6 +319,20 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null
     }
+    ,
+    // Email bounce tracking
+    emailBounced: {
+      type: Boolean,
+      default: false
+    },
+    lastEmailBounce: {
+      type: Date,
+      default: null
+    },
+    bounceReason: {
+      type: String,
+      default: null
+    }
   },
   { 
     timestamps: false,
@@ -318,10 +341,13 @@ const userSchema = new mongoose.Schema(
 );
 
 // Indexes for performance optimization
+userSchema.index({ email: 1 });
+userSchema.index({ enrollmentNumber: 1 });
 userSchema.index({ role: 1 });
-userSchema.index({ "profile.basicInfo.institution": 1 });
+userSchema.index({ approvalStatus: 1 });
 userSchema.index({ createdAt: -1 });
 userSchema.index({ placed: 1 });
+userSchema.index({ "profile.basicInfo.institution": 1 });
 
 // Method: Get public profile (without password)
 userSchema.methods.getPublicProfile = function () {

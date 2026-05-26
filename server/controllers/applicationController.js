@@ -1,8 +1,12 @@
 const Application = require("../models/Application");
 const Job = require("../models/job");
 const User = require('../models/User');
-const { sendMail } = require('../utils/mailer');
+const { sendMail, wrapHtmlEmail } = require('../utils/mailer');
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
+const runInBackground = (promise) => {
+  promise.catch((err) => console.error('Background task error:', err?.message || err));
+};
 
 exports.applyJob = async (req, res) => {
   try {
@@ -27,44 +31,59 @@ exports.applyJob = async (req, res) => {
       student: req.user.id
     });
 
-    // Send confirmation email to applicant and notification to company/admin
-    try {
-      const populated = await application.populate('job').populate('student', 'name email');
-      const jobDoc = populated.job;
-      const studentDoc = populated.student;
-
-      // Email to applicant
-      const applicantHtml = `<p>Hi ${studentDoc.name},</p>
-        <p>Your application for <strong>${jobDoc.title}</strong> at <strong>${jobDoc.company}</strong> was submitted on ${new Date(application.createdAt).toLocaleString()}.</p>
-        <p>Current status: ${application.status || 'submitted'}</p>`;
-      await sendMail({ to: studentDoc.email, subject: 'Application Submitted', html: applicantHtml });
-
-      // Notify company (job.createdBy)
-      if (jobDoc.createdBy) {
-        const companyUser = await User.findById(jobDoc.createdBy).select('name email');
-        if (companyUser && companyUser.email) {
-          const companyHtml = `<p>Hi ${companyUser.name || 'Recruiter'},</p>
-            <p>A new application has been received for your job posting <strong>${jobDoc.title}</strong>.</p>
-            <p>Applicant: ${studentDoc.name} (${studentDoc.email})</p>
-            <p>Applied on: ${new Date(application.createdAt).toLocaleString()}</p>`;
-          await sendMail({ to: companyUser.email, subject: 'New Job Application Received', html: companyHtml });
-        }
-      }
-
-      // Admin notification
-      if (ADMIN_EMAIL) {
-        const adminHtml = `<p>New job application:</p>
-          <ul><li>Job: ${jobDoc.title}</li><li>Company: ${jobDoc.company}</li><li>Applicant: ${studentDoc.name} (${studentDoc.email})</li></ul>`;
-        await sendMail({ to: ADMIN_EMAIL, subject: 'New Job Application', html: adminHtml });
-      }
-    } catch (err) {
-      console.warn('Failed to send application emails', err.message);
-    }
-
     res.status(201).json({
       message: "Application submitted successfully",
       application
     });
+
+    // Background email notifications do not delay the response
+    runInBackground((async () => {
+      try {
+        const populated = await application.populate('job').populate('student', 'name email');
+        const jobDoc = populated.job;
+        const studentDoc = populated.student;
+
+        const applicantHtml = wrapHtmlEmail('Application Submitted', `
+          <p>Hi ${studentDoc.name},</p>
+          <p>Your application for <strong>${jobDoc.title}</strong> at <strong>${jobDoc.company}</strong> has been successfully submitted on <strong>${new Date(application.createdAt).toLocaleString()}</strong>.</p>
+          <p>Current status: <strong>${application.status || 'submitted'}</strong></p>
+          <p>Thank you for applying. We will notify you if your application status changes.</p>
+        `);
+        await sendMail({ to: studentDoc.email, subject: 'Application Submitted', html: applicantHtml });
+
+        if (jobDoc.createdBy) {
+          const companyUser = await User.findById(jobDoc.createdBy).select('name email');
+          if (companyUser && companyUser.email) {
+            const companyHtml = wrapHtmlEmail('New Job Application Received', `
+              <p>Hi ${companyUser.name || 'Recruiter'},</p>
+              <p>A new application has been received for your job posting <strong>${jobDoc.title}</strong>.</p>
+              <ul>
+                <li><strong>Applicant:</strong> ${studentDoc.name}</li>
+                <li><strong>Email:</strong> ${studentDoc.email}</li>
+                <li><strong>Applied on:</strong> ${new Date(application.createdAt).toLocaleString()}</li>
+              </ul>
+              <p>Please review the application in your dashboard.</p>
+            `);
+            await sendMail({ to: companyUser.email, subject: 'New Job Application Received', html: companyHtml });
+          }
+        }
+
+        if (ADMIN_EMAIL) {
+          const adminHtml = wrapHtmlEmail('New Job Application', `
+            <p>A new job application has been submitted.</p>
+            <ul>
+              <li><strong>Job:</strong> ${jobDoc.title}</li>
+              <li><strong>Company:</strong> ${jobDoc.company}</li>
+              <li><strong>Applicant:</strong> ${studentDoc.name} (${studentDoc.email})</li>
+              <li><strong>Submitted on:</strong> ${new Date(application.createdAt).toLocaleString()}</li>
+            </ul>
+          `);
+          await sendMail({ to: ADMIN_EMAIL, subject: 'New Job Application', html: adminHtml });
+        }
+      } catch (err) {
+        console.warn('Failed to send application emails', err.message);
+      }
+    })());
   } catch (error) {
     res.status(500).json({ message: "Error applying for job" });
   }
@@ -86,14 +105,17 @@ exports.myApplications = async (req, res) => {
 // Company views applicants for its jobs
 exports.getCompanyApplications = async (req, res) => {
   try {
-    const applications = await Application.find()
-      .populate("job")
-      .populate("student", "name email role")
-      .sort({ createdAt: -1 });
+    const companyJobIds = await Job.find({ createdBy: req.user.id }).select('_id');
+    const jobIds = companyJobIds.map((job) => job._id);
 
-    const companyApplications = applications.filter(
-      (app) => app.job?.createdBy?.toString() === req.user.id
-    );
+    if (jobIds.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const companyApplications = await Application.find({ job: { $in: jobIds } })
+      .populate('job', 'title company location createdBy')
+      .populate('student', 'name email role')
+      .sort({ createdAt: -1 });
 
     res.status(200).json(companyApplications);
   } catch (error) {
@@ -121,25 +143,56 @@ exports.updateApplicationStatus = async (req, res) => {
       const student = populated.student;
       const jobDoc = populated.job;
 
-      const userHtml = `<p>Hi ${student.name},</p>
-        <p>Your application for <strong>${jobDoc.title}</strong> at <strong>${jobDoc.company}</strong> has been updated to: <strong>${status}</strong>.</p>`;
-      await sendMail({ to: student.email, subject: 'Application Status Updated', html: userHtml });
-
-      // Notify company
+      // Collect BCC recipients (company and admin)
+      const bccRecipients = [];
       if (jobDoc.createdBy) {
         const companyUser = await User.findById(jobDoc.createdBy).select('name email');
         if (companyUser && companyUser.email) {
-          const companyHtml = `<p>Application status updated for ${jobDoc.title}:</p>
-            <p>Applicant: ${student.name} (${student.email})</p>
-            <p>New status: ${status}</p>`;
-          await sendMail({ to: companyUser.email, subject: 'Application Status Changed', html: companyHtml });
+          bccRecipients.push(companyUser.email);
+        }
+      }
+      if (ADMIN_EMAIL) {
+        bccRecipients.push(ADMIN_EMAIL);
+      }
+
+      const userHtml = wrapHtmlEmail('Application Status Updated', `
+        <p>Hi ${student.name},</p>
+        <p>Your application for <strong>${jobDoc.title}</strong> at <strong>${jobDoc.company}</strong> has been updated to <strong>${status}</strong>.</p>
+        <p>Please check your dashboard for more details and next steps.</p>
+      `);
+      const userResult = await sendMail({ to: student.email, subject: 'Application Status Updated', html: userHtml });
+      if (!userResult.success) console.warn('Failed to send status update to student', userResult);
+
+      // Notify company separately
+      if (jobDoc.createdBy) {
+        const companyUser = await User.findById(jobDoc.createdBy).select('name email');
+        if (companyUser && companyUser.email) {
+          const companyHtml = wrapHtmlEmail('Application Status Changed', `
+            <p>Hi ${companyUser.name || 'Recruiter'},</p>
+            <p>The application status for <strong>${jobDoc.title}</strong> has changed.</p>
+            <ul>
+              <li><strong>Applicant:</strong> ${student.name}</li>
+              <li><strong>Email:</strong> ${student.email}</li>
+              <li><strong>New status:</strong> ${status}</li>
+            </ul>
+          `);
+          const companyResult = await sendMail({ to: companyUser.email, subject: 'Application Status Changed', html: companyHtml });
+          if (!companyResult.success) console.warn('Failed to send status update to company', companyResult);
         }
       }
 
+      // Notify admin separately
       if (ADMIN_EMAIL) {
-        const adminHtml = `<p>Application status changed:</p>
-          <ul><li>Job: ${jobDoc.title}</li><li>Applicant: ${student.name} (${student.email})</li><li>Status: ${status}</li></ul>`;
-        await sendMail({ to: ADMIN_EMAIL, subject: 'Application Status Changed', html: adminHtml });
+        const adminHtml = wrapHtmlEmail('Application Status Changed', `
+          <p>An application status has been changed:</p>
+          <ul>
+            <li><strong>Job:</strong> ${jobDoc.title}</li>
+            <li><strong>Applicant:</strong> ${student.name} (${student.email})</li>
+            <li><strong>Status:</strong> ${status}</li>
+          </ul>
+        `);
+        const adminResult = await sendMail({ to: ADMIN_EMAIL, subject: 'Application Status Changed', html: adminHtml });
+        if (!adminResult.success) console.warn('Failed to send status update to admin', adminResult);
       }
     } catch (err) {
       console.warn('Failed to send status change emails', err.message);

@@ -56,4 +56,8 @@ const jobSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
+jobSchema.index({ createdBy: 1 });
+jobSchema.index({ jobStatus: 1 });
+jobSchema.index({ createdAt: -1 });
+
 module.exports = mongoose.model("Job", jobSchema);
