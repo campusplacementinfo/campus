@@ -1,4 +1,4 @@
-/* Universal Dark Theme for All Dashboards (Student, Company, Admin) */
+/* Universal Dark Theme for All Dashboards - Enhanced Edition */
 
 /* Apply dark theme to all dashboard containers */
 .dashboard-container,
@@ -8,20 +8,27 @@
   --surface: #111827;
   --surface-soft: #161b2f;
   --surface-strong: #1a202c;
+  --surface-hover: #1f2937;
   --text: #e2e8f0;
   --heading: #f8fafc;
   --text-muted: #94a3b8;
   --accent: #8b5cf6;
   --accent-strong: #7c3aed;
+  --accent-light: #a78bfa;
   --border: #334155;
   --border-soft: #1e293b;
   --success: #10b981;
+  --success-light: #6ee7b7;
   --warning: #f59e0b;
+  --warning-light: #fcd34d;
   --danger: #ef4444;
+  --danger-light: #fca5a5;
   --info: #3b82f6;
-  --transition: all 0.3s ease;
+  --info-light: #93c5fd;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 8px 32px rgba(0, 0, 0, 0.5);
   background: var(--bg);
   color: var(--text);
 }
@@ -33,7 +40,7 @@
   color: var(--text);
 }
 
-/* Heading colors */
+/* Heading colors with enhanced styling */
 .dashboard-container h1,
 .dashboard-container h2,
 .dashboard-container h3,
@@ -53,9 +60,11 @@
 .dashboard-container.company-dashboard h5,
 .dashboard-container.company-dashboard h6 {
   color: var(--heading) !important;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Override white backgrounds in header */
+/* Override white backgrounds in header with gradient */
 .dashboard-container .dashboard-header,
 .dashboard-container .dashboard-header h1,
 .dashboard-container .dashboard-header p,
@@ -66,6 +75,14 @@
 .dashboard-container.company-dashboard .dashboard-header h1,
 .dashboard-container.company-dashboard .dashboard-header p {
   color: white !important;
+}
+
+.dashboard-container .dashboard-header {
+  background: linear-gradient(135deg, var(--surface-strong) 0%, var(--surface) 100%);
+  padding: 24px;
+  border-bottom: 2px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
 /* Text elements */
@@ -87,20 +104,43 @@
   color: var(--text) !important;
 }
 
-/* Links */
+/* Links with enhanced hover effects */
 .dashboard-container a,
 .dashboard-container.student-dashboard a,
 .dashboard-container.company-dashboard a {
-  color: var(--accent) !important;
+  color: var(--accent-light) !important;
+  text-decoration: none;
+  transition: var(--transition);
+  position: relative;
 }
 
 .dashboard-container a:hover,
 .dashboard-container.student-dashboard a:hover,
 .dashboard-container.company-dashboard a:hover {
-  color: var(--accent-strong) !important;
+  color: var(--accent) !important;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
 }
 
-/* Form elements */
+.dashboard-container a::after,
+.dashboard-container.student-dashboard a::after,
+.dashboard-container.company-dashboard a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  transition: var(--transition);
+}
+
+.dashboard-container a:hover::after,
+.dashboard-container.student-dashboard a:hover::after,
+.dashboard-container.company-dashboard a:hover::after {
+  width: 100%;
+}
+
+/* Form elements - Enhanced */
 .dashboard-container input,
 .dashboard-container textarea,
 .dashboard-container select,
@@ -112,7 +152,25 @@
 .dashboard-container.company-dashboard select {
   background: var(--surface-strong) !important;
   color: var(--text) !important;
-  border-color: var(--border) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px;
+  padding: 10px 12px;
+  transition: var(--transition);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-container input:focus,
+.dashboard-container textarea:focus,
+.dashboard-container select:focus,
+.dashboard-container.student-dashboard input:focus,
+.dashboard-container.student-dashboard textarea:focus,
+.dashboard-container.student-dashboard select:focus,
+.dashboard-container.company-dashboard input:focus,
+.dashboard-container.company-dashboard textarea:focus,
+.dashboard-container.company-dashboard select:focus {
+  border-color: var(--accent) !important;
+  background: var(--surface) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
 }
 
 .dashboard-container input::placeholder,
@@ -122,42 +180,133 @@
 .dashboard-container.company-dashboard input::placeholder,
 .dashboard-container.company-dashboard textarea::placeholder {
   color: var(--text-muted) !important;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
-/* Cards and containers */
+/* Cards and containers - Enhanced with gradients */
 .dashboard-container .stat-value,
 .dashboard-container.student-dashboard .stat-value,
 .dashboard-container.company-dashboard .stat-value {
   color: var(--heading) !important;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .dashboard-container .stat-label,
 .dashboard-container.student-dashboard .stat-label,
 .dashboard-container.company-dashboard .stat-label {
   color: var(--text-muted) !important;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .dashboard-container .info-box,
 .dashboard-container.student-dashboard .info-box,
 .dashboard-container.company-dashboard .info-box {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  overflow: hidden;
+  position: relative;
+}
+
+.dashboard-container .info-box::before,
+.dashboard-container.student-dashboard .info-box::before,
+.dashboard-container.company-dashboard .info-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.dashboard-container .info-box:hover,
+.dashboard-container.student-dashboard .info-box:hover,
+.dashboard-container.company-dashboard .info-box:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-xl), 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+.dashboard-container .info-box:hover::before,
+.dashboard-container.student-dashboard .info-box:hover::before,
+.dashboard-container.company-dashboard .info-box:hover::before {
+  opacity: 1;
 }
 
 .dashboard-container .info-box h3,
 .dashboard-container.student-dashboard .info-box h3,
 .dashboard-container.company-dashboard .info-box h3 {
   color: var(--heading) !important;
+  margin-top: 0;
 }
 
 .dashboard-container .info-box p,
 .dashboard-container.student-dashboard .info-box p,
 .dashboard-container.company-dashboard .info-box p {
   color: var(--text) !important;
+  line-height: 1.6;
 }
 
-/* Job cards - keep white text on gradient */
+/* Buttons - Enhanced with gradients and effects */
+.dashboard-container button,
+.dashboard-container.student-dashboard button,
+.dashboard-container.company-dashboard button {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%) !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-container button::before,
+.dashboard-container.student-dashboard button::before,
+.dashboard-container.company-dashboard button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: var(--transition);
+}
+
+.dashboard-container button:hover,
+.dashboard-container.student-dashboard button:hover,
+.dashboard-container.company-dashboard button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+}
+
+.dashboard-container button:hover::before,
+.dashboard-container.student-dashboard button:hover::before,
+.dashboard-container.company-dashboard button:hover::before {
+  left: 100%;
+}
+
+.dashboard-container button:active,
+.dashboard-container.student-dashboard button:active,
+.dashboard-container.company-dashboard button:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(139, 92, 246, 0.3);
+}
+
+/* Job cards - keep white text on enhanced gradient */
 .dashboard-container .job-card,
 .dashboard-container .job-card *,
 .dashboard-container.student-dashboard .job-card,
@@ -167,38 +316,80 @@
   color: white !important;
 }
 
-/* Application cards */
+.dashboard-container .job-card,
+.dashboard-container.student-dashboard .job-card,
+.dashboard-container.company-dashboard .job-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-container .job-card:hover,
+.dashboard-container.student-dashboard .job-card:hover,
+.dashboard-container.company-dashboard .job-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+}
+
+/* Application cards - Enhanced */
 .dashboard-container .application-title,
 .dashboard-container.student-dashboard .application-title,
 .dashboard-container.company-dashboard .application-title {
   color: var(--heading) !important;
+  font-weight: 700;
 }
 
 .dashboard-container .application-meta,
 .dashboard-container.student-dashboard .application-meta,
 .dashboard-container.company-dashboard .application-meta {
   color: var(--text-muted) !important;
+  font-size: 0.85rem;
 }
 
 .dashboard-container .application-card,
 .dashboard-container.student-dashboard .application-card,
 .dashboard-container.company-dashboard .application-card {
-  background: var(--surface) !important;
-  border-left-color: var(--accent) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border-left: 4px solid var(--accent) !important;
+  border-radius: 6px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
 }
 
-/* Test cards */
+.dashboard-container .application-card:hover,
+.dashboard-container.student-dashboard .application-card:hover,
+.dashboard-container.company-dashboard .application-card:hover {
+  border-left-color: var(--accent-strong) !important;
+  box-shadow: var(--shadow-xl), 0 0 16px rgba(139, 92, 246, 0.2);
+  transform: translateX(4px);
+}
+
+/* Test cards - Enhanced */
 .dashboard-container .test-card,
 .dashboard-container.student-dashboard .test-card,
 .dashboard-container.company-dashboard .test-card {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+.dashboard-container .test-card:hover,
+.dashboard-container.student-dashboard .test-card:hover,
+.dashboard-container.company-dashboard .test-card:hover {
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-xl), 0 0 16px rgba(139, 92, 246, 0.2);
+  transform: translateY(-4px);
 }
 
 .dashboard-container .test-title,
 .dashboard-container.student-dashboard .test-title,
 .dashboard-container.company-dashboard .test-title {
   color: var(--heading) !important;
+  font-weight: 700;
 }
 
 .dashboard-container .test-meta,
@@ -214,93 +405,148 @@
 .dashboard-container.student-dashboard .test-icon,
 .dashboard-container.company-dashboard .test-icon {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
-/* Forms */
+/* Forms - Enhanced */
 .dashboard-container .form-group label,
 .dashboard-container.student-dashboard .form-group label,
 .dashboard-container.company-dashboard .form-group label {
   color: var(--heading) !important;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .dashboard-container .form-section,
 .dashboard-container.student-dashboard .form-section,
 .dashboard-container.company-dashboard .form-section {
-  background: var(--surface-soft) !important;
-  border-left-color: var(--accent) !important;
+  background: linear-gradient(135deg, var(--surface-soft) 0%, var(--surface) 100%) !important;
+  border-left: 4px solid var(--accent) !important;
+  border-radius: 6px;
+  padding: 20px;
+  margin: 15px 0;
+  box-shadow: var(--shadow-lg);
 }
 
 .dashboard-container .form-section h3,
 .dashboard-container.student-dashboard .form-section h3,
 .dashboard-container.company-dashboard .form-section h3 {
   color: var(--heading) !important;
+  margin-top: 0;
 }
 
-/* Tables */
+/* Tables - Enhanced */
 .dashboard-container .data-table,
 .dashboard-container.student-dashboard .data-table,
 .dashboard-container.company-dashboard .data-table {
   background: var(--surface) !important;
-  border-color: var(--border) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
 }
 
 .dashboard-container .data-table th,
 .dashboard-container.student-dashboard .data-table th,
 .dashboard-container.company-dashboard .data-table th {
-  background: var(--surface-soft) !important;
-  color: var(--text) !important;
+  background: linear-gradient(135deg, var(--surface-strong) 0%, var(--surface-soft) 100%) !important;
+  color: var(--heading) !important;
+  font-weight: 700;
+  border-bottom: 2px solid var(--border) !important;
 }
 
 .dashboard-container .data-table td,
 .dashboard-container.student-dashboard .data-table td,
 .dashboard-container.company-dashboard .data-table td {
   color: var(--text) !important;
-  border-bottom-color: var(--border-soft) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+  padding: 12px;
 }
 
-/* Resume preview */
+.dashboard-container .data-table tr:hover,
+.dashboard-container.student-dashboard .data-table tr:hover,
+.dashboard-container.company-dashboard .data-table tr:hover {
+  background: var(--surface-hover) !important;
+}
+
+/* Resume preview - Enhanced */
 .dashboard-container .resume-preview,
 .dashboard-container.student-dashboard .resume-preview,
 .dashboard-container.company-dashboard .resume-preview {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: var(--shadow-lg);
 }
 
 .dashboard-container .resume-preview-name,
 .dashboard-container.student-dashboard .resume-preview-name,
 .dashboard-container.company-dashboard .resume-preview-name {
   color: var(--heading) !important;
+  font-weight: 700;
 }
 
-/* Section headers */
+/* Section headers - Enhanced */
 .dashboard-container .section-header h2,
 .dashboard-container.student-dashboard .section-header h2,
 .dashboard-container.company-dashboard .section-header h2 {
   color: var(--heading) !important;
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 10px;
 }
 
-/* Drive cards */
+/* Drive cards - Enhanced */
 .dashboard-container .drive-card,
 .dashboard-container.student-dashboard .drive-card,
 .dashboard-container.company-dashboard .drive-card {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
 }
 
-/* Status badges */
+.dashboard-container .drive-card:hover,
+.dashboard-container.student-dashboard .drive-card:hover,
+.dashboard-container.company-dashboard .drive-card:hover {
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-xl), 0 0 16px rgba(139, 92, 246, 0.2);
+}
+
+/* Status badges - Enhanced */
 .dashboard-container .status-badge,
 .dashboard-container.student-dashboard .status-badge,
 .dashboard-container.company-dashboard .status-badge {
-  color: inherit !important;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
+  color: white !important;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.3);
 }
 
-/* Menu buttons */
+/* Menu buttons - Enhanced */
 .dashboard-container .menu-btn,
 .dashboard-container.student-dashboard .menu-btn,
 .dashboard-container.company-dashboard .menu-btn {
   background: var(--surface) !important;
   color: var(--text) !important;
-  border-color: var(--border) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 6px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.dashboard-container .menu-btn:hover,
+.dashboard-container.student-dashboard .menu-btn:hover,
+.dashboard-container.company-dashboard .menu-btn:hover {
+  background: var(--surface-hover) !important;
+  border-color: var(--accent) !important;
 }
 
 .dashboard-container .menu-btn.active,
@@ -309,9 +555,17 @@
   background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
   color: white !important;
   border-color: var(--accent) !important;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
-/* Sidebar specific overrides */
+/* Sidebar - Enhanced */
+.dashboard-container .sidebar,
+.dashboard-container.student-dashboard .sidebar,
+.dashboard-container.company-dashboard .sidebar {
+  background: linear-gradient(180deg, var(--surface-strong) 0%, var(--surface) 100%);
+  border-right: 1px solid var(--border);
+}
+
 .dashboard-container .sidebar a,
 .dashboard-container .sidebar button,
 .dashboard-container .sidebar h2,
@@ -322,12 +576,16 @@
 .dashboard-container.company-dashboard .sidebar button,
 .dashboard-container.company-dashboard .sidebar h2 {
   color: var(--text) !important;
+  transition: var(--transition);
 }
 
 .dashboard-container .sidebar h2,
 .dashboard-container.student-dashboard .sidebar h2,
 .dashboard-container.company-dashboard .sidebar h2 {
   color: var(--heading) !important;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dashboard-container .sidebar a:hover,
@@ -337,27 +595,73 @@
 .dashboard-container.company-dashboard .sidebar a:hover,
 .dashboard-container.company-dashboard .sidebar button:hover {
   color: var(--accent) !important;
+  transform: translateX(4px);
 }
 
-/* Action cards */
+.dashboard-container .sidebar a.active,
+.dashboard-container.student-dashboard .sidebar a.active,
+.dashboard-container.company-dashboard .sidebar a.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: white !important;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Action cards - Enhanced */
 .dashboard-container .action-card,
 .dashboard-container.student-dashboard .action-card,
 .dashboard-container.company-dashboard .action-card {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+}
+
+.dashboard-container .action-card:hover,
+.dashboard-container.student-dashboard .action-card:hover,
+.dashboard-container.company-dashboard .action-card:hover {
+  border-color: var(--accent) !important;
+  box-shadow: var(--shadow-xl), 0 0 20px rgba(139, 92, 246, 0.2);
+  transform: translateY(-4px);
 }
 
 .dashboard-container .action-card h3,
 .dashboard-container.student-dashboard .action-card h3,
 .dashboard-container.company-dashboard .action-card h3 {
   color: var(--heading) !important;
+  margin-top: 0;
 }
 
-/* Tab navigation */
+/* Tab navigation - Enhanced */
 .dashboard-container .tab-nav,
 .dashboard-container.student-dashboard .tab-nav,
 .dashboard-container.company-dashboard .tab-nav {
-  border-bottom-color: var(--border) !important;
+  border-bottom: 2px solid var(--border) !important;
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard-container .tab-nav button,
+.dashboard-container.student-dashboard .tab-nav button,
+.dashboard-container.company-dashboard .tab-nav button {
+  background: none !important;
+  color: var(--text-muted) !important;
+  border: none !important;
+  border-bottom: 2px solid transparent;
+  padding: 12px 0;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+  box-shadow: none !important;
+}
+
+.dashboard-container .tab-nav button:hover,
+.dashboard-container.student-dashboard .tab-nav button:hover,
+.dashboard-container.company-dashboard .tab-nav button:hover {
+  color: var(--text) !important;
+  transform: none;
 }
 
 .dashboard-container .tab-nav button.active,
@@ -367,16 +671,81 @@
   border-bottom-color: var(--accent) !important;
 }
 
-/* Stats grid */
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0);
+  }
+}
+
+.dashboard-container .info-box,
+.dashboard-container .card,
+.dashboard-container .action-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Scrollbar styling */
+.dashboard-container ::-webkit-scrollbar,
+.dashboard-container.student-dashboard ::-webkit-scrollbar,
+.dashboard-container.company-dashboard ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dashboard-container ::-webkit-scrollbar-track,
+.dashboard-container.student-dashboard ::-webkit-scrollbar-track,
+.dashboard-container.company-dashboard ::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+.dashboard-container ::-webkit-scrollbar-thumb,
+.dashboard-container.student-dashboard ::-webkit-scrollbar-thumb,
+.dashboard-container.company-dashboard ::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
+
+.dashboard-container ::-webkit-scrollbar-thumb:hover,
+.dashboard-container.student-dashboard ::-webkit-scrollbar-thumb:hover,
+.dashboard-container.company-dashboard ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-strong);
+}
+
+/* Topbar enhancement */
+.dashboard-container .dashboard-topbar,
+.dashboard-container.student-dashboard .dashboard-topbar,
+.dashboard-container.company-dashboard .dashboard-topbar {
+  background: linear-gradient(135deg, var(--surface-strong) 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+/* Grid and spacing enhancements */
+.dashboard-container .info-grid,
+.dashboard-container.student-dashboard .info-grid,
+.dashboard-container.company-dashboard .info-grid {
+  gap: 20px;
+  display: grid;
+  grid-auto-flow: row;
+}
+
 .dashboard-container .stats-grid,
 .dashboard-container.student-dashboard .stats-grid,
 .dashboard-container.company-dashboard .stats-grid {
   gap: 20px;
-}
-
-.dashboard-container .stat-card,
-.dashboard-container.student-dashboard .stat-card,
-.dashboard-container.company-dashboard .stat-card {
-  background: var(--surface) !important;
-  border-color: var(--border) !important;
+  display: grid;
 }
