@@ -2,10 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
+import ThemeToggleButton from "../../components/ThemeToggleButton";
 import { request, getUserProfile } from "../../services/api"; // Re-exported from api.js
 import "./DashboardStyles.css";
 import "./CompanyDashboardStyles.css";
 import "./DarkTheme.css";
+import "./LightTheme.css";
 
 function CompanyDashboard() {
   const { user } = useAuth();
@@ -336,6 +338,9 @@ function CompanyDashboard() {
   </button>
 
   <h3>Placement Portal</h3>
+  <div className="topbar-actions">
+    <ThemeToggleButton />
+  </div>
 </div>
         <div className="dashboard-header">
           <h1>Company Dashboard</h1>

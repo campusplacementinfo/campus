@@ -634,6 +634,368 @@
   margin-top: 0;
 }
 
+/* Extended dark theme card coverage */
+.dashboard-container .resume-form-card,
+.dashboard-container.student-dashboard .resume-form-card,
+.dashboard-container.company-dashboard .resume-form-card,
+.dashboard-container .resume-preview-card,
+.dashboard-container.student-dashboard .resume-preview-card,
+.dashboard-container.company-dashboard .resume-preview-card,
+.dashboard-container .resume-evaluation-card,
+.dashboard-container.student-dashboard .resume-evaluation-card,
+.dashboard-container.company-dashboard .resume-evaluation-card,
+.dashboard-container .ats-result,
+.dashboard-container.student-dashboard .ats-result,
+.dashboard-container.company-dashboard .ats-result,
+.dashboard-container .question-card,
+.dashboard-container.student-dashboard .question-card,
+.dashboard-container.company-dashboard .question-card,
+.dashboard-container .test-actions,
+.dashboard-container.student-dashboard .test-actions,
+.dashboard-container.company-dashboard .test-actions,
+.dashboard-container .test-result-card,
+.dashboard-container.student-dashboard .test-result-card,
+.dashboard-container.company-dashboard .test-result-card,
+.dashboard-container .profile-grid,
+.dashboard-container.student-dashboard .profile-grid,
+.dashboard-container.company-dashboard .profile-grid,
+.dashboard-container .info-card,
+.dashboard-container.student-dashboard .info-card,
+.dashboard-container.company-dashboard .info-card,
+.dashboard-container .interview-prep-container,
+.dashboard-container.student-dashboard .interview-prep-container,
+.dashboard-container.company-dashboard .interview-prep-container,
+.dashboard-container .interview-categories,
+.dashboard-container.student-dashboard .interview-categories,
+.dashboard-container.company-dashboard .interview-categories,
+.dashboard-container .interview-tip-card,
+.dashboard-container.student-dashboard .interview-tip-card,
+.dashboard-container.company-dashboard .interview-tip-card,
+.dashboard-container .career-guidance-container,
+.dashboard-container.student-dashboard .career-guidance-container,
+.dashboard-container.company-dashboard .career-guidance-container,
+.dashboard-container .career-detail-card,
+.dashboard-container.student-dashboard .career-detail-card,
+.dashboard-container.company-dashboard .career-detail-card,
+.dashboard-container .recommendations-grid,
+.dashboard-container.student-dashboard .recommendations-grid,
+.dashboard-container.company-dashboard .recommendations-grid,
+.dashboard-container .job-list-card,
+.dashboard-container.student-dashboard .job-list-card,
+.dashboard-container.company-dashboard .job-list-card,
+.dashboard-container .applicant-card,
+.dashboard-container.student-dashboard .applicant-card,
+.dashboard-container.company-dashboard .applicant-card,
+.dashboard-container .pipeline-stage,
+.dashboard-container.student-dashboard .pipeline-stage,
+.dashboard-container.company-dashboard .pipeline-stage,
+.dashboard-container .analytics-card,
+.dashboard-container.student-dashboard .analytics-card,
+.dashboard-container.company-dashboard .analytics-card,
+.dashboard-container .stat-box,
+.dashboard-container.student-dashboard .stat-box,
+.dashboard-container.company-dashboard .stat-box,
+.dashboard-container .metric,
+.dashboard-container.student-dashboard .metric,
+.dashboard-container.company-dashboard .metric,
+.dashboard-container .candidate-tag,
+.dashboard-container.student-dashboard .candidate-tag,
+.dashboard-container.company-dashboard .candidate-tag,
+.dashboard-container .jobs-list,
+.dashboard-container.student-dashboard .jobs-list,
+.dashboard-container.company-dashboard .jobs-list,
+.dashboard-container .applications-list,
+.dashboard-container.student-dashboard .applications-list,
+.dashboard-container.company-dashboard .applications-list {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+  color: var(--text) !important;
+}
+
+.dashboard-container .resume-form-card h3,
+.dashboard-container.student-dashboard .resume-form-card h3,
+.dashboard-container.company-dashboard .resume-form-card h3,
+.dashboard-container .resume-preview-card h3,
+.dashboard-container.student-dashboard .resume-preview-card h3,
+.dashboard-container.company-dashboard .resume-preview-card h3,
+.dashboard-container .resume-evaluation-card h3,
+.dashboard-container.student-dashboard .resume-evaluation-card h3,
+.dashboard-container.company-dashboard .resume-evaluation-card h3,
+.dashboard-container .interview-tip-card h3,
+.dashboard-container.student-dashboard .interview-tip-card h3,
+.dashboard-container.company-dashboard .interview-tip-card h3,
+.dashboard-container .career-detail-card h3,
+.dashboard-container.student-dashboard .career-detail-card h3,
+.dashboard-container.company-dashboard .career-detail-card h3,
+.dashboard-container .job-list-card h3,
+.dashboard-container.student-dashboard .job-list-card h3,
+.dashboard-container.company-dashboard .job-list-card h3,
+.dashboard-container .applicant-card h3,
+.dashboard-container.student-dashboard .applicant-card h3,
+.dashboard-container.company-dashboard .applicant-card h3 {
+  color: var(--heading) !important;
+  margin-top: 0;
+}
+
+.dashboard-container .resume-evaluation-card p,
+.dashboard-container.student-dashboard .resume-evaluation-card p,
+.dashboard-container.company-dashboard .resume-evaluation-card p,
+.dashboard-container .ats-result,
+.dashboard-container.student-dashboard .ats-result,
+.dashboard-container.company-dashboard .ats-result,
+.dashboard-container .question-card p,
+.dashboard-container.student-dashboard .question-card p,
+.dashboard-container.company-dashboard .question-card p,
+.dashboard-container .applicant-details p,
+.dashboard-container.student-dashboard .applicant-details p,
+.dashboard-container.company-dashboard .applicant-details p,
+.dashboard-container .metric-label,
+.dashboard-container.student-dashboard .metric-label,
+.dashboard-container.company-dashboard .metric-label,
+.dashboard-container .metric-value,
+.dashboard-container.student-dashboard .metric-value,
+.dashboard-container.company-dashboard .metric-value {
+  color: var(--text) !important;
+}
+
+.dashboard-container .resume-preview pre,
+.dashboard-container.student-dashboard .resume-preview pre,
+.dashboard-container.company-dashboard .resume-preview pre {
+  background: var(--surface-strong) !important;
+  color: var(--text) !important;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+/* Additional dark theme overrides for residual dashboard content */
+.dashboard-container .content-section,
+.dashboard-container.student-dashboard .content-section,
+.dashboard-container.company-dashboard .content-section,
+.dashboard-container .dashboard-error-banner,
+.dashboard-container.student-dashboard .dashboard-error-banner,
+.dashboard-container.company-dashboard .dashboard-error-banner,
+.dashboard-container .dashboard-loading-banner,
+.dashboard-container.student-dashboard .dashboard-loading-banner,
+.dashboard-container.company-dashboard .dashboard-loading-banner,
+.dashboard-container .empty-state,
+.dashboard-container.student-dashboard .empty-state,
+.dashboard-container.company-dashboard .empty-state,
+.dashboard-container .sidebar-overlay,
+.dashboard-container.student-dashboard .sidebar-overlay,
+.dashboard-container.company-dashboard .sidebar-overlay,
+.dashboard-container .resume-builder-grid,
+.dashboard-container.student-dashboard .resume-builder-grid,
+.dashboard-container.company-dashboard .resume-builder-grid,
+.dashboard-container .resume-form,
+.dashboard-container.student-dashboard .resume-form,
+.dashboard-container.company-dashboard .resume-form,
+.dashboard-container .resume-section,
+.dashboard-container.student-dashboard .resume-section,
+.dashboard-container.company-dashboard .resume-section,
+.dashboard-container .resume-preview,
+.dashboard-container.student-dashboard .resume-preview,
+.dashboard-container.company-dashboard .resume-preview,
+.dashboard-container .filter-section,
+.dashboard-container.student-dashboard .filter-section,
+.dashboard-container.company-dashboard .filter-section,
+.dashboard-container .question-card,
+.dashboard-container.student-dashboard .question-card,
+.dashboard-container.company-dashboard .question-card,
+.dashboard-container .question-container,
+.dashboard-container.student-dashboard .question-container,
+.dashboard-container.company-dashboard .question-container,
+.dashboard-container .test-meta-info,
+.dashboard-container.student-dashboard .test-meta-info,
+.dashboard-container.company-dashboard .test-meta-info,
+.dashboard-container .option-btn,
+.dashboard-container.student-dashboard .option-btn,
+.dashboard-container.company-dashboard .option-btn,
+.dashboard-container .test-actions button,
+.dashboard-container.student-dashboard .test-actions button,
+.dashboard-container.company-dashboard .test-actions button,
+.dashboard-container .interview-categories,
+.dashboard-container.student-dashboard .interview-categories,
+.dashboard-container.company-dashboard .interview-categories,
+.dashboard-container .category-btn,
+.dashboard-container.student-dashboard .category-btn,
+.dashboard-container.company-dashboard .category-btn,
+.dashboard-container .career-path-card,
+.dashboard-container.student-dashboard .career-path-card,
+.dashboard-container.company-dashboard .career-path-card,
+.dashboard-container .recommendation-item,
+.dashboard-container.student-dashboard .recommendation-item,
+.dashboard-container.company-dashboard .recommendation-item,
+.dashboard-container .recommendation-card,
+.dashboard-container.student-dashboard .recommendation-card,
+.dashboard-container.company-dashboard .recommendation-card,
+.dashboard-container .resource-tag,
+.dashboard-container.student-dashboard .resource-tag,
+.dashboard-container.company-dashboard .resource-tag,
+.dashboard-container .job-list-card,
+.dashboard-container.student-dashboard .job-list-card,
+.dashboard-container.company-dashboard .job-list-card,
+.dashboard-container .applicant-card,
+.dashboard-container.student-dashboard .applicant-card,
+.dashboard-container.company-dashboard .applicant-card,
+.dashboard-container .job-posting-card,
+.dashboard-container.student-dashboard .job-posting-card,
+.dashboard-container.company-dashboard .job-posting-card,
+.dashboard-container .job-posting-header,
+.dashboard-container.student-dashboard .job-posting-header,
+.dashboard-container.company-dashboard .job-posting-header,
+.dashboard-container .analytics-card,
+.dashboard-container.student-dashboard .analytics-card,
+.dashboard-container.company-dashboard .analytics-card,
+.dashboard-container .pipeline-stage,
+.dashboard-container.student-dashboard .pipeline-stage,
+.dashboard-container.company-dashboard .pipeline-stage,
+.dashboard-container .pipeline-arrow,
+.dashboard-container.student-dashboard .pipeline-arrow,
+.dashboard-container.company-dashboard .pipeline-arrow,
+.dashboard-container .metric,
+.dashboard-container.student-dashboard .metric,
+.dashboard-container.company-dashboard .metric,
+.dashboard-container .metric-value,
+.dashboard-container.student-dashboard .metric-value,
+.dashboard-container.company-dashboard .metric-value,
+.dashboard-container .metric-label,
+.dashboard-container.student-dashboard .metric-label,
+.dashboard-container.company-dashboard .metric-label,
+.dashboard-container .candidate-tag,
+.dashboard-container.student-dashboard .candidate-tag,
+.dashboard-container.company-dashboard .candidate-tag {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-lg);
+}
+
+.dashboard-container .sidebar-overlay,
+.dashboard-container.student-dashboard .sidebar-overlay,
+.dashboard-container.company-dashboard .sidebar-overlay {
+  background: rgba(15, 23, 42, 0.75) !important;
+}
+
+.dashboard-container .dashboard-error-banner,
+.dashboard-container.student-dashboard .dashboard-error-banner,
+.dashboard-container.company-dashboard .dashboard-error-banner,
+.dashboard-container .dashboard-loading-banner,
+.dashboard-container.student-dashboard .dashboard-loading-banner,
+.dashboard-container.company-dashboard .dashboard-loading-banner {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.dashboard-container .filter-section label,
+.dashboard-container.student-dashboard .filter-section label,
+.dashboard-container.company-dashboard .filter-section label,
+.dashboard-container .career-path-card h4,
+.dashboard-container.student-dashboard .career-path-card h4,
+.dashboard-container.company-dashboard .career-path-card h4,
+.dashboard-container .recommendation-item p,
+.dashboard-container.student-dashboard .recommendation-item p,
+.dashboard-container.company-dashboard .recommendation-item p,
+.dashboard-container .resource-tag,
+.dashboard-container.student-dashboard .resource-tag,
+.dashboard-container.company-dashboard .resource-tag,
+.dashboard-container .skill-tag,
+.dashboard-container.student-dashboard .skill-tag,
+.dashboard-container.company-dashboard .skill-tag,
+.dashboard-container .job-role,
+.dashboard-container.student-dashboard .job-role,
+.dashboard-container.company-dashboard .job-role,
+.dashboard-container .test-meta-info p,
+.dashboard-container.student-dashboard .test-meta-info p,
+.dashboard-container.company-dashboard .test-meta-info p,
+.dashboard-container .question-number,
+.dashboard-container.student-dashboard .question-number,
+.dashboard-container.company-dashboard .question-number,
+.dashboard-container .resume-section h4,
+.dashboard-container.student-dashboard .resume-section h4,
+.dashboard-container.company-dashboard .resume-section h4,
+.dashboard-container .resume-section p,
+.dashboard-container.student-dashboard .resume-section p,
+.dashboard-container.company-dashboard .resume-section p,
+.dashboard-container .resume-summary p,
+.dashboard-container.student-dashboard .resume-summary p,
+.dashboard-container.company-dashboard .resume-summary p,
+.dashboard-container .resume-preview p,
+.dashboard-container.student-dashboard .resume-preview p,
+.dashboard-container.company-dashboard .resume-preview p,
+.dashboard-container .resume-preview pre,
+.dashboard-container.student-dashboard .resume-preview pre,
+.dashboard-container.company-dashboard .resume-preview pre,
+.dashboard-container .metric-label,
+.dashboard-container.student-dashboard .metric-label,
+.dashboard-container.company-dashboard .metric-label,
+.dashboard-container .metric-value,
+.dashboard-container.student-dashboard .metric-value,
+.dashboard-container.company-dashboard .metric-value,
+.dashboard-container .candidate-tag,
+.dashboard-container.student-dashboard .candidate-tag,
+.dashboard-container.company-dashboard .candidate-tag,
+.dashboard-container .pipeline-arrow,
+.dashboard-container.student-dashboard .pipeline-arrow,
+.dashboard-container.company-dashboard .pipeline-arrow {
+  color: var(--text) !important;
+}
+
+.dashboard-container .test-actions button,
+.dashboard-container.student-dashboard .test-actions button,
+.dashboard-container.company-dashboard .test-actions button,
+.dashboard-container .category-btn,
+.dashboard-container.student-dashboard .category-btn,
+.dashboard-container.company-dashboard .category-btn {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+.dashboard-container .category-btn:hover,
+.dashboard-container.student-dashboard .category-btn:hover,
+.dashboard-container.company-dashboard .category-btn:hover,
+.dashboard-container .test-actions button:hover:not(:disabled),
+.dashboard-container.student-dashboard .test-actions button:hover:not(:disabled),
+.dashboard-container.company-dashboard .test-actions button:hover:not(:disabled) {
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+}
+
+.dashboard-container .option-btn,
+.dashboard-container.student-dashboard .option-btn,
+.dashboard-container.company-dashboard .option-btn {
+  background: var(--surface-soft) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+.dashboard-container .option-btn:hover,
+.dashboard-container.student-dashboard .option-btn:hover,
+.dashboard-container.company-dashboard .option-btn:hover {
+  background: var(--surface-hover) !important;
+  color: var(--text) !important;
+}
+
+.dashboard-container .option-btn.selected,
+.dashboard-container.student-dashboard .option-btn.selected,
+.dashboard-container.company-dashboard .option-btn.selected {
+  background: var(--accent) !important;
+  color: white !important;
+  border-color: var(--accent) !important;
+}
+
+.dashboard-container .category-btn.active,
+.dashboard-container.student-dashboard .category-btn.active,
+.dashboard-container.company-dashboard .category-btn.active {
+  background: var(--accent) !important;
+  color: white !important;
+  border-color: var(--accent) !important;
+}
+
 /* Tab navigation - Enhanced */
 .dashboard-container .tab-nav,
 .dashboard-container.student-dashboard .tab-nav,

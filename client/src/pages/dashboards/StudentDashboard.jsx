@@ -2,9 +2,11 @@ import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import Sidebar from "../../components/Sidebar";
-import { request, getUserProfile } from "../../services/api"; // Re-exported from api.js
+import ThemeToggleButton from "../../components/ThemeToggleButton";
+import { request, getUserProfile, getApiUrl } from "../../services/api"; // Re-exported from api.js and axios wrapper
 import "./DashboardStyles.css";
 import "./DarkTheme.css";
+import "./LightTheme.css";
 
 function StudentDashboard() {
   const { user } = useAuth();
@@ -33,6 +35,9 @@ function StudentDashboard() {
   });
   const [profile, setProfile] = useState(null);
   const [resumeSaved, setResumeSaved] = useState(false);
+  const [resumeBuilt, setResumeBuilt] = useState(false);
+  const [atsScore, setAtsScore] = useState(null);
+  const [atsTips, setAtsTips] = useState([]);
   const [backendError, setBackendError] = useState("");
   const [loadingData, setLoadingData] = useState(true);
   const [interviewPrepData, setInterviewPrepData] = useState({
@@ -59,42 +64,36 @@ function StudentDashboard() {
       questions: 30,
       description: "Practice reasoning, arithmetic, and verbal ability questions.",
       sampleQuestions: [
-        {
-          id: 101,
-          question: "What is 15% of 200?",
-          options: ["20", "25", "30", "35"],
-          answer: "30"
-        },
-        {
-          id: 102,
-          question: "If 3x + 5 = 20, what is x?",
-          options: ["3", "5", "7", "10"],
-          answer: "5"
-        },
-        {
-          id: 103,
-          question: "Which is the next number: 2, 6, 12, 20, ?",
-          options: ["26", "30", "28", "24"],
-          answer: "30"
-        },
-        {
-          id: 104,
-          question: "A train travels 120 km in 1.5 hours. What is its average speed?",
-          options: ["60 km/h", "70 km/h", "80 km/h", "90 km/h"],
-          answer: "80 km/h"
-        },
-        {
-          id: 105,
-          question: "What is the area of a rectangle with sides 8 and 12?",
-          options: ["80", "96", "100", "108"],
-          answer: "96"
-        },
-        {
-          id: 106,
-          question: "If 5 workers complete a job in 10 days, how many days will 10 workers take?",
-          options: ["2", "4", "5", "8"],
-          answer: "5"
-        }
+        { id: 101, question: "What is 15% of 200?", options: ["20", "25", "30", "35"], answer: "30" },
+        { id: 102, question: "If 3x + 5 = 20, what is x?", options: ["3", "5", "7", "10"], answer: "5" },
+        { id: 103, question: "Which is the next number: 2, 6, 12, 20, ?", options: ["26", "30", "28", "24"], answer: "30" },
+        { id: 104, question: "A train travels 120 km in 1.5 hours. What is its average speed?", options: ["60 km/h", "70 km/h", "80 km/h", "90 km/h"], answer: "80 km/h" },
+        { id: 105, question: "What is the area of a rectangle with sides 8 and 12?", options: ["80", "96", "100", "108"], answer: "96" },
+        { id: 106, question: "If 5 workers complete a job in 10 days, how many days will 10 workers take?", options: ["2", "4", "5", "8"], answer: "5" },
+        { id: 107, question: "What is 48 divided by 6?", options: ["6", "7", "8", "9"], answer: "8" },
+        { id: 108, question: "What is 12% of 250?", options: ["20", "25", "30", "35"], answer: "30" },
+        { id: 109, question: "What is 5/8 as a decimal?", options: ["0.45", "0.625", "0.75", "0.85"], answer: "0.625" },
+        { id: 110, question: "If 2/3 + 1/6 = ?", options: ["1/2", "2/3", "5/6", "3/4"], answer: "5/6" },
+        { id: 111, question: "What is 9 squared?", options: ["18", "27", "81", "99"], answer: "81" },
+        { id: 112, question: "If 7 * 8 = ?", options: ["48", "54", "56", "64"], answer: "56" },
+        { id: 113, question: "What is 45% of 400?", options: ["140", "160", "170", "180"], answer: "180" },
+        { id: 114, question: "What is 10 to the power of 2?", options: ["10", "20", "100", "1000"], answer: "100" },
+        { id: 115, question: "What is the result of 2 + 3 * 4?", options: ["14", "20", "10", "18"], answer: "14" },
+        { id: 116, question: "What is 18/3 + 5?", options: ["9", "11", "12", "14"], answer: "11" },
+        { id: 117, question: "What is 15 * 7?", options: ["95", "100", "105", "110"], answer: "105" },
+        { id: 118, question: "What is 3 cubed?", options: ["6", "9", "27", "81"], answer: "27" },
+        { id: 119, question: "What is 50% of 80?", options: ["20", "30", "40", "50"], answer: "40" },
+        { id: 120, question: "What is 10% of 90?", options: ["8", "9", "10", "11"], answer: "9" },
+        { id: 121, question: "What is 8 + 6 * 2?", options: ["20", "28", "16", "24"], answer: "20" },
+        { id: 122, question: "What is 18 * 2?", options: ["34", "36", "38", "40"], answer: "36" },
+        { id: 123, question: "What is 11 + 22?", options: ["30", "33", "35", "36"], answer: "33" },
+        { id: 124, question: "What is 12 * 12?", options: ["124", "132", "144", "154"], answer: "144" },
+        { id: 125, question: "How many minutes are in 2 hours?", options: ["100", "110", "120", "130"], answer: "120" },
+        { id: 126, question: "What is 45 / 5?", options: ["7", "8", "9", "10"], answer: "9" },
+        { id: 127, question: "What is 14 + 16?", options: ["28", "30", "32", "34"], answer: "30" },
+        { id: 128, question: "What is 8 squared?", options: ["16", "32", "48", "64"], answer: "64" },
+        { id: 129, question: "What is the value of 100 - 47?", options: ["43", "53", "63", "73"], answer: "53" },
+        { id: 130, question: "If 4x = 20, what is x?", options: ["4", "5", "6", "10"], answer: "5" }
       ]
     },
     {
@@ -104,45 +103,39 @@ function StudentDashboard() {
       difficulty: "medium",
       difficulty_badge: "Medium",
       duration: "60 mins",
-      questions: 25,
+      questions: 30,
       description: "Practice data structures, algorithms, and logic questions.",
       sampleQuestions: [
-        {
-          id: 201,
-          question: "Which data structure uses FIFO order?",
-          options: ["Stack", "Queue", "Tree", "Graph"],
-          answer: "Queue"
-        },
-        {
-          id: 202,
-          question: "What does CSS stand for?",
-          options: ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style System", "Control Style Syntax"],
-          answer: "Cascading Style Sheets"
-        },
-        {
-          id: 203,
-          question: "Which keyword declares a constant in JavaScript?",
-          options: ["var", "let", "const", "static"],
-          answer: "const"
-        },
-        {
-          id: 204,
-          question: "What is the output of `typeof null` in JavaScript?",
-          options: ["object", "null", "undefined", "string"],
-          answer: "object"
-        },
-        {
-          id: 205,
-          question: "Which loop is best when you know the exact number of iterations?",
-          options: ["for", "while", "do-while", "foreach"],
-          answer: "for"
-        },
-        {
-          id: 206,
-          question: "What is the time complexity of binary search?",
-          options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
-          answer: "O(log n)"
-        }
+        { id: 201, question: "Which data structure uses FIFO order?", options: ["Stack", "Queue", "Tree", "Graph"], answer: "Queue" },
+        { id: 202, question: "What does CSS stand for?", options: ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style System", "Control Style Syntax"], answer: "Cascading Style Sheets" },
+        { id: 203, question: "Which keyword declares a constant in JavaScript?", options: ["var", "let", "const", "static"], answer: "const" },
+        { id: 204, question: "What is the output of `typeof null` in JavaScript?", options: ["object", "null", "undefined", "string"], answer: "object" },
+        { id: 205, question: "Which loop is best when you know the exact number of iterations?", options: ["for", "while", "do-while", "foreach"], answer: "for" },
+        { id: 206, question: "What is the time complexity of binary search?", options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"], answer: "O(log n)" },
+        { id: 207, question: "Which HTML tag is used for links?", options: ["<a>", "<link>", "<href>", "<url>"], answer: "<a>" },
+        { id: 208, question: "What is the result of '5' + 3 in JavaScript?", options: ["8", "53", "Error", "NaN"], answer: "53" },
+        { id: 209, question: "Which operator checks strict equality in JavaScript?", options: ["=", "==", "===", "!=="], answer: "===" },
+        { id: 210, question: "Which React hook is used to manage state?", options: ["useState", "useEffect", "useContext", "useMemo"], answer: "useState" },
+        { id: 211, question: "HTTP status 404 means?", options: ["OK", "Bad Request", "Not Found", "Unauthorized"], answer: "Not Found" },
+        { id: 212, question: "Which SQL command retrieves data?", options: ["INSERT", "UPDATE", "SELECT", "DELETE"], answer: "SELECT" },
+        { id: 213, question: "Which Git command creates a commit?", options: ["git push", "git pull", "git commit", "git merge"], answer: "git commit" },
+        { id: 214, question: "API stands for?", options: ["Application Programming Interface", "Automated Program Input", "Advanced Programming Interface", "Application Process Info"], answer: "Application Programming Interface" },
+        { id: 215, question: "JSON stores data in what format?", options: ["XML", "key/value pairs", "binary", "plain text only"], answer: "key/value pairs" },
+        { id: 216, question: "Which CSS property changes text color?", options: ["background", "color", "font", "border"], answer: "color" },
+        { id: 217, question: "What does const prevent in JavaScript?", options: ["Redeclaration", "Reassignment", "Recompilation", "Execution"], answer: "Reassignment" },
+        { id: 218, question: "Default HTTP port is?", options: ["22", "80", "443", "8080"], answer: "80" },
+        { id: 219, question: "DOM stands for?", options: ["Document Object Model", "Data Object Method", "Display Output Model", "Digital Output Management"], answer: "Document Object Model" },
+        { id: 220, question: "Which command installs node packages?", options: ["npm install", "npm update", "npm start", "npm init"], answer: "npm install" },
+        { id: 221, question: "A function that calls itself is called?", options: ["Iterative", "Recursive", "Procedural", "Declarative"], answer: "Recursive" },
+        { id: 222, question: "Which array method adds an element to the end?", options: ["push", "pop", "shift", "unshift"], answer: "push" },
+        { id: 223, question: "React components usually return?", options: ["HTML", "JSX", "JSON", "XML"], answer: "JSX" },
+        { id: 224, question: "Which CSS selector targets classes?", options: ["#id", ".class", "tag", "*"], answer: ".class" },
+        { id: 225, question: "What does null represent?", options: ["Zero", "Undefined", "Intentionally empty value", "False"], answer: "Intentionally empty value" },
+        { id: 226, question: "What is 2 + 2 * 2?", options: ["6", "8", "4", "10"], answer: "6" },
+        { id: 227, question: "What does parseInt('10') return?", options: ["'10'", "10", "NaN", "0"], answer: "10" },
+        { id: 228, question: "What does Math.max(3, 9) return?", options: ["3", "9", "6", "12"], answer: "9" },
+        { id: 229, question: "Which method converts strings to uppercase?", options: ["toUpperCase()", "upper()", "toUpper()", "uppercase()"], answer: "toUpperCase()" },
+        { id: 230, question: "What is the length of [1,2,3]?", options: ["2", "3", "4", "5"], answer: "3" }
       ]
     },
     {
@@ -152,45 +145,39 @@ function StudentDashboard() {
       difficulty: "easy",
       difficulty_badge: "Easy",
       duration: "40 mins",
-      questions: 20,
+      questions: 30,
       description: "Prepare for HR and technical interviews with quick practice.",
       sampleQuestions: [
-        {
-          id: 301,
-          question: "How do you greet a recruiter in an interview?",
-          options: ["Ignore them", "Say hi", "Introduce yourself professionally", "Start with a joke"],
-          answer: "Introduce yourself professionally"
-        },
-        {
-          id: 302,
-          question: "Which trait is important for teamwork?",
-          options: ["Stubbornness", "Communication", "Avoiding feedback", "Working alone"],
-          answer: "Communication"
-        },
-        {
-          id: 303,
-          question: "What should you do after a technical question you don’t fully know?",
-          options: ["Guess randomly", "Admit uncertainty and explain reasoning", "Stay silent", "Blame the interviewer"],
-          answer: "Admit uncertainty and explain reasoning"
-        },
-        {
-          id: 304,
-          question: "What is the best response when asked about your weakness?",
-          options: ["Say you have none", "Mention a real weakness and how you improve", "Criticize your team", "Avoid the question"],
-          answer: "Mention a real weakness and how you improve"
-        },
-        {
-          id: 305,
-          question: "Why is punctuality important for interviews?",
-          options: ["It shows respect and professionalism", "It gives more time to talk", "It helps avoid questions", "It makes the interviewer rush"],
-          answer: "It shows respect and professionalism"
-        },
-        {
-          id: 306,
-          question: "How should you handle a question you answered incorrectly?",
-          options: ["Apologize and correct your answer", "Stay silent", "Get defensive", "Change the subject"],
-          answer: "Apologize and correct your answer"
-        }
+        { id: 301, question: "How do you greet a recruiter in an interview?", options: ["Ignore them", "Say hi", "Introduce yourself professionally", "Start with a joke"], answer: "Introduce yourself professionally" },
+        { id: 302, question: "Which trait is important for teamwork?", options: ["Stubbornness", "Communication", "Avoiding feedback", "Working alone"], answer: "Communication" },
+        { id: 303, question: "What should you do after a technical question you don’t fully know?", options: ["Guess randomly", "Admit uncertainty and explain reasoning", "Stay silent", "Blame the interviewer"], answer: "Admit uncertainty and explain reasoning" },
+        { id: 304, question: "What is the best response when asked about your weakness?", options: ["Say you have none", "Mention a real weakness and how you improve", "Criticize your team", "Avoid the question"], answer: "Mention a real weakness and how you improve" },
+        { id: 305, question: "Why is punctuality important for interviews?", options: ["It shows respect and professionalism", "It gives more time to talk", "It helps avoid questions", "It makes the interviewer rush"], answer: "It shows respect and professionalism" },
+        { id: 306, question: "How should you handle a question you answered incorrectly?", options: ["Apologize and correct your answer", "Stay silent", "Get defensive", "Change the subject"], answer: "Apologize and correct your answer" },
+        { id: 307, question: "What should you do at the end of an interview?", options: ["Leave immediately", "Ask thoughtful questions", "Talk about salary only", "Ignore the interviewer"], answer: "Ask thoughtful questions" },
+        { id: 308, question: "How should you discuss a team failure?", options: ["Blame others", "Explain what you learned", "Avoid the topic", "Say it was not your fault"], answer: "Explain what you learned" },
+        { id: 309, question: "What is the STAR technique used for?", options: ["Coding", "Problem solving", "Behavioral interview answers", "Company research"], answer: "Behavioral interview answers" },
+        { id: 310, question: "What is a good way to show enthusiasm?", options: ["Use strong language", "Smile and maintain eye contact", "Talk loudly", "Interrupt the interviewer"], answer: "Smile and maintain eye contact" },
+        { id: 311, question: "What is important when listening in an interview?", options: ["Thinking about your response", "Interrupting", "Nodding and clarifying", "Looking away"], answer: "Nodding and clarifying" },
+        { id: 312, question: "What’s a good follow-up after an interview?", options: ["Send a thank-you email", "Call repeatedly", "Ignore the employer", "Post on social media"], answer: "Send a thank-you email" },
+        { id: 313, question: "How should you prepare for behavioral questions?", options: ["Memorize answers", "Use real examples", "Make up stories", "Avoid them"], answer: "Use real examples" },
+        { id: 314, question: "What helps when answering a technical question?", options: ["Guess the answer", "Explain your thinking", "Stay silent", "Read a book"], answer: "Explain your thinking" },
+        { id: 315, question: "When asked about a challenge, you should?", options: ["Describe the problem and result", "Say it was easy", "Avoid details", "Blame teammates"], answer: "Describe the problem and result" },
+        { id: 316, question: "Why is company research useful?", options: ["It impresses interviewers", "It saves time", "It’s not useful", "It’s only for HR"], answer: "It impresses interviewers" },
+        { id: 317, question: "What is a strong interview habit?", options: ["Arrive late", "Use polite language", "Talk over the interviewer", "Look bored"], answer: "Use polite language" },
+        { id: 318, question: "What should you avoid on a resume?", options: ["Simple layout", "Typos and filler words", "Clear headings", "Relevant skills"], answer: "Typos and filler words" },
+        { id: 319, question: "How do you show leadership in an interview?", options: ["Talk about initiatives you led", "Say you control everything", "Ignore team work", "Mention no one else"], answer: "Talk about initiatives you led" },
+        { id: 320, question: "What is a good way to show problem solving?", options: ["Describe steps taken", "Say it was easy", "Avoid details", "Give a wrong answer"], answer: "Describe steps taken" },
+        { id: 321, question: "What makes a resume ATS-friendly?", options: ["Images and tables", "Clear headings and keywords", "Bright colors", "Multiple fonts"], answer: "Clear headings and keywords" },
+        { id: 322, question: "What should you say if asked about strengths?", options: ["List specific skills", "Be vague", "Say none", "Talk about others"], answer: "List specific skills" },
+        { id: 323, question: "What is important in your first sentence?", options: ["Be honest and direct", "Tell a joke", "Give irrelevant facts", "Use slang"], answer: "Be honest and direct" },
+        { id: 324, question: "How should you answer salary questions?", options: ["Give a researched range", "Say anything", "Refuse to answer", "Ask no questions"], answer: "Give a researched range" },
+        { id: 325, question: "What is good body language in interviews?", options: ["Cross arms", "Sit upright and make eye contact", "Slouch", "Avoid face"], answer: "Sit upright and make eye contact" },
+        { id: 326, question: "How should you respond to a tough question?", options: ["Pause and think", "Answer quickly", "Change the subject", "Say I don't know"], answer: "Pause and think" },
+        { id: 327, question: "What can help with confidence?", options: ["Practice mock interviews", "Ignore preparation", "Show nervousness", "Review late at night"], answer: "Practice mock interviews" },
+        { id: 328, question: "What should you focus on for HR round?", options: ["Company fit and communication", "Only technical details", "Salary only", "Personal gossip"], answer: "Company fit and communication" },
+        { id: 329, question: "What is a strong closing remark?", options: ["Thank you for your time", "I hope you give me the job", "I'll call you", "No comment"], answer: "Thank you for your time" },
+        { id: 330, question: "What is key to a good answer?", options: ["Clear structure", "Rambling", "Silence", "Off-topic details"], answer: "Clear structure" }
       ]
     }
   ];
@@ -498,10 +485,66 @@ function StudentDashboard() {
     printWindow.print();
   };
 
-  const saveResume = () => {
+  const buildResume = () => {
     localStorage.setItem("resumeData", JSON.stringify(resumeData));
+    setResumeBuilt(true);
     setResumeSaved(true);
-    alert("Resume saved locally. You can reopen it later from this dashboard.");
+    setAtsScore(null);
+    setAtsTips([]);
+    alert("Resume built successfully. Review the preview and evaluate your ATS score.");
+  };
+
+  const evaluateResume = () => {
+    const text = getResumeText().toLowerCase();
+    const requiredFields = [resumeData.name, resumeData.email, resumeData.summary, resumeData.education, resumeData.experience, resumeData.projects, resumeData.skills];
+    const filledFields = requiredFields.filter((field) => field && field.trim().length > 0).length;
+    const keywords = [
+      "experience",
+      "projects",
+      "skills",
+      "education",
+      "summary",
+      "javascript",
+      "react",
+      "node.js",
+      "nodejs",
+      "mongo",
+      "communication",
+      "team",
+      "intern",
+      "developed",
+      "designed",
+      "implemented",
+      "managed"
+    ];
+
+    const keywordMatches = keywords.reduce((count, keyword) => count + (text.includes(keyword) ? 1 : 0), 0);
+    let score = 40 + filledFields * 8 + Math.min(keywordMatches * 3, 30);
+    score = Math.min(Math.max(score, 35), 95);
+
+    const tips = [];
+    if (!resumeData.summary.trim()) {
+      tips.push("Add a professional summary that highlights your strengths and career goals.");
+    }
+    if (!resumeData.education.trim()) {
+      tips.push("Include your education details clearly with institution, degree, and graduation year.");
+    }
+    if (!resumeData.experience.trim()) {
+      tips.push("List work or project experience with measurable achievements.");
+    }
+    if (!resumeData.projects.trim()) {
+      tips.push("Add project descriptions that show what you built and the technologies used.");
+    }
+    if (resumeData.skills.split(",").filter((skill) => skill.trim()).length < 5) {
+      tips.push("Expand your skills section with relevant technical and soft skills separated by commas.");
+    }
+    if (!text.includes("developed") && !text.includes("implemented") && !text.includes("designed")) {
+      tips.push("Use action verbs like developed, implemented, designed, and led to describe your experience.");
+    }
+    tips.push("Keep your resume clean and ATS-friendly: avoid images, tables, and unusual fonts.");
+
+    setAtsScore(score);
+    setAtsTips(tips.slice(0, 5));
   };
 
   const clearResume = () => {
@@ -684,6 +727,9 @@ function StudentDashboard() {
   </button>
 
   <h3>Placement Portal</h3>
+  <div className="topbar-actions">
+    <ThemeToggleButton />
+  </div>
 </div>
         <div className="dashboard-header">
           <h1>Student Dashboard</h1>
@@ -1035,8 +1081,11 @@ function StudentDashboard() {
                     />
                   </div>
                   <div className="action-buttons">
-                    <button type="button" className="submit-btn" onClick={saveResume}>
-                      Save Resume
+                    <button type="button" className="submit-btn" onClick={buildResume}>
+                      Build Resume
+                    </button>
+                    <button type="button" className="action-btn" onClick={evaluateResume}>
+                      Evaluate ATS Score
                     </button>
                     <button type="button" className="action-btn" onClick={downloadResume}>
                       Download Resume
@@ -1048,7 +1097,8 @@ function StudentDashboard() {
                       Clear Form
                     </button>
                   </div>
-                  {resumeSaved && <p className="save-note">Saved resume data is available in your browser.</p>}
+                  {resumeBuilt && <p className="save-note">Resume built successfully. Review the preview below and evaluate your ATS score.</p>}
+                  {resumeSaved && !resumeBuilt && <p className="save-note">Saved resume data is available in your browser.</p>}
                 </div>
               </section>
 
@@ -1080,6 +1130,29 @@ function StudentDashboard() {
                     <p>{resumeData.skills}</p>
                   </div>
                 </div>
+              </section>
+
+              <section className="resume-evaluation-card">
+                <h3>Resume Evaluation</h3>
+                <p>
+                  API used: <strong>`request()`</strong> from <code>client/src/services/api.js</code>, built on <strong>axios</strong>.
+                </p>
+                <p>
+                  Current API base path: <code>{getApiUrl()}</code>
+                </p>
+                <button type="button" className="action-btn" onClick={evaluateResume}>
+                  Re-evaluate ATS Score
+                </button>
+                {atsScore !== null && (
+                  <div className="ats-result">
+                    <h4>ATS Score: {atsScore}%</h4>
+                    <ul>
+                      {atsTips.map((tip, idx) => (
+                        <li key={idx}>{tip}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </section>
             </div>
           </div>
