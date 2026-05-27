@@ -76,6 +76,24 @@ function StudentDashboard() {
           question: "Which is the next number: 2, 6, 12, 20, ?",
           options: ["26", "30", "28", "24"],
           answer: "30"
+        },
+        {
+          id: 104,
+          question: "A train travels 120 km in 1.5 hours. What is its average speed?",
+          options: ["60 km/h", "70 km/h", "80 km/h", "90 km/h"],
+          answer: "80 km/h"
+        },
+        {
+          id: 105,
+          question: "What is the area of a rectangle with sides 8 and 12?",
+          options: ["80", "96", "100", "108"],
+          answer: "96"
+        },
+        {
+          id: 106,
+          question: "If 5 workers complete a job in 10 days, how many days will 10 workers take?",
+          options: ["2", "4", "5", "8"],
+          answer: "5"
         }
       ]
     },
@@ -106,6 +124,24 @@ function StudentDashboard() {
           question: "Which keyword declares a constant in JavaScript?",
           options: ["var", "let", "const", "static"],
           answer: "const"
+        },
+        {
+          id: 204,
+          question: "What is the output of `typeof null` in JavaScript?",
+          options: ["object", "null", "undefined", "string"],
+          answer: "object"
+        },
+        {
+          id: 205,
+          question: "Which loop is best when you know the exact number of iterations?",
+          options: ["for", "while", "do-while", "foreach"],
+          answer: "for"
+        },
+        {
+          id: 206,
+          question: "What is the time complexity of binary search?",
+          options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
+          answer: "O(log n)"
         }
       ]
     },
@@ -136,6 +172,24 @@ function StudentDashboard() {
           question: "What should you do after a technical question you don’t fully know?",
           options: ["Guess randomly", "Admit uncertainty and explain reasoning", "Stay silent", "Blame the interviewer"],
           answer: "Admit uncertainty and explain reasoning"
+        },
+        {
+          id: 304,
+          question: "What is the best response when asked about your weakness?",
+          options: ["Say you have none", "Mention a real weakness and how you improve", "Criticize your team", "Avoid the question"],
+          answer: "Mention a real weakness and how you improve"
+        },
+        {
+          id: 305,
+          question: "Why is punctuality important for interviews?",
+          options: ["It shows respect and professionalism", "It gives more time to talk", "It helps avoid questions", "It makes the interviewer rush"],
+          answer: "It shows respect and professionalism"
+        },
+        {
+          id: 306,
+          question: "How should you handle a question you answered incorrectly?",
+          options: ["Apologize and correct your answer", "Stay silent", "Get defensive", "Change the subject"],
+          answer: "Apologize and correct your answer"
         }
       ]
     }
