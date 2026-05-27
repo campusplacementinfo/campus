@@ -3,26 +3,26 @@
 html[data-theme="light"] .dashboard-container,
 html[data-theme="light"] .dashboard-container.student-dashboard,
 html[data-theme="light"] .dashboard-container.company-dashboard {
-  --bg: #f8fafc;
+  --bg: #f4f7fb;
   --surface: #ffffff;
-  --surface-soft: #f1f5f9;
-  --surface-strong: #e8ecf1;
-  --surface-hover: #f1f5f9;
-  --text: #1e293b;
-  --heading: #0f172a;
-  --text-muted: #64748b;
-  --accent: #8b5cf6;
+  --surface-soft: #f8fafc;
+  --surface-strong: #eef2f7;
+  --surface-hover: #e2e8f0;
+  --text: #0f172a;
+  --heading: #111827;
+  --text-muted: #475569;
+  --accent: #5b21b6;
   --accent-strong: #7c3aed;
   --accent-light: #a78bfa;
-  --border: #e2e8f0;
+  --border: #d1d5db;
   --border-soft: #cbd5e1;
-  --success: #10b981;
-  --success-light: #6ee7b7;
-  --warning: #f59e0b;
-  --warning-light: #fcd34d;
-  --danger: #ef4444;
+  --success: #16a34a;
+  --success-light: #86efac;
+  --warning: #d97706;
+  --warning-light: #fde68a;
+  --danger: #dc2626;
   --danger-light: #fca5a5;
-  --info: #3b82f6;
+  --info: #2563eb;
   --info-light: #93c5fd;
   background: var(--bg);
   color: var(--text);
@@ -38,7 +38,7 @@ html[data-theme="light"] .dashboard-container.company-dashboard::before {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(124, 58, 237, 0.03) 100%);
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(99, 102, 241, 0.03) 100%);
   pointer-events: none;
   z-index: -1;
 }
@@ -47,7 +47,7 @@ html[data-theme="light"] .dashboard-container.company-dashboard::before {
 html[data-theme="light"] .dashboard-container *,
 html[data-theme="light"] .dashboard-container.student-dashboard *,
 html[data-theme="light"] .dashboard-container.company-dashboard * {
-  color: var(--text);
+  color: var(--text) !important;
 }
 
 /* Headings in light theme */
@@ -70,6 +70,7 @@ html[data-theme="light"] .dashboard-container.company-dashboard h4,
 html[data-theme="light"] .dashboard-container.company-dashboard h5,
 html[data-theme="light"] .dashboard-container.company-dashboard h6 {
   color: var(--heading) !important;
+  font-weight: 700;
 }
 
 /* Light theme header */
@@ -86,8 +87,15 @@ html[data-theme="light"] .dashboard-container.company-dashboard .dashboard-heade
 }
 
 html[data-theme="light"] .dashboard-container .dashboard-header {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%);
-  border-bottom: 2px solid var(--border);
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .dashboard-container .dashboard-header p,
+html[data-theme="light"] .dashboard-container.student-dashboard .dashboard-header p,
+html[data-theme="light"] .dashboard-container.company-dashboard .dashboard-header p {
+  color: var(--text-muted) !important;
 }
 
 /* Light theme inputs */
@@ -103,7 +111,17 @@ html[data-theme="light"] .dashboard-container.company-dashboard select {
   background: var(--surface) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .dashboard-container input::placeholder,
+html[data-theme="light"] .dashboard-container textarea::placeholder,
+html[data-theme="light"] .dashboard-container.student-dashboard input::placeholder,
+html[data-theme="light"] .dashboard-container.student-dashboard textarea::placeholder,
+html[data-theme="light"] .dashboard-container.company-dashboard input::placeholder,
+html[data-theme="light"] .dashboard-container.company-dashboard textarea::placeholder {
+  color: #64748b !important;
+  opacity: 1;
 }
 
 html[data-theme="light"] .dashboard-container input:focus,
@@ -117,96 +135,97 @@ html[data-theme="light"] .dashboard-container.company-dashboard textarea:focus,
 html[data-theme="light"] .dashboard-container.company-dashboard select:focus {
   border-color: var(--accent) !important;
   background: var(--surface) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 3px rgba(139, 92, 246, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1) !important;
 }
 
 /* Light theme cards */
 html[data-theme="light"] .dashboard-container .info-box,
 html[data-theme="light"] .dashboard-container.student-dashboard .info-box,
-html[data-theme="light"] .dashboard-container.company-dashboard .info-box {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
+html[data-theme="light"] .dashboard-container.company-dashboard .info-box,
+html[data-theme="light"] .dashboard-container .action-card,
+html[data-theme="light"] .dashboard-container.student-dashboard .action-card,
+html[data-theme="light"] .dashboard-container.company-dashboard .action-card,
+html[data-theme="light"] .dashboard-container .application-card,
+html[data-theme="light"] .dashboard-container.student-dashboard .application-card,
+html[data-theme="light"] .dashboard-container.company-dashboard .application-card,
+html[data-theme="light"] .dashboard-container .test-card,
+html[data-theme="light"] .dashboard-container.student-dashboard .test-card,
+html[data-theme="light"] .dashboard-container.company-dashboard .test-card,
+html[data-theme="light"] .dashboard-container .resume-preview,
+html[data-theme="light"] .dashboard-container.student-dashboard .resume-preview,
+html[data-theme="light"] .dashboard-container.company-dashboard .resume-preview,
+html[data-theme="light"] .dashboard-container .drive-card,
+html[data-theme="light"] .dashboard-container.student-dashboard .drive-card,
+html[data-theme="light"] .dashboard-container.company-dashboard .drive-card {
+  background: #ffffff !important;
   border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
 }
 
 html[data-theme="light"] .dashboard-container .info-box:hover,
 html[data-theme="light"] .dashboard-container.student-dashboard .info-box:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard .info-box:hover {
-  border-color: var(--accent) !important;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
-}
-
-/* Light theme buttons */
-html[data-theme="light"] .dashboard-container button,
-html[data-theme="light"] .dashboard-container.student-dashboard button,
-html[data-theme="light"] .dashboard-container.company-dashboard button {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%) !important;
-  color: white !important;
-  border: none !important;
-  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
-}
-
-html[data-theme="light"] .dashboard-container button:hover,
-html[data-theme="light"] .dashboard-container.student-dashboard button:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard button:hover {
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
-}
-
-/* Light theme application cards */
-html[data-theme="light"] .dashboard-container .application-card,
-html[data-theme="light"] .dashboard-container.student-dashboard .application-card,
-html[data-theme="light"] .dashboard-container.company-dashboard .application-card {
-  background: var(--surface) !important;
-  border-left: 4px solid var(--accent) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
+html[data-theme="light"] .dashboard-container.company-dashboard .info-box:hover,
+html[data-theme="light"] .dashboard-container .action-card:hover,
+html[data-theme="light"] .dashboard-container.student-dashboard .action-card:hover,
+html[data-theme="light"] .dashboard-container.company-dashboard .action-card:hover,
 html[data-theme="light"] .dashboard-container .application-card:hover,
 html[data-theme="light"] .dashboard-container.student-dashboard .application-card:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard .application-card:hover {
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
-}
-
-/* Light theme test cards */
-html[data-theme="light"] .dashboard-container .test-card,
-html[data-theme="light"] .dashboard-container.student-dashboard .test-card,
-html[data-theme="light"] .dashboard-container.company-dashboard .test-card {
-  background: var(--surface) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
+html[data-theme="light"] .dashboard-container.company-dashboard .application-card:hover,
 html[data-theme="light"] .dashboard-container .test-card:hover,
 html[data-theme="light"] .dashboard-container.student-dashboard .test-card:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard .test-card:hover {
+html[data-theme="light"] .dashboard-container.company-dashboard .test-card:hover,
+html[data-theme="light"] .dashboard-container .resume-preview:hover,
+html[data-theme="light"] .dashboard-container.student-dashboard .resume-preview:hover,
+html[data-theme="light"] .dashboard-container.company-dashboard .resume-preview:hover,
+html[data-theme="light"] .dashboard-container .drive-card:hover,
+html[data-theme="light"] .dashboard-container.student-dashboard .drive-card:hover,
+html[data-theme="light"] .dashboard-container.company-dashboard .drive-card:hover {
   border-color: var(--accent) !important;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
 }
 
-/* Light theme form sections */
-html[data-theme="light"] .dashboard-container .form-section,
-html[data-theme="light"] .dashboard-container.student-dashboard .form-section,
-html[data-theme="light"] .dashboard-container.company-dashboard .form-section {
-  background: linear-gradient(135deg, var(--surface-soft) 0%, var(--surface) 100%) !important;
-  border-left: 4px solid var(--accent) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+html[data-theme="light"] .dashboard-container .info-box h3,
+html[data-theme="light"] .dashboard-container.student-dashboard .info-box h3,
+html[data-theme="light"] .dashboard-container.company-dashboard .info-box h3,
+html[data-theme="light"] .dashboard-container .action-card h3,
+html[data-theme="light"] .dashboard-container.student-dashboard .action-card h3,
+html[data-theme="light"] .dashboard-container.company-dashboard .action-card h3,
+html[data-theme="light"] .dashboard-container .resume-preview-name,
+html[data-theme="light"] .dashboard-container.student-dashboard .resume-preview-name,
+html[data-theme="light"] .dashboard-container.company-dashboard .resume-preview-name {
+  color: var(--heading) !important;
+}
+
+html[data-theme="light"] .dashboard-container .info-box p,
+html[data-theme="light"] .dashboard-container.student-dashboard .info-box p,
+html[data-theme="light"] .dashboard-container.company-dashboard .info-box p,
+html[data-theme="light"] .dashboard-container .action-card p,
+html[data-theme="light"] .dashboard-container.student-dashboard .action-card p,
+html[data-theme="light"] .dashboard-container.company-dashboard .action-card p {
+  color: var(--text) !important;
 }
 
 /* Light theme tables */
 html[data-theme="light"] .dashboard-container .data-table,
 html[data-theme="light"] .dashboard-container.student-dashboard .data-table,
 html[data-theme="light"] .dashboard-container.company-dashboard .data-table {
-  background: var(--surface) !important;
+  background: #ffffff !important;
   border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
 }
 
 html[data-theme="light"] .dashboard-container .data-table th,
 html[data-theme="light"] .dashboard-container.student-dashboard .data-table th,
 html[data-theme="light"] .dashboard-container.company-dashboard .data-table th {
-  background: linear-gradient(135deg, var(--surface-soft) 0%, var(--surface-strong) 100%) !important;
+  background: #f8fafc !important;
   color: var(--heading) !important;
-  border-bottom: 2px solid var(--border) !important;
+  border-bottom: 1px solid var(--border-soft) !important;
+}
+
+html[data-theme="light"] .dashboard-container .data-table td,
+html[data-theme="light"] .dashboard-container.student-dashboard .data-table td,
+html[data-theme="light"] .dashboard-container.company-dashboard .data-table td {
+  color: var(--text) !important;
 }
 
 html[data-theme="light"] .dashboard-container .data-table tr:hover,
@@ -215,43 +234,36 @@ html[data-theme="light"] .dashboard-container.company-dashboard .data-table tr:h
   background: var(--surface-soft) !important;
 }
 
-/* Light theme job cards */
-html[data-theme="light"] .dashboard-container .job-card,
-html[data-theme="light"] .dashboard-container.student-dashboard .job-card,
-html[data-theme="light"] .dashboard-container.company-dashboard .job-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-html[data-theme="light"] .dashboard-container .job-card:hover,
-html[data-theme="light"] .dashboard-container.student-dashboard .job-card:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard .job-card:hover {
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-}
-
-/* Light theme action cards */
-html[data-theme="light"] .dashboard-container .action-card,
-html[data-theme="light"] .dashboard-container.student-dashboard .action-card,
-html[data-theme="light"] .dashboard-container.company-dashboard .action-card {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-html[data-theme="light"] .dashboard-container .action-card:hover,
-html[data-theme="light"] .dashboard-container.student-dashboard .action-card:hover,
-html[data-theme="light"] .dashboard-container.company-dashboard .action-card:hover {
-  border-color: var(--accent) !important;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
-}
-
 /* Light theme sidebar */
 html[data-theme="light"] .dashboard-container .sidebar,
 html[data-theme="light"] .dashboard-container.student-dashboard .sidebar,
 html[data-theme="light"] .dashboard-container.company-dashboard .sidebar {
-  background: linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+  background: #f8fafc !important;
   border-right: 1px solid var(--border);
+}
+
+html[data-theme="light"] .dashboard-container .sidebar h2,
+html[data-theme="light"] .dashboard-container.student-dashboard .sidebar h2,
+html[data-theme="light"] .dashboard-container.company-dashboard .sidebar h2 {
+  color: var(--heading) !important;
+}
+
+html[data-theme="light"] .dashboard-container .sidebar a,
+html[data-theme="light"] .dashboard-container.student-dashboard .sidebar a,
+html[data-theme="light"] .dashboard-container.company-dashboard .sidebar a,
+html[data-theme="light"] .dashboard-container .sidebar button,
+html[data-theme="light"] .dashboard-container.student-dashboard .sidebar button,
+html[data-theme="light"] .dashboard-container.company-dashboard .sidebar button {
+  color: var(--text) !important;
+}
+
+html[data-theme="light"] .dashboard-container .sidebar a:hover,
+html[data-theme="light"] .dashboard-container.student-dashboard .sidebar a:hover,
+html[data-theme="light"] .dashboard-container.company-dashboard .sidebar a:hover,
+html[data-theme="light"] .dashboard-container .sidebar button:hover,
+html[data-theme="light"] .dashboard-container.student-dashboard .sidebar button:hover,
+html[data-theme="light"] .dashboard-container.company-dashboard .sidebar button:hover {
+  color: var(--accent) !important;
 }
 
 html[data-theme="light"] .dashboard-container .sidebar a.active,
@@ -260,16 +272,22 @@ html[data-theme="light"] .dashboard-container.company-dashboard .sidebar a.activ
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: white !important;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.18);
 }
 
 /* Light theme topbar */
 html[data-theme="light"] .dashboard-container .dashboard-topbar,
 html[data-theme="light"] .dashboard-container.student-dashboard .dashboard-topbar,
 html[data-theme="light"] .dashboard-container.company-dashboard .dashboard-topbar {
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-soft) 100%);
+  background: #ffffff !important;
   border-bottom: 1px solid var(--border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .dashboard-container .dashboard-topbar h3,
+html[data-theme="light"] .dashboard-container.student-dashboard .dashboard-topbar h3,
+html[data-theme="light"] .dashboard-container.company-dashboard .dashboard-topbar h3 {
+  color: var(--heading) !important;
 }
 
 /* Light theme status badges */
@@ -278,7 +296,7 @@ html[data-theme="light"] .dashboard-container.student-dashboard .status-badge,
 html[data-theme="light"] .dashboard-container.company-dashboard .status-badge {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
   color: white !important;
-  box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 2px 4px rgba(124, 58, 237, 0.18);
 }
 
 /* Light theme menu buttons */
@@ -288,7 +306,7 @@ html[data-theme="light"] .dashboard-container.company-dashboard .menu-btn {
   background: var(--surface) !important;
   color: var(--text) !important;
   border: 1px solid var(--border) !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
 }
 
 html[data-theme="light"] .dashboard-container .menu-btn:hover,
@@ -304,7 +322,7 @@ html[data-theme="light"] .dashboard-container.company-dashboard .menu-btn.active
   background: linear-gradient(135deg, var(--accent), var(--accent-strong)) !important;
   color: white !important;
   border-color: var(--accent) !important;
-  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.18);
 }
 
 /* Light theme links */

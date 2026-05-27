@@ -155,8 +155,6 @@ exports.register = async (req, res) => {
 
     // Restrict admin account creation
     const requestedRole = role || "student";
-
-    let existingUser = null;
     if (requestedRole === "admin") {
       const ADMIN_CREATION_TOKEN = String(process.env.ADMIN_CREATION_TOKEN || "").trim();
       const providedAdminToken = typeof adminToken === 'string' ? adminToken.trim() : adminToken;
@@ -173,6 +171,7 @@ exports.register = async (req, res) => {
     }
 
     const normalizedEnrollment = typeof enrollmentNumber === 'string' ? enrollmentNumber.trim().toUpperCase() : null;
+    let existingUser = null;
 
     if (requestedRole === "student") {
       if (!normalizedEnrollment) {

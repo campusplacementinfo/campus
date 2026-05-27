@@ -1,6 +1,7 @@
  import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { AuthProvider, useAuth } from "./AuthContext";
+import { ThemeProvider } from "./ThemeContext";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -92,12 +93,14 @@ const AppRoutes = () => {
 function App() {
   return (
     <HashRouter>
-      <AuthProvider>
-        <ConnectionStatus />
-        <Suspense fallback={<div className="loading-spinner">Loading…</div>}>
-          <AppRoutes />
-        </Suspense>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <ConnectionStatus />
+          <Suspense fallback={<div className="loading-spinner">Loading…</div>}>
+            <AppRoutes />
+          </Suspense>
+        </AuthProvider>
+      </ThemeProvider>
     </HashRouter>
   );
 }

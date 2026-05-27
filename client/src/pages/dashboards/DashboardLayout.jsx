@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
+import ThemeToggleButton from "../../components/ThemeToggleButton";
 import "./DashboardStyles.css";
 import "./DarkTheme.css";
+import "./LightTheme.css";
 
 function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -41,6 +43,7 @@ function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
           </button>
           <h3>Placement Portal</h3>
           <div className="topbar-actions">
+            <ThemeToggleButton />
           </div>
         </div>
 

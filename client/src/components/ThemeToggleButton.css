@@ -1,0 +1,23 @@
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(124, 58, 237, 0.2));
+  color: white;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.12);
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(124, 58, 237, 0.35));
+}
+
+.theme-toggle-btn:active {
+  transform: translateY(0);
+}

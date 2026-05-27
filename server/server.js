@@ -20,7 +20,7 @@ console.log('Admin creation token configured:', !!process.env.ADMIN_CREATION_TOK
 
 // Middlewares
 app.set('trust proxy', true);
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL || true }));
 app.use(compression({ level: 6 }));
 app.use(express.json({ limit: '150kb' }));
 
