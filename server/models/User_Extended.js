@@ -1,17 +1,9 @@
-/**
- * UPDATED User Model with Extended Profile Fields
- * File: server/models/User.js
- * 
- * This file replaces the current User.js model with extended schema
- * supporting comprehensive profile management
- */
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
-    // ===== AUTHENTICATION FIELDS =====
     name: {
       type: String,
       required: true,
@@ -33,7 +25,6 @@ const userSchema = new mongoose.Schema(
       default: "student"
     },
 
-    // ===== PROFILE STATUS FIELDS =====
     verified: {
       type: Boolean,
       default: false
@@ -51,9 +42,7 @@ const userSchema = new mongoose.Schema(
       default: false
     },
 
-    // ===== NESTED PROFILE OBJECT =====
     profile: {
-      // ------- CONTACT INFORMATION -------
       mobileNumber: {
         type: String,
         default: null,
@@ -75,7 +64,6 @@ const userSchema = new mongoose.Schema(
         default: false
       },
 
-      // ------- BASIC INFORMATION -------
       basicInfo: {
         fullName: {
           type: String,
@@ -109,9 +97,7 @@ const userSchema = new mongoose.Schema(
         }
       },
 
-      // ------- ACADEMIC INFORMATION -------
       academicInfo: {
-        // Current Education
         currentDegree: {
           type: String,
           enum: ["B.Tech", "M.Tech", "BCA", "MCA", "B.Sc", "M.Sc", null],
@@ -140,7 +126,6 @@ const userSchema = new mongoose.Schema(
           max: 10
         },
 
-        // 10th Standard
         board10: {
           type: String,
           default: null
@@ -156,7 +141,6 @@ const userSchema = new mongoose.Schema(
           default: null
         },
 
-        // 12th Standard
         board12: {
           type: String,
           default: null
@@ -172,7 +156,6 @@ const userSchema = new mongoose.Schema(
           default: null
         },
 
-        // Diploma (Optional)
         diplomaDegree: {
           type: String,
           default: null
@@ -192,7 +175,6 @@ const userSchema = new mongoose.Schema(
           default: null
         },
 
-        // Backlogs
         activeBacklogs: {
           type: Number,
           default: 0
@@ -203,7 +185,6 @@ const userSchema = new mongoose.Schema(
         }
       },
 
-      // ------- SKILLS & EXPERIENCE -------
       skills: {
         technical: [
           {
@@ -266,7 +247,6 @@ const userSchema = new mongoose.Schema(
         ]
       },
 
-      // ------- DOCUMENTS -------
       documents: {
         resumeUrl: {
           type: String,
@@ -288,7 +268,6 @@ const userSchema = new mongoose.Schema(
       }
     },
 
-    // ===== METADATA =====
     createdAt: {
       type: Date,
       default: Date.now
@@ -312,14 +291,12 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Indexes for performance optimization
 userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ "profile.basicInfo.institution": 1 });
 userSchema.index({ createdAt: -1 });
 userSchema.index({ placed: 1 });
 
-// Middleware: Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
 
@@ -332,47 +309,38 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-// Method: Compare password
 userSchema.methods.comparePassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Method: Get public profile (without password)
 userSchema.methods.getPublicProfile = function () {
   const userObject = this.toObject();
   delete userObject.password;
   return userObject;
 };
 
-// Method: Calculate profile completion percentage
 userSchema.methods.getProfileCompletionPercentage = function () {
   let completed = 0;
   const total = 10;
 
-  // Basic Info (3 points)
   if (this.profile.basicInfo?.fullName) completed++;
   if (this.profile.basicInfo?.dateOfBirth) completed++;
   if (this.profile.basicInfo?.bio) completed++;
 
-  // Contact (2 points)
   if (this.profile.mobileNumber) completed++;
   if (this.profile.alternateEmail) completed++;
 
-  // Academic (2 points)
   if (this.profile.academicInfo?.institution) completed++;
   if (this.profile.academicInfo?.cgpa) completed++;
 
-  // Skills (1 point)
   if (this.profile.skills?.technical?.length > 0) completed++;
 
-  // Documents (2 points)
   if (this.profile.documents?.resumeUrl) completed++;
   if (this.profile.experience?.internships?.length > 0) completed++;
 
   return Math.round((completed / total) * 100);
 };
 
-// Method: Get profile completion status
 userSchema.methods.getProfileCompletionStatus = function () {
   return {
     contactInfo: {

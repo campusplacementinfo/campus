@@ -14,6 +14,5 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'dev-test@example.com';
   } catch (err) {
     console.error('Test send failed:', err && err.message ? err.message : err);
   }
-  // allow transporter async logs to flush
   setTimeout(() => process.exit(0), 500);
 })();

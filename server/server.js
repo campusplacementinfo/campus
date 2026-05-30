@@ -18,20 +18,17 @@ const app = express();
 
 console.log('Admin creation token configured:', !!process.env.ADMIN_CREATION_TOKEN);
 
-// Middlewares
 app.set('trust proxy', true);
 app.use(cors({ origin: process.env.CLIENT_URL || true }));
 app.use(compression({ level: 6 }));
 app.use(express.json({ limit: '150kb' }));
 
-// Serve static files from the React app build directory with cache hints
 app.use(express.static(path.join(__dirname, '../client/dist'), {
   maxAge: '1d',
   immutable: true,
   etag: true
 }));
 
-// MongoDB connection with retry logic
 const mongoOptions = {
   serverSelectionTimeoutMS: 30000,
   connectTimeoutMS: 30000,
@@ -54,7 +51,6 @@ const connectDB = async () => {
     return;
   }
 
-  // Prevent multiple simultaneous connection attempts
   if (isConnecting) {
     return;
   }
@@ -112,14 +108,12 @@ mongoose.connection.on('reconnected', () => {
   reconnectAttempts = 0;
 });
 
-// Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/jobs", require("./routes/jobRoutes"));
 app.use("/api/applications", require("./routes/applicationRoutes"));
 app.use("/api/admin", require("./routes/adminRoutes"));
 app.use("/api/profile", require("./routes/profileRoutes"));
 
-// Health check route
 app.get("/api/health", (req, res) => {
   const mongoStatus = mongoose.connection.readyState === 1 ? "Connected" : "Disconnected";
   res.status(mongoStatus === "Connected" ? 200 : 503).json({ 
@@ -128,7 +122,6 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Catch-all handler: send back index.html for any non-API routes (for SPA)
 app.use((req, res, next) => {
   if (req.path.startsWith('/api')) {
     return next();
@@ -140,7 +133,6 @@ app.use((req, res, next) => {
   }
 });
 
-// Test route
 app.get("/", (req, res) => {
   res.send("Campus Placement Portal Backend Running");
 });

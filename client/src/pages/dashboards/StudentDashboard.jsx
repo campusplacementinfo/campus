@@ -352,7 +352,6 @@ function StudentDashboard() {
       setLoadingData(false);
     };
 
-    // Check URL for section parameter and set active section
     const params = new URLSearchParams(location.search);
     const sectionFromUrl = params.get("section");
     if (sectionFromUrl) {
@@ -594,7 +593,6 @@ function StudentDashboard() {
     setActiveSection(section);
     navigate(`${location.pathname}?section=${section}`, { replace: true });
     
-    // Scroll to top smoothly
     if (mainContentRef.current) {
       mainContentRef.current.scrollTo({
         top: 0,
@@ -635,7 +633,6 @@ function StudentDashboard() {
   };
 
   const completeCareerAssessment = () => {
-    // Simulate career assessment
     const recommendations = [
       "Focus on building a strong portfolio",
       "Network with professionals in your field",
@@ -651,7 +648,6 @@ function StudentDashboard() {
   };
 
   const getJobRecommendations = () => {
-    // Simple recommendation logic based on resume skills
     const userSkills = resumeData.skills.toLowerCase();
     const recommendations = [];
 

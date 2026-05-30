@@ -4,15 +4,12 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    // Check localStorage for saved theme preference
     const saved = localStorage.getItem("theme");
     return saved || "dark"; // Default to dark theme
   });
 
-  // Save theme preference to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    // Apply theme to document
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 

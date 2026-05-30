@@ -5,12 +5,10 @@ const { getCache, setCache, clearCache } = require("../utils/cache");
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const JOBS_CACHE_KEY = 'jobs:approved';
 
-// ✅ Create Job (Company)
 exports.createJob = async (req, res) => {
   try {
     const { title, location, description, salary, positions, eligibility, experience, skills } = req.body;
 
-    // Basic validation
     if (!title || !location || !description) {
       return res.status(400).json({ message: "Title, location, and description are required" });
     }
@@ -84,7 +82,6 @@ exports.createJob = async (req, res) => {
   }
 };
 
-// ✅ Get Jobs (Student)
 exports.getJobs = async (req, res) => {
   try {
     const query = req.user?.role === "student" ? { jobStatus: "approved" } : {};

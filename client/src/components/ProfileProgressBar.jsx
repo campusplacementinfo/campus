@@ -21,7 +21,6 @@ function ProfileProgressBar({ completionPercentage = 0, role = "student" }) {
     { name: "Basic Details", completed: completionPercentage >= 30 }
   ];
 
-  // Add student-only sections
   if (role === "student") {
     sections = [
       ...sections,

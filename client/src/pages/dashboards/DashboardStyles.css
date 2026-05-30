@@ -1,4 +1,3 @@
-/* Dashboard Container */
 .dashboard-container {
   display: flex;
   min-height: 100vh;
@@ -286,7 +285,6 @@
   margin-left: auto;
 }
 
-/* Header */
 .dashboard-header {
   background: linear-gradient(135deg, var(--accent), var(--accent-strong));
   color: #ffffff;
@@ -334,7 +332,6 @@
   border-color: var(--accent);
 }
 
-/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -369,7 +366,6 @@
   font-weight: 500;
 }
 
-/* Tab Navigation */
 .tab-navigation {
   display: flex;
   gap: 10px;
@@ -399,7 +395,6 @@
   color: white;
   border-color: var(--accent);
 }
- /* PREMIUM HAMBURGER MENU BUTTON */
 
 .sidebar-toggle-btn,
 .menu-toggle-btn {
@@ -434,7 +429,6 @@
   transition: all .3s ease;
 }
 
-/* HOVER EFFECT */
 
 .sidebar-toggle-btn:hover,
 .menu-toggle-btn:hover {
@@ -445,14 +439,12 @@
     0 10px 25px rgba(0,0,0,.2);
 }
 
-/* ACTIVE CLICK EFFECT */
 
 .sidebar-toggle-btn:active,
 .menu-toggle-btn:active {
   transform: scale(.95);
 }
 
-/* HAMBURGER ICON */
 
 .sidebar-toggle-btn::before,
 .menu-toggle-btn::before {
@@ -462,7 +454,6 @@
   font-weight: 900;
 }
 
-/* MOBILE */
 
 @media(max-width:992px){
 
@@ -473,7 +464,6 @@
 
 }
 
-/* Section Menu */
 .section-menu {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -523,7 +513,6 @@
   font-size: 1.3rem;
 }
 
-/* Content Section */
 .content-section {
   background: var(--surface);
   padding: 30px;
@@ -538,7 +527,6 @@
   font-size: 1.8rem;
 }
 
-/* Section Header */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -568,7 +556,6 @@
   border-color: var(--accent);
 }
 
-/* Info Grid */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -827,7 +814,6 @@
   font-size: 0.95rem;
 }
 
-/* Action Card */
 .action-card {
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   padding: 30px;
@@ -959,7 +945,6 @@
   margin-top: 0;
 }
 
-/* Jobs Grid */
 .jobs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -1058,7 +1043,6 @@
   opacity: 0.7;
 }
 
-/* Jobs List */
 .jobs-list {
   display: flex;
   flex-direction: column;
@@ -1107,7 +1091,6 @@
   gap: 8px;
 }
 
-/* Applications List */
 .applications-list {
   display: flex;
   flex-direction: column;
@@ -1200,7 +1183,6 @@
   color: var(--text);
 }
 
-/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: 10px;
@@ -1243,7 +1225,6 @@
   cursor: not-allowed;
 }
 
-/* Form Styles */
 .job-form {
   display: flex;
   flex-direction: column;
@@ -1348,7 +1329,6 @@
   font-weight: 600;
 }
 
-/* Profile Styles */
 .profile-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1442,7 +1422,6 @@
   box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
-/* Empty State */
 .empty-state {
   text-align: center;
   padding: 60px 30px;
@@ -1456,7 +1435,6 @@
   margin: 0;
 }
 
-/* Interview Preparation Styles */
 .interview-prep-container {
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -1581,7 +1559,6 @@
   justify-content: flex-end;
 }
 
-/* Career Guidance Styles */
 .career-guidance-container {
   display: grid;
   gap: 30px;
@@ -1814,7 +1791,6 @@
   font-size: 0.9rem;
 }
 
-/* Responsive */
 @media (max-width: 992px) {
   .dashboard-main {
     margin-left: 0;
@@ -1976,7 +1952,6 @@
   }
 }
 
-/* Mock Test Enhancements */
 .filter-section {
   display: flex;
   flex-direction: column;
@@ -2107,7 +2082,6 @@
   color: #475569;
 }
 
-/* Mock Test Container */
 .mock-test-container {
   animation: fadeInUp 0.6s ease-out;
 }
@@ -2286,7 +2260,6 @@
   }
 }
 
-/* ===== SIDEBAR ONLY NAVIGATION FIX ===== */
 
 .section-menu,
 .tab-navigation,
@@ -2456,7 +2429,6 @@
     padding: 22px !important;
   }
 }
-/* =====================================================
    PREMIUM DASHBOARD FEATURE STYLING
    Add this at the END of DashboardStyles.css
    ===================================================== */
@@ -2482,13 +2454,11 @@
     var(--dash-bg) !important;
 }
 
-/* Main area */
 .dashboard-main {
   background: transparent !important;
   scroll-behavior: smooth;
 }
 
-/* Header */
 .dashboard-header {
   background: linear-gradient(135deg, #667eea, #764ba2) !important;
   border-radius: 28px !important;
@@ -2521,7 +2491,6 @@
   font-size: 1.05rem !important;
 }
 
-/* Stats */
 .stats-grid {
   gap: 24px !important;
 }
@@ -2557,7 +2526,6 @@
   font-weight: 800 !important;
 }
 
-/* Content sections */
 .content-section {
   background: rgba(255,255,255,0.96) !important;
   border: 1px solid rgba(102,126,234,0.14) !important;
@@ -2586,7 +2554,6 @@
   margin-bottom: 28px !important;
 }
 
-/* Overview info boxes */
 .info-grid {
   gap: 24px !important;
 }
@@ -2616,7 +2583,6 @@
   line-height: 1.7 !important;
 }
 
-/* Job cards / feature cards */
 .cards-grid,
 .jobs-grid,
 .applications-list,
@@ -2676,7 +2642,6 @@
   font-weight: 900 !important;
 }
 
-/* Forms */
 input,
 textarea,
 select,
@@ -2701,7 +2666,6 @@ select:focus,
   box-shadow: 0 0 0 5px rgba(102,126,234,0.13) !important;
 }
 
-/* Buttons */
 button,
 .action-btn,
 .btn-primary,
@@ -2737,7 +2701,6 @@ button,
   border: 1px solid #dbeafe !important;
 }
 
-/* Tables */
 .table-container {
   border-radius: 22px !important;
   overflow: hidden !important;
@@ -2765,7 +2728,6 @@ button,
   background: var(--surface-soft) !important;
 }
 
-/* Status badges */
 .status-badge,
 .badge,
 .drive-status {
@@ -2796,7 +2758,6 @@ button,
   color: #991b1b !important;
 }
 
-/* Empty state */
 .empty-state {
   background: linear-gradient(135deg, #f8f9ff, #eef2ff) !important;
   border: 1px dashed rgba(102,126,234,0.35) !important;
@@ -2806,7 +2767,6 @@ button,
   color: var(--dash-muted) !important;
 }
 
-/* Resume preview */
 .resume-preview,
 .preview-box {
   background: var(--surface) !important;
@@ -2816,7 +2776,6 @@ button,
   box-shadow: 0 14px 35px rgba(15,23,42,0.08) !important;
 }
 
-/* Mobile */
 @media (max-width: 900px) {
   .dashboard-main {
     padding: 20px !important;
@@ -2846,12 +2805,10 @@ button,
     width: 100% !important;
   }
 }
-/* =========================================================
    STUDENT PORTAL PREMIUM UI ENHANCEMENT
    Add at END of DashboardStyles.css
    ========================================================= */
 
-/* ===== Background ===== */
 .dashboard-container,
 .dashboard-main {
   background:
@@ -2860,7 +2817,6 @@ button,
     #f4f7ff !important;
 }
 
-/* ===== Sidebar ===== */
 .sidebar {
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255,255,255,0.08);
@@ -2906,7 +2862,6 @@ button,
   color: white !important;
 }
 
-/* ===== Dashboard Header ===== */
 .dashboard-header {
   background: linear-gradient(135deg, #667eea, #764ba2) !important;
   border-radius: 30px !important;
@@ -2935,7 +2890,6 @@ button,
   opacity: 0.96;
 }
 
-/* ===== Stats ===== */
 .stats-grid {
   gap: 24px !important;
 }
@@ -2972,7 +2926,6 @@ button,
   -webkit-text-fill-color: transparent;
 }
 
-/* ===== Content Section ===== */
 .content-section {
   background: rgba(255,255,255,0.97) !important;
   border-radius: 28px !important;
@@ -2987,7 +2940,6 @@ button,
   color: #1f2937 !important;
 }
 
-/* ===== Premium Cards ===== */
 .info-box,
 .job-card,
 .application-card,
@@ -3065,7 +3017,6 @@ button,
   line-height: 1.7 !important;
 }
 
-/* ===== Search Bars ===== */
 .search-input,
 input,
 textarea,
@@ -3086,7 +3037,6 @@ select:focus {
   outline: none !important;
 }
 
-/* ===== Buttons ===== */
 button,
 .apply-btn,
 .action-btn,
@@ -3114,7 +3064,6 @@ button,
   box-shadow: 0 20px 40px rgba(102,126,234,0.32);
 }
 
-/* ===== Status Badges ===== */
 .status-badge,
 .badge {
   border-radius: 999px !important;
@@ -3138,7 +3087,6 @@ button,
   color: #166534 !important;
 }
 
-/* ===== Resume Builder ===== */
 .resume-preview {
   background: var(--surface) !important;
   border-radius: 24px !important;
@@ -3147,7 +3095,6 @@ button,
   border: 1px solid var(--border);
 }
 
-/* ===== Mock Tests ===== */
 .mock-progress {
   height: 10px;
   border-radius: 999px;
@@ -3161,7 +3108,6 @@ button,
   background: linear-gradient(90deg, #667eea, #764ba2);
 }
 
-/* ===== Profile ===== */
 .profile-avatar {
   width: 110px;
   height: 110px;
@@ -3175,7 +3121,6 @@ button,
   box-shadow: 0 16px 35px rgba(102,126,234,0.25);
 }
 
-/* ===== Tables ===== */
 .table-container {
   overflow: hidden;
   border-radius: 22px;
@@ -3204,7 +3149,6 @@ tr:hover {
   background: #f8f9ff;
 }
 
-/* ===== Empty States ===== */
 .empty-state {
   border-radius: 24px;
   padding: 40px;
@@ -3213,7 +3157,6 @@ tr:hover {
   border: 1px dashed rgba(102,126,234,0.28);
 }
 
-/* ===== Mobile ===== */
 @media (max-width: 900px) {
   .dashboard-main {
     padding: 20px !important;
@@ -3237,12 +3180,10 @@ tr:hover {
     font-size: 2rem !important;
   }
 }
-/* =========================================================
    RESPONSIVE HAMBURGER SIDEBAR SYSTEM
    Add at END of DashboardStyles.css
    ========================================================= */
 
-/* ===== Main Dashboard Layout ===== */
 
 .dashboard-container {
   display: flex;
@@ -3250,7 +3191,6 @@ tr:hover {
   overflow-x: hidden;
 }
 
-/* ===== Sidebar ===== */
 
 .sidebar {
   width: 280px;
@@ -3264,13 +3204,11 @@ tr:hover {
     box-shadow 0.35s ease;
 }
 
-/* Sidebar Open */
 .sidebar.sidebar-open {
   left: 0;
   box-shadow: 20px 0 60px rgba(0,0,0,0.28);
 }
 
-/* ===== Overlay ===== */
 
 .sidebar-overlay {
   position: fixed;
@@ -3290,7 +3228,6 @@ tr:hover {
   visibility: visible;
 }
 
-/* ===== Main Area ===== */
 
 .dashboard-main {
   width: 100%;
@@ -3299,7 +3236,6 @@ tr:hover {
   padding: clamp(18px, 3vw, 34px) !important;
 }
 
-/* ===== Top Navbar ===== */
 
 .dashboard-topbar {
   width: 100%;
@@ -3327,7 +3263,6 @@ tr:hover {
   font-weight: 700;
 }
 
-/* ===== Hamburger Button ===== */
 
 .menu-btn {
   width: 52px;
@@ -3393,7 +3328,6 @@ tr:hover {
   transform: rotate(-45deg) translateY(-8px);
 }
 
-/* Hamburger Active Animation */
 
 .menu-btn.active span {
   background: transparent;
@@ -3409,7 +3343,6 @@ tr:hover {
   top: 0;
 }
 
-/* ===== Responsive Typography ===== */
 
 .dashboard-header h1 {
   font-size: clamp(2rem, 5vw, 3.2rem) !important;
@@ -3424,7 +3357,6 @@ tr:hover {
   font-size: clamp(1.4rem, 3vw, 2rem) !important;
 }
 
-/* ===== Flexible Grid Layout ===== */
 
 .stats-grid,
 .info-grid,
@@ -3443,7 +3375,6 @@ tr:hover {
   gap: 24px !important;
 }
 
-/* ===== Smooth Content Animation ===== */
 
 .content-section {
   animation: dashboardSectionFade 0.35s ease;
@@ -3460,7 +3391,6 @@ tr:hover {
   }
 }
 
-/* ===== Mobile ===== */
 
 @media (max-width: 900px) {
 
@@ -3491,7 +3421,6 @@ tr:hover {
   }
 }
 
-/* ===== Large Screen Sidebar ===== */
 
 @media (min-width: 1200px) {
 
@@ -3503,7 +3432,6 @@ tr:hover {
     margin-left: 280px !important;
   }
 }
-/* ===== FINAL HAMBURGER SIDEBAR FIX ===== */
 
 .section-menu,
 .tab-navigation,
@@ -3698,7 +3626,6 @@ tr:hover {
   }
 }
 
-/* ================= PREMIUM DASHBOARD UI UPGRADE ================= */
 
 :root {
   --premium-bg: #eef2ff;
@@ -3719,7 +3646,6 @@ tr:hover {
   --premium-transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-* {
   box-sizing: border-box;
 }
 
@@ -4133,7 +4059,6 @@ select:focus {
   border: 1px dashed rgba(99,102,241,0.35);
 }
 
-/* Responsive */
 @media (max-width: 992px) {
   .dashboard-main {
     margin-left: 0 !important;
@@ -4200,7 +4125,6 @@ select:focus {
     width: 100% !important;
   }
 }
-/* ========= FINAL RESPONSIVE DASHBOARD FIX ========= */
 
 html,
 body {
@@ -4214,7 +4138,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Sidebar */
 .sidebar {
   width: 280px !important;
   max-width: 85vw;
@@ -4232,7 +4155,6 @@ body {
   box-shadow: 20px 0 60px rgba(0, 0, 0, 0.28);
 }
 
-/* Overlay */
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -4249,7 +4171,6 @@ body {
   visibility: visible;
 }
 
-/* Main content */
 .dashboard-main {
   width: 100% !important;
   margin-left: 0 !important;
@@ -4257,7 +4178,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Topbar */
 .dashboard-topbar {
   width: 100%;
   min-height: 68px;
@@ -4281,7 +4201,6 @@ body {
   color: #111827;
 }
 
-/* Hamburger button only */
 .dashboard-topbar > .menu-btn {
   width: 52px !important;
   height: 52px !important;
@@ -4340,7 +4259,6 @@ body {
   transform: rotate(-45deg);
 }
 
-/* Section menu buttons */
 .section-menu {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -4360,7 +4278,6 @@ body {
   white-space: normal;
 }
 
-/* Responsive grids */
 .stats-grid,
 .info-grid,
 .cards-grid,
@@ -4377,7 +4294,6 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
 }
 
-/* Tables */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -4387,7 +4303,6 @@ body {
   min-width: 720px;
 }
 
-/* Forms */
 .form-row,
 .btn-group,
 .form-actions,
@@ -4406,7 +4321,6 @@ input {
   max-width: 100%;
 }
 
-/* Tablet */
 @media (max-width: 992px) {
   .dashboard-header {
     padding: 26px !important;
@@ -4429,7 +4343,6 @@ input {
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .dashboard-main {
     padding: 14px !important;
@@ -4493,7 +4406,6 @@ input {
   }
 }
 
-/* Small phones */
 @media (max-width: 480px) {
   .dashboard-main {
     padding: 10px !important;
@@ -4516,7 +4428,6 @@ input {
     padding: 16px !important;
   }
 }
-/* ========== FINAL PREMIUM DASHBOARD FIX ========== */
 
 html,
 body,
@@ -4535,7 +4446,6 @@ body,
   overflow-x: hidden;
 }
 
-/* FIX LEFT EXTRA SPACE */
 .dashboard-main {
   width: 100% !important;
   max-width: 1280px !important;
@@ -4544,7 +4454,6 @@ body,
   background: transparent !important;
 }
 
-/* Top bar */
 .dashboard-topbar {
   width: 100%;
   margin-bottom: 24px;
@@ -4555,7 +4464,6 @@ body,
   backdrop-filter: blur(16px);
 }
 
-/* Header */
 .dashboard-header {
   width: 100%;
   margin: 0 0 28px 0 !important;
@@ -4575,7 +4483,6 @@ body,
   color: rgba(255,255,255,.82) !important;
 }
 
-/* FIX OVERLAP */
 .stats-grid,
 .info-grid,
 .cards-grid,
@@ -4591,7 +4498,6 @@ body,
   margin-bottom: 32px !important;
 }
 
-/* Premium cards */
 .stat-card,
 .info-box,
 .content-section,
@@ -4627,7 +4533,6 @@ body,
   letter-spacing: .8px;
 }
 
-/* Section menu */
 .section-menu,
 .tab-navigation,
 .dashboard-nav {
@@ -4668,7 +4573,6 @@ body,
   color: white !important;
 }
 
-/* Content */
 .content-section {
   padding: 34px !important;
   margin-top: 0 !important;
@@ -4681,7 +4585,6 @@ body,
   color: var(--text) !important;
 }
 
-/* Tables */
 .table-container {
   width: 100%;
   overflow-x: auto !important;
@@ -4692,7 +4595,6 @@ body,
   min-width: 760px;
 }
 
-/* Forms/buttons */
 .form-row,
 .section-header,
 .btn-group,
@@ -4720,7 +4622,6 @@ select,
   max-width: 100%;
 }
 
-/* Sidebar hidden on desktop unless open */
 .sidebar {
   position: fixed !important;
   top: 0;
@@ -4737,7 +4638,6 @@ select,
   transform: translateX(0) !important;
 }
 
-/* Mobile */
 @media (max-width: 768px) {
   .dashboard-main {
     max-width: 100% !important;
@@ -4776,16 +4676,13 @@ select,
     width: 100% !important;
   }
 }
-/* ===== HIDE DUPLICATE SCREEN MENU ON STUDENT & COMPANY DASHBOARD ===== */
 
-/* Company dashboard screen menu */
 .company-dashboard .section-menu,
 .company-dashboard .tab-navigation,
 .company-dashboard .dashboard-nav {
   display: none !important;
 }
 
-/* Student dashboard screen menu */
 .student-dashboard .section-menu,
 .student-dashboard .tab-navigation,
 .student-dashboard .dashboard-nav {

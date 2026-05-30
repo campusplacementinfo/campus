@@ -11,14 +11,11 @@ export default function ConnectionStatus() {
       const apiStatus = getAPIStatus();
       setStatus(apiStatus);
       
-      // Only show if backend is unavailable
       setIsVisible(!apiStatus.backendAvailable);
     };
 
-    // Initial check
     updateStatus();
 
-    // Check every 10 seconds
     const interval = setInterval(updateStatus, 10000);
 
     return () => clearInterval(interval);

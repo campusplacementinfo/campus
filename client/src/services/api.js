@@ -160,7 +160,6 @@ class APIConfig {
 
 const apiConfig = new APIConfig();
 
-// Axios-based request function (headers are handled by AuthContext interceptor)
 export const request = async (endpoint, options = {}) => {
   try {
     const method = (options.method || 'GET').toUpperCase();

@@ -20,7 +20,6 @@ const CACHE_TTL_MS = 30000;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const router = express.Router();
 
-// Middleware to check if admin
 const adminMiddleware = (req, res, next) => {
   if (req.user.role !== "admin") {
     return res.status(403).json({ message: "Access denied. Admin only." });
@@ -28,7 +27,6 @@ const adminMiddleware = (req, res, next) => {
   next();
 };
 
-// Get all students
 router.get("/students", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.students);
@@ -44,7 +42,6 @@ router.get("/students", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Get all companies
 router.get("/companies", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.companies);
@@ -60,7 +57,6 @@ router.get("/companies", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Get placement reports
 router.get("/reports", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.reports);
@@ -95,7 +91,6 @@ router.get("/reports", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Send email to users
 router.post("/send-email", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { recipientType, subject, message } = req.body;
@@ -139,7 +134,6 @@ router.post("/send-email", authMiddleware, adminMiddleware, async (req, res) => 
   }
 });
 
-// Verify/Approve student
 router.put("/students/:id/verify", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const student = await User.findByIdAndUpdate(
@@ -185,7 +179,6 @@ router.put("/students/:id/verify", authMiddleware, adminMiddleware, async (req, 
   }
 });
 
-// Approve company
 router.put("/companies/:id/approve", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const company = await User.findByIdAndUpdate(
@@ -231,7 +224,6 @@ router.put("/companies/:id/approve", authMiddleware, adminMiddleware, async (req
   }
 });
 
-// Delete student
 router.delete("/students/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -244,7 +236,6 @@ router.delete("/students/:id", authMiddleware, adminMiddleware, async (req, res)
   }
 });
 
-// Delete company
 router.delete("/companies/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
@@ -257,7 +248,6 @@ router.delete("/companies/:id", authMiddleware, adminMiddleware, async (req, res
   }
 });
 
-// Get pending users (students and companies)
 router.get("/pending-users", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.pendingUsers);
@@ -277,7 +267,6 @@ router.get("/pending-users", authMiddleware, adminMiddleware, async (req, res) =
   }
 });
 
-// Approve user
 router.put("/users/:id/approve", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -318,7 +307,6 @@ router.put("/users/:id/approve", authMiddleware, adminMiddleware, async (req, re
   }
 });
 
-// Reject user
 router.put("/users/:id/reject", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -359,7 +347,6 @@ router.put("/users/:id/reject", authMiddleware, adminMiddleware, async (req, res
   }
 });
 
-// Get pending jobs
 router.get("/pending-jobs", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.pendingJobs);
@@ -379,7 +366,6 @@ router.get("/pending-jobs", authMiddleware, adminMiddleware, async (req, res) =>
   }
 });
 
-// Approve job
 router.put("/jobs/:id/approve", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const job = await Job.findByIdAndUpdate(
@@ -416,7 +402,6 @@ router.put("/jobs/:id/approve", authMiddleware, adminMiddleware, async (req, res
   }
 });
 
-// Reject job
 router.put("/jobs/:id/reject", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const job = await Job.findByIdAndUpdate(
@@ -454,7 +439,6 @@ router.put("/jobs/:id/reject", authMiddleware, adminMiddleware, async (req, res)
   }
 });
 
-// Get all placement drives
 router.get("/drives", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const cached = getCache(CACHE_KEYS.drives);
@@ -473,7 +457,6 @@ router.get("/drives", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Create placement drive
 router.post("/drives", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { company, title, description, salary, location, eligibility, positions, applicationDeadline } = req.body;
@@ -496,7 +479,6 @@ router.post("/drives", authMiddleware, adminMiddleware, async (req, res) => {
   }
 });
 
-// Update placement drive status
 router.put("/drives/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
@@ -512,7 +494,6 @@ router.put("/drives/:id/status", authMiddleware, adminMiddleware, async (req, re
   }
 });
 
-// Delete placement drive
 router.delete("/drives/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     await Drive.findByIdAndDelete(req.params.id);

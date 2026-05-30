@@ -20,7 +20,6 @@ function AuthenticatedHome() {
   const displayRole = role || authUser?.role || "student";
   const handleEditProfileTab = (tab) => setActiveTab(tab);
 
-  // Check authentication on mount
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate("/login", { replace: true });

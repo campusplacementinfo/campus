@@ -3,10 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { getApiUrl } from './services/api';
 
-// Create the Auth Context
 const AuthContext = createContext();
 
-// Auth Provider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -14,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Initialize auth state from localStorage on app start
   useEffect(() => {
     const initializeAuth = async () => {
       const storedToken = localStorage.getItem('token');
@@ -50,9 +47,7 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  // Setup axios interceptors
   useEffect(() => {
-    // Request interceptor - automatically add token to requests
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
         if (token) {
@@ -65,26 +60,22 @@ export const AuthProvider = ({ children }) => {
       }
     );
 
-    // Response interceptor - handle token expiration
     const responseInterceptor = axios.interceptors.response.use(
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Token expired or invalid
           logout();
         }
         return Promise.reject(error);
       }
     );
 
-    // Cleanup interceptors on unmount
     return () => {
       axios.interceptors.request.eject(requestInterceptor);
       axios.interceptors.response.eject(responseInterceptor);
     };
   }, [token]);
 
-  // Login function
   const login = async (credentials) => {
     try {
       const API_URL = getApiUrl();
@@ -93,7 +84,6 @@ export const AuthProvider = ({ children }) => {
       const { token: newToken, role: newRole, name, email, userId, profileCompletion } = response.data;
 
       if (newToken && newRole) {
-        // Save to localStorage
         localStorage.setItem('token', newToken);
         localStorage.setItem('role', newRole);
         localStorage.setItem('name', name || 'User');
@@ -101,7 +91,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('userId', userId);
         localStorage.setItem('profileCompletion', profileCompletion?.percentage || 0);
 
-        // Update state
         setToken(newToken);
         setRole(newRole);
         setUser({
@@ -111,10 +100,8 @@ export const AuthProvider = ({ children }) => {
           profileCompletion: profileCompletion?.percentage || 0
         });
 
-        // Set axios default header
         axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
 
-        // Navigate to appropriate dashboard
         const dashboardPath = getDashboardPath(newRole);
         navigate(dashboardPath, { replace: true });
 
@@ -131,9 +118,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Logout function
   const logout = () => {
-    // Clear localStorage
     localStorage.removeItem('token');
     localStorage.removeItem('role');
     localStorage.removeItem('name');
@@ -141,19 +126,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('userId');
     localStorage.removeItem('profileCompletion');
 
-    // Reset state
     setToken(null);
     setRole(null);
     setUser(null);
 
-    // Remove axios default header
     delete axios.defaults.headers.common['Authorization'];
 
-    // Navigate to login
     navigate('/login', { replace: true });
   };
 
-  // Helper function to get dashboard path based on role
   const getDashboardPath = (userRole) => {
     switch (userRole) {
       case 'student':
@@ -169,17 +150,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Check if user is authenticated
   const isAuthenticated = () => {
     return !!(token && role && user);
   };
 
-  // Check if user has specific role
   const hasRole = (requiredRole) => {
     return role === requiredRole;
   };
 
-  // Context value
   const value = {
     user,
     token,
@@ -199,7 +177,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

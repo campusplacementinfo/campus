@@ -14,23 +14,19 @@ exports.register = async (req, res) => {
     const { name, email, password, role, enrollmentNumber, adminToken } = req.body;
     console.log("[REGISTER] Received role:", role);
 
-    // Validate all fields are provided
     if (!name || !email || !password) {
       return res.status(400).json({ message: "Name, email, and password are required" });
     }
 
-    // Validate name format
     const nameValidation = validateName(name);
     if (!nameValidation.isValid) {
       return res.status(400).json({ message: nameValidation.message });
     }
 
-    // Validate email format
     if (!validateEmail(email)) {
       return res.status(400).json({ message: "Invalid email format" });
     }
 
-    // Validate password strength
     const passwordValidation = validatePassword(password);
     if (!passwordValidation.isValid) {
       return res.status(400).json({
@@ -39,7 +35,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Validate student enrollment number if role is student
     if (role === "student") {
       if (!enrollmentNumber || enrollmentNumber.trim() === "") {
         return res.status(400).json({ message: "Enrollment number is required for students" });
@@ -51,7 +46,6 @@ exports.register = async (req, res) => {
       }
     }
 
-    // Validate admin token if role is admin
     if (role === "admin") {
       if (!adminToken || adminToken.trim() === "") {
         return res.status(400).json({ message: "Admin token is required to create an admin account" });
@@ -62,19 +56,16 @@ exports.register = async (req, res) => {
         return res.status(400).json({ message: tokenValidation.message });
       }
 
-      // Verify admin token matches environment variable
       if (adminToken !== process.env.ADMIN_TOKEN) {
         return res.status(403).json({ message: "Invalid admin token" });
       }
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // Check if enrollment number already exists (for students)
     if (role === "student" && enrollmentNumber) {
       const existingEnrollment = await User.findOne({
         enrollmentNumber: enrollmentNumber.toUpperCase().trim()
@@ -84,10 +75,8 @@ exports.register = async (req, res) => {
       }
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user object
     const userData = {
       name: name.trim(),
       email: email.toLowerCase().trim(),
@@ -95,12 +84,10 @@ exports.register = async (req, res) => {
       role: role || "student"
     };
 
-    // Add enrollment number for students
     if (role === "student" && enrollmentNumber) {
       userData.enrollmentNumber = enrollmentNumber.toUpperCase().trim();
     }
 
-    // Create user in database
     const newUser = await User.create(userData);
 
     console.log("[REGISTER] User created successfully with role:", newUser.role);
@@ -118,7 +105,6 @@ exports.register = async (req, res) => {
   } catch (error) {
     console.error("[REGISTER ERROR]:", error.message);
     
-    // Handle mongoose validation errors
     if (error.name === "ValidationError") {
       const messages = Object.values(error.errors)
         .map(err => err.message)
@@ -126,7 +112,6 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: messages });
     }
 
-    // Handle duplicate key errors
     if (error.code === 11000) {
       const field = Object.keys(error.keyPattern)[0];
       return res.status(400).json({
@@ -162,13 +147,11 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Update last login
     user.lastLogin = new Date();
     await user.save();
 
     console.log("[LOGIN] User role:", user.role); // Debug log
 
-    // Calculate profile completion
     const profileCompletionPercentage = user.getProfileCompletionPercentage();
     const profileCompletionStatus = user.getProfileCompletionStatus();
 

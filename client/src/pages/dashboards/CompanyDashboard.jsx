@@ -206,7 +206,6 @@ function CompanyDashboard() {
       setLoadingData(false);
     };
 
-    // Check URL for tab parameter and set active tab
     const params = new URLSearchParams(location.search);
     const tabFromUrl = params.get("tab");
     if (tabFromUrl) {
@@ -220,7 +219,6 @@ function CompanyDashboard() {
     setActiveTab(tab);
     navigate(`${location.pathname}?tab=${tab}`, { replace: true });
     
-    // Scroll to top smoothly
     if (mainContentRef.current) {
       mainContentRef.current.scrollTo({
         top: 0,
@@ -268,7 +266,6 @@ function CompanyDashboard() {
   };
 
   const handleApplyAdvancedFilters = () => {
-    // Filter applications based on selected filters
     console.log("Applying filters:", advancedFilters);
     alert("Filters applied! (Filtered data will be displayed)");
   };

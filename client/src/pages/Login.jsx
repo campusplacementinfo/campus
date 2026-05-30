@@ -17,7 +17,6 @@ function Login() {
     password: ""
   });
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated()) {
       const dashboardPath = getDashboardPath(role);
@@ -70,7 +69,6 @@ function Login() {
       if (!result.success) {
         setError(result.message || "Invalid email or password");
       }
-      // Navigation is handled by the login function in AuthContext
     } catch (err) {
       console.error("[LOGIN EXCEPTION]:", err);
       setError("Something went wrong. Please try again.");

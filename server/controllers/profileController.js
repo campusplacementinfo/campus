@@ -1,25 +1,9 @@
-/**
- * Profile Controller
- * File: server/controllers/profileController.js
- * 
- * Handles all profile-related operations:
- * - Get user profile
- * - Update contact information
- * - Update basic information
- * - Update academic information
- * - Upload files
- * - Get profile completion status
- */
 
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { sendMail, wrapHtmlEmail } = require('../utils/mailer');
 
-// ===== HELPER FUNCTIONS =====
 
-/**
- * Extract user ID from JWT token in Authorization header
- */
 const getUserIdFromToken = (req) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) throw new Error("No token provided");
@@ -32,12 +16,7 @@ const getUserIdFromToken = (req) => {
   }
 };
 
-// ===== GET ENDPOINTS =====
 
-/**
- * GET /api/profile/me
- * Get complete user profile
- */
 exports.getUserProfile = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -66,10 +45,6 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-/**
- * GET /api/profile/completion
- * Get profile completion percentage
- */
 exports.getProfileCompletion = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -96,18 +71,12 @@ exports.getProfileCompletion = async (req, res) => {
   }
 };
 
-// ===== UPDATE ENDPOINTS =====
 
-/**
- * PATCH /api/profile/contact
- * Update contact information (mobile number, alternate email)
- */
 exports.updateContactInfo = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
     const { mobileNumber, alternateEmail } = req.body;
 
-    // Validation
     if (mobileNumber && !/^[0-9]{10}$/.test(mobileNumber)) {
       return res.status(400).json({ message: "Invalid mobile number format" });
     }
@@ -145,10 +114,6 @@ exports.updateContactInfo = async (req, res) => {
   }
 };
 
-/**
- * PATCH /api/profile/basic-info
- * Update basic information
- */
 exports.updateBasicInfo = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -161,7 +126,6 @@ exports.updateBasicInfo = async (req, res) => {
       permanentCity
     } = req.body;
 
-    // Validation
     if (bio && bio.length > 500) {
       return res.status(400).json({ message: "Bio must be less than 500 characters" });
     }
@@ -203,40 +167,30 @@ exports.updateBasicInfo = async (req, res) => {
   }
 };
 
-/**
- * PATCH /api/profile/academic-info
- * Update academic information
- */
 exports.updateAcademicInfo = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
     const {
-      // Current degree
       currentDegree,
       specialization,
       institution,
       enrollmentYear,
       expectedGraduationYear,
       cgpa,
-      // 10th
       board10,
       percentage10,
       yearPassed10,
-      // 12th
       board12,
       percentage12,
       yearPassed12,
-      // Diploma
       diplomaDegree,
       diplomaBranch,
       diplomaCGPA,
       diplomaPassed,
-      // Backlogs
       activeBacklogs,
       totalBacklogs
     } = req.body;
 
-    // Validations
     if (cgpa && (cgpa < 0 || cgpa > 10)) {
       return res.status(400).json({ message: "CGPA must be between 0 and 10" });
     }
@@ -294,10 +248,6 @@ exports.updateAcademicInfo = async (req, res) => {
   }
 };
 
-/**
- * PATCH /api/profile/skills
- * Update technical skills
- */
 exports.updateSkills = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -338,10 +288,6 @@ exports.updateSkills = async (req, res) => {
   }
 };
 
-/**
- * PATCH /api/profile/experience
- * Update work experience and internships
- */
 exports.updateExperience = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -382,13 +328,7 @@ exports.updateExperience = async (req, res) => {
   }
 };
 
-// ===== FILE UPLOAD ENDPOINTS =====
 
-/**
- * POST /api/profile/upload-picture
- * Upload profile picture
- * Note: This is a placeholder. Integrate with multer and cloud storage (AWS S3, Cloudinary, etc.)
- */
 exports.uploadProfilePicture = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -397,7 +337,6 @@ exports.uploadProfilePicture = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // Placeholder: In real implementation, upload to cloud storage
     const pictureUrl = `/uploads/profiles/${req.file.filename}`;
 
     const user = await User.findByIdAndUpdate(
@@ -425,10 +364,6 @@ exports.uploadProfilePicture = async (req, res) => {
   }
 };
 
-/**
- * POST /api/profile/upload-resume
- * Upload resume document
- */
 exports.uploadResume = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -464,12 +399,7 @@ exports.uploadResume = async (req, res) => {
   }
 };
 
-// ===== VERIFICATION ENDPOINTS =====
 
-/**
- * POST /api/profile/verify-phone
- * Send OTP to verify phone number
- */
 exports.verifyPhone = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -479,7 +409,6 @@ exports.verifyPhone = async (req, res) => {
       return res.status(400).json({ message: "Invalid mobile number" });
     }
 
-    // Placeholder: In real implementation, send SMS OTP using Twilio, AWS SNS, etc.
     console.log(`OTP sent to ${mobileNumber}`);
 
     res.status(200).json({
@@ -494,10 +423,6 @@ exports.verifyPhone = async (req, res) => {
   }
 };
 
-/**
- * POST /api/profile/verify-email
- * Send verification email
- */
 exports.verifyEmail = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);
@@ -528,12 +453,7 @@ exports.verifyEmail = async (req, res) => {
   }
 };
 
-// ===== ADMIN ENDPOINTS =====
 
-/**
- * GET /api/profile/all
- * Get all user profiles (Admin only)
- */
 exports.getAllProfiles = async (req, res) => {
   try {
     const userId = getUserIdFromToken(req);

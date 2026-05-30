@@ -210,6 +210,33 @@
   flex-wrap: wrap;
 }
 
+/* Edit buttons in profile */
+.edit-button {
+  background: linear-gradient(135deg, var(--accent), rgba(79,70,229,0.85));
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(99,102,241,0.12), 0 6px 12px rgba(0,0,0,0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+.edit-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(99,102,241,0.14), 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.edit-button:active {
+  transform: translateY(-1px) scale(0.998);
+}
+
 .back-action {
   display: flex;
   justify-content: center;
@@ -343,6 +370,29 @@
   font-size: 16px;
   color: var(--text);
   font-weight: 600;
+}
+
+.summary-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+  border-left-color: rgba(79,70,229,0.9);
+}
+
+/* Strong overrides to ensure button label visibility (fixes theme conflicts) */
+.profile-summary .profile-actions .edit-button {
+  color: var(--text-h) !important;
+  font-size: 15px !important;
+  -webkit-text-fill-color: initial !important;
+  opacity: 1 !important;
+}
+
+.profile-summary .profile-actions .edit-button * {
+  color: inherit !important;
+  -webkit-text-fill-color: inherit !important;
 }
 
 /* Responsive Design */

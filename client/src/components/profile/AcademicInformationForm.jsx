@@ -12,7 +12,6 @@ function AcademicInformationForm({ initialData, onSave, onBack }) {
   const [activeSection, setActiveSection] = useState("current");
 
   const [formData, setFormData] = useState({
-    // Current Education
     currentDegree: initialData?.currentDegree || "",
     specialization: initialData?.specialization || "",
     institution: initialData?.institution || "",
@@ -20,17 +19,14 @@ function AcademicInformationForm({ initialData, onSave, onBack }) {
     expectedGraduationYear: initialData?.expectedGraduationYear || "",
     cgpa: initialData?.cgpa || "",
 
-    // 10th Standard
     board10: initialData?.board10 || "",
     percentage10: initialData?.percentage10 || "",
     yearPassed10: initialData?.yearPassed10 || "",
 
-    // 12th Standard
     board12: initialData?.board12 || "",
     percentage12: initialData?.percentage12 || "",
     yearPassed12: initialData?.yearPassed12 || "",
 
-    // Backlogs
     activeBacklogs: initialData?.activeBacklogs || 0,
     totalBacklogs: initialData?.totalBacklogs || 0
   });
@@ -49,7 +45,6 @@ function AcademicInformationForm({ initialData, onSave, onBack }) {
       setSuccess("");
       setLoading(true);
 
-      // Validation
       if (!formData.institution) {
         setError("Institution is required");
         return;

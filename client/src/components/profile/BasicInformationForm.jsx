@@ -35,7 +35,6 @@ function BasicInformationForm({ initialData, onSave, onBack }) {
       setSuccess("");
       setLoading(true);
 
-      // Validation
       if (!formData.fullName) {
         setError("Full name is required");
         return;

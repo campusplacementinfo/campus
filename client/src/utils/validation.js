@@ -1,16 +1,4 @@
-/**
- * Frontend validation utilities for registration form
- */
 
-/**
- * Validate password strength
- * Requirements:
- * - At least 8 characters
- * - At least one uppercase letter
- * - At least one lowercase letter
- * - At least one number
- * - At least one special character (!@#$%^&*)
- */
 export const validatePassword = (password) => {
   const errors = [];
 
@@ -44,12 +32,6 @@ export const validatePassword = (password) => {
   };
 };
 
-/**
- * Validate enrollment number
- * Requirements:
- * - Exactly 10 uppercase alphanumeric characters
- * - Example: CVB2100001
- */
 export const validateEnrollmentNumber = (enrollmentNumber) => {
   if (!enrollmentNumber) {
     return { isValid: false, message: "Enrollment number is required" };
@@ -67,17 +49,11 @@ export const validateEnrollmentNumber = (enrollmentNumber) => {
   return { isValid: true, message: "Valid" };
 };
 
-/**
- * Validate email format
- */
 export const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-/**
- * Validate full name
- */
 export const validateName = (name) => {
   if (!name || name.trim().length < 2) {
     return { isValid: false, message: "Name must be at least 2 characters" };

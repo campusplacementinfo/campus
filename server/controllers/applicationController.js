@@ -36,7 +36,6 @@ exports.applyJob = async (req, res) => {
       application
     });
 
-    // Background email notifications do not delay the response
     runInBackground((async () => {
       try {
         const populated = await application.populate('job').populate('student', 'name email');
@@ -102,7 +101,6 @@ exports.myApplications = async (req, res) => {
   }
 };
 
-// Company views applicants for its jobs
 exports.getCompanyApplications = async (req, res) => {
   try {
     const companyJobIds = await Job.find({ createdBy: req.user.id }).select('_id');
@@ -123,7 +121,6 @@ exports.getCompanyApplications = async (req, res) => {
   }
 };
 
-// Company updates application status
 exports.updateApplicationStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -137,13 +134,11 @@ exports.updateApplicationStatus = async (req, res) => {
     application.status = status;
     await application.save();
 
-    // Notify applicant and admin/company about status change
     try {
       const populated = await application.populate('job').populate('student', 'name email');
       const student = populated.student;
       const jobDoc = populated.job;
 
-      // Collect BCC recipients (company and admin)
       const bccRecipients = [];
       if (jobDoc.createdBy) {
         const companyUser = await User.findById(jobDoc.createdBy).select('name email');
@@ -163,7 +158,6 @@ exports.updateApplicationStatus = async (req, res) => {
       const userResult = await sendMail({ to: student.email, subject: 'Application Status Updated', html: userHtml });
       if (!userResult.success) console.warn('Failed to send status update to student', userResult);
 
-      // Notify company separately
       if (jobDoc.createdBy) {
         const companyUser = await User.findById(jobDoc.createdBy).select('name email');
         if (companyUser && companyUser.email) {
@@ -181,7 +175,6 @@ exports.updateApplicationStatus = async (req, res) => {
         }
       }
 
-      // Notify admin separately
       if (ADMIN_EMAIL) {
         const adminHtml = wrapHtmlEmail('Application Status Changed', `
           <p>An application status has been changed:</p>

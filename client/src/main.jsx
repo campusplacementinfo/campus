@@ -3,10 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { waitForBackend } from "./services/api.js";
 
-// Create root first
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// Show loading screen while waiting for backend
 const LoadingScreen = () => (
   <div style={{
     display: "flex",
@@ -43,7 +41,6 @@ const LoadingScreen = () => (
 
 root.render(<LoadingScreen />);
 
-// Wait for backend before rendering the app
 waitForBackend(60, 1000).then(success => {
   if (success) {
     root.render(

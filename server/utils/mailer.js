@@ -25,7 +25,6 @@ let fallbackTransport = false;
 let transporterMode = 'unknown';
 let useSendGridApi = false;
 
-// Normalize common App Password formats (copied with spaces)
 let normalizedEmailPass = EMAIL_PASS;
 if (typeof normalizedEmailPass === 'string' && normalizedEmailPass.includes(' ')) {
   normalizedEmailPass = normalizedEmailPass.replace(/\s+/g, '');
@@ -142,7 +141,6 @@ const normalizeRecipients = (val) => {
   if (!val) return undefined;
   if (Array.isArray(val)) return val.filter(Boolean);
   if (typeof val === 'string') {
-    // split comma separated lists, trim
     return val.split(',').map(s => s.trim()).filter(Boolean);
   }
   return undefined;
@@ -155,8 +153,6 @@ const sendMail = async ({ to, cc, bcc, subject, html, text, from }) => {
   const ccList = normalizeRecipients(cc);
   const bccList = normalizeRecipients(bcc);
 
-  // In non-production environments, allow FORCE_ALL_EMAILS_TO to funnel emails to a single address for safety.
-  // In production we ignore FORCE_ALL_EMAILS_TO to avoid accidentally routing all mail to admin.
   let overrideRecipients = null;
   if (FORCE_ALL_EMAILS_TO && process.env.NODE_ENV !== 'production') {
     overrideRecipients = normalizeRecipients(FORCE_ALL_EMAILS_TO);
@@ -207,13 +203,11 @@ const sendMail = async ({ to, cc, bcc, subject, html, text, from }) => {
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    // nodemailer returns accepted/rejected arrays when using SMTP transport
     const accepted = info.accepted || [];
     const rejected = info.rejected || [];
     console.log(`✅ Email sent to ${JSON.stringify(mailOptions.to)} subject="${subject}" originalRecipients="${JSON.stringify(originalRecipients)}" from="${mailOptions.from}" accepted=${JSON.stringify(accepted)} rejected=${JSON.stringify(rejected)}`);
     return { success: true, info, accepted, rejected, transport: transporterMode };
   } catch (error) {
-    // Attempt to extract rejected recipients or SMTP response info
     let rejected = [];
     let responseInfo = undefined;
     try {
@@ -221,7 +215,6 @@ const sendMail = async ({ to, cc, bcc, subject, html, text, from }) => {
       if (error.response) responseInfo = error.response;
       if (error.response && error.response.body && error.response.body.errors) responseInfo = error.response.body;
     } catch (e) {
-      // ignore
     }
 
     console.error(`Failed to send email to ${JSON.stringify(mailOptions.to)}:`, error.message, 'originalRecipients=', originalRecipients, 'from=', mailOptions.from, 'response=', responseInfo);

@@ -36,7 +36,6 @@ function Register() {
     });
     setError("");
 
-    // Real-time validation feedback
     if (name === "password" && value) {
       const validation = validatePassword(value);
       setPasswordErrors(validation.errors);
@@ -97,14 +96,12 @@ function Register() {
     setError("");
     setSuccess("");
 
-    // Validate required fields
     if (!form.name || !form.email || !form.password) {
       setError("Please fill in all required fields");
       setLoading(false);
       return;
     }
 
-    // Validate name
     const nameValidation = validateName(form.name);
     if (!nameValidation.isValid) {
       setError(nameValidation.message);
@@ -112,14 +109,12 @@ function Register() {
       return;
     }
 
-    // Validate email
     if (!validateEmail(form.email)) {
       setError("Invalid email format");
       setLoading(false);
       return;
     }
 
-    // Validate password strength
     const passwordValidation = validatePassword(form.password);
     if (!passwordValidation.isValid) {
       setError("Password does not meet security requirements. Please review the requirements below.");
@@ -127,7 +122,6 @@ function Register() {
       return;
     }
 
-    // Validate confirm password
     if (!form.confirmPassword) {
       setError("Please confirm your password");
       setLoading(false);
@@ -140,7 +134,6 @@ function Register() {
       return;
     }
 
-    // Validate student enrollment number
     if (form.role === "student") {
       if (!form.enrollmentNumber.trim()) {
         setError("Enrollment number is required for student registration");
@@ -156,7 +149,6 @@ function Register() {
       }
     }
 
-    // Validate admin token
     if (form.role === "admin" && !form.adminToken.trim()) {
       setError("Admin creation token is required");
       setLoading(false);

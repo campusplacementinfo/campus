@@ -1,12 +1,3 @@
-/**
- * Updated Authentication Controller
- * File: server/controllers/authController_Updated.js
- * 
- * Changes from original:
- * 1. Login response now includes profile completion percentage
- * 2. Frontend should redirect to /home instead of /student, /admin, /company
- * 3. Updated token includes additional user data
- */
 
 const User = require("../models/User");
 const mongoose = require('mongoose');
@@ -116,22 +107,16 @@ const sendLoginNotifications = async (user) => {
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 
-/**
- * Register a new user
- * POST /api/auth/register
- */
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role, adminToken, enrollmentNumber } = req.body;
 
-    // Fail fast if DB not ready
     if (mongoose.connection.readyState !== 1) {
       return res.status(503).json({ message: 'Service temporarily unavailable. Please try again later.' });
     }
 
     const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
 
-    // Validation
     if (!name || !normalizedEmail || !password) {
       return res.status(400).json({ message: "Name, email, and password are required" });
     }
@@ -153,7 +138,6 @@ exports.register = async (req, res) => {
       });
     }
 
-    // Restrict admin account creation
     const requestedRole = role || "student";
     if (requestedRole === "admin") {
       const ADMIN_CREATION_TOKEN = String(process.env.ADMIN_CREATION_TOKEN || "").trim();
@@ -203,10 +187,8 @@ exports.register = async (req, res) => {
       }
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user payload
     const userPayload = {
       name,
       email: normalizedEmail,
@@ -220,10 +202,8 @@ exports.register = async (req, res) => {
       userPayload.enrollmentNumber = normalizedEnrollment;
     }
 
-    // Create user
     const newUser = await User.create(userPayload);
 
-    // Return success immediately, send notifications in background to avoid delaying the request
     res.status(201).json({
       message: "User registered successfully",
       user: {
@@ -234,7 +214,6 @@ exports.register = async (req, res) => {
       }
     });
 
-    // Fire off email notifications in background
     fireAndForget(sendPostRegistrationNotifications(newUser));
   } catch (error) {
     res.status(500).json({
@@ -244,30 +223,20 @@ exports.register = async (req, res) => {
   }
 };
 
-/**
- * Login user
- * POST /api/auth/login
- * 
- * UPDATED: Returns profile completion percentage
- * Frontend should redirect to /home (not /student, /admin, /company)
- */
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
 
-    // Validation
     if (!normalizedEmail || !password) {
       return res.status(400).json({ message: "Email and password required" });
     }
 
-    // Find user by email
     const user = await User.findOne({ email: normalizedEmail });
     if (!user) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -281,18 +250,14 @@ exports.login = async (req, res) => {
       return res.status(403).json({ message: "Your account has been rejected by admin." });
     }
 
-    // Update last login timestamp
     user.lastLogin = new Date();
     await user.save();
 
-    // Fire off notifications in the background to avoid slowing login
     fireAndForget(sendLoginNotifications(user));
 
-    // Calculate profile completion
     const profileCompletionPercentage = user.getProfileCompletionPercentage();
     const profileCompletionStatus = user.getProfileCompletionStatus();
 
-    // Generate JWT token
     const token = jwt.sign(
       {
         id: user._id,
@@ -304,7 +269,6 @@ exports.login = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    // Success response
     res.status(200).json({
       success: true,
       token,
@@ -327,10 +291,6 @@ exports.login = async (req, res) => {
   }
 };
 
-/**
- * Verify token validity
- * GET /api/auth/verify
- */
 exports.verifyToken = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -369,14 +329,8 @@ exports.verifyToken = async (req, res) => {
   }
 };
 
-/**
- * Logout user (mainly for client-side cleanup)
- * POST /api/auth/logout
- */
 exports.logout = async (req, res) => {
   try {
-    // Note: JWT tokens can't be invalidated on server without a blacklist
-    // This endpoint is mainly for logging audit trails
 
     res.status(200).json({
       message: "Logout successful",
@@ -390,10 +344,6 @@ exports.logout = async (req, res) => {
   }
 };
 
-/**
- * Refresh token
- * POST /api/auth/refresh
- */
 exports.refreshToken = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -412,7 +362,6 @@ exports.refreshToken = async (req, res) => {
       return res.status(401).json({ message: "User not found" });
     }
 
-    // Generate new token
     const newToken = jwt.sign(
       {
         id: user._id,
@@ -436,10 +385,6 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
-/**
- * Change password
- * POST /api/auth/change-password
- */
 exports.changePassword = async (req, res) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
@@ -449,7 +394,6 @@ exports.changePassword = async (req, res) => {
       return res.status(401).json({ message: "Not authenticated" });
     }
 
-    // Validate inputs
     if (!oldPassword || !newPassword || !confirmPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
@@ -469,13 +413,11 @@ exports.changePassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Verify old password
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Current password is incorrect" });
     }
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
@@ -491,10 +433,6 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-/**
- * Request password reset
- * POST /api/auth/forgot-password
- */
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -504,7 +442,6 @@ exports.forgotPassword = async (req, res) => {
       return res.status(400).json({ message: "Email is required" });
     }
 
-    // Fail fast if DB not ready
     if (mongoose.connection.readyState !== 1) {
       return res.status(503).json({ message: "If the email exists, a password reset link has been sent" });
     }
@@ -564,11 +501,6 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
-/**
- * Reset password endpoint
- * POST /api/auth/reset-password
- * body: { email, token, newPassword }
- */
 exports.resetPassword = async (req, res) => {
   try {
     const { email, token, newPassword } = req.body;

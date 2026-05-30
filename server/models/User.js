@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
-    // ===== AUTHENTICATION FIELDS =====
     name: {
       type: String,
       required: true,
@@ -25,7 +24,6 @@ const userSchema = new mongoose.Schema(
       default: "student"
     },
 
-    // ===== PROFILE STATUS FIELDS =====
     verified: {
       type: Boolean,
       default: false
@@ -42,9 +40,7 @@ const userSchema = new mongoose.Schema(
       sparse: true,
       validate: {
         validator: function(v) {
-          // Allow null/undefined for non-student roles
           if (!v) return true;
-          // Must be exactly 10 uppercase alphanumeric characters
           return /^(?=.*[A-Z])(?=.*\d)[A-Z0-9]{10}$/.test(v);
         },
         message: "Enrollment number must be exactly 10 uppercase alphanumeric characters, e.g. CVB2100001"
@@ -64,9 +60,7 @@ const userSchema = new mongoose.Schema(
       default: false
     },
 
-    // ===== NESTED PROFILE OBJECT =====
     profile: {
-      // ------- CONTACT INFORMATION -------
       mobileNumber: {
         type: String,
         default: null,
@@ -88,7 +82,6 @@ const userSchema = new mongoose.Schema(
         default: false
       },
 
-      // ------- BASIC INFORMATION -------
       basicInfo: {
         fullName: {
           type: String,
@@ -122,7 +115,6 @@ const userSchema = new mongoose.Schema(
         }
       },
 
-      // ------- ACADEMIC INFORMATION -------
       academicInfo: {
         currentDegree: {
           type: String,
@@ -207,7 +199,6 @@ const userSchema = new mongoose.Schema(
         }
       },
 
-      // ------- SKILLS & EXPERIENCE -------
       skills: {
         technical: [
           {
@@ -270,7 +261,6 @@ const userSchema = new mongoose.Schema(
         ]
       },
 
-      // ------- DOCUMENTS -------
       documents: {
         resumeUrl: {
           type: String,
@@ -292,7 +282,6 @@ const userSchema = new mongoose.Schema(
       }
     },
 
-    // ===== METADATA =====
     createdAt: {
       type: Date,
       default: Date.now
@@ -310,7 +299,6 @@ const userSchema = new mongoose.Schema(
       default: null
     }
     ,
-    // Password reset fields
     resetPasswordToken: {
       type: String,
       default: null
@@ -320,7 +308,6 @@ const userSchema = new mongoose.Schema(
       default: null
     }
     ,
-    // Email bounce tracking
     emailBounced: {
       type: Boolean,
       default: false
@@ -340,7 +327,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Indexes for performance optimization
 userSchema.index({ email: 1 });
 userSchema.index({ enrollmentNumber: 1 });
 userSchema.index({ role: 1 });
@@ -349,14 +335,12 @@ userSchema.index({ createdAt: -1 });
 userSchema.index({ placed: 1 });
 userSchema.index({ "profile.basicInfo.institution": 1 });
 
-// Method: Get public profile (without password)
 userSchema.methods.getPublicProfile = function () {
   const userObject = this.toObject();
   delete userObject.password;
   return userObject;
 };
 
-// Method: Calculate profile completion percentage
 userSchema.methods.getProfileCompletionPercentage = function () {
   let completed = 0;
   const total = 10;
@@ -375,7 +359,6 @@ userSchema.methods.getProfileCompletionPercentage = function () {
   return Math.round((completed / total) * 100);
 };
 
-// Method: Get profile completion status
 userSchema.methods.getProfileCompletionStatus = function () {
   return {
     contactInfo: {

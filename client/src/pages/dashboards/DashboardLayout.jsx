@@ -11,7 +11,6 @@ function DashboardLayout({ sidebarLinks, title, subtitle, children }) {
   const mainContentRef = useRef(null);
   const location = useLocation();
 
-  // Scroll to top when location changes
   useEffect(() => {
     if (mainContentRef.current) {
       mainContentRef.current.scrollTo({

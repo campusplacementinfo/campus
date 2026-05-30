@@ -15,7 +15,6 @@ const AuthenticatedHome = lazy(() => import("./pages/AuthenticatedHome"));
 
 import ConnectionStatus from "./components/ConnectionStatus";
 
-// Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, hasRole, loading } = useAuth();
 
@@ -34,7 +33,6 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
-// App Routes Component (needs to be inside AuthProvider)
 const AppRoutes = () => {
   return (
     <Routes>

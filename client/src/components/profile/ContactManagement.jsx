@@ -29,7 +29,6 @@ function ContactManagement({ initialData, onSave, onBack }) {
       setSuccess("");
       setLoading(true);
 
-      // Validation
       if (formData.mobileNumber && !/^[0-9]{10}$/.test(formData.mobileNumber)) {
         setError("Mobile number must be 10 digits");
         return;
